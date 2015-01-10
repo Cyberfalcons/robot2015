@@ -1,10 +1,10 @@
-# robot2015
+# Robot2015
 2015 robot code.
 
-# TODO
+## TODO
 
 
-# Project Ideas
+## Project Ideas
 * Correct for drift in the omni wheels
 	* gyro in roborio?
 	* optic flow sensor?
