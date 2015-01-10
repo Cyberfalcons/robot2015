@@ -2,8 +2,8 @@ PWM
 
 Port 0 - Drive Left
 Port 1 - Drive Right
-Port 2 -
-Port 3 -
+Port 2 - Left Roller
+Port 3 - Right Roller
 Port 4 -
 Port 5 -
 Port 6 -
@@ -17,8 +17,8 @@ Port 9 - Can Burgler Retract
 DIO
 
 
-Port 0 -
-Port 1 -
+Port 0 - step bump
+Port 1 - Bin in place
 Port 2 -
 Port 3 -
 Port 4 -

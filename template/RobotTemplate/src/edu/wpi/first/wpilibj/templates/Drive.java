@@ -29,14 +29,14 @@ public class Drive {
      * drives the right side motor at a specified power
      * @param power: power to run the motor at
      */
-    public void setDriveRight (int power){
+    public void setDriveRight (double power){
         right.set(power);
     }
     /**
      * drives the left side motor at a specified power
      * @param power: power to run the motor at
      */
-    public void setDriveLeft (int power) {
+    public void setDriveLeft (double power) {
         left.set(power);
     }
     /**
