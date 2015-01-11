@@ -11,18 +11,18 @@ import edu.wpi.first.wpilibj.Jaguar;
  *
  * @author Alex
  */
-public class CanBurgler {
+public class CanBurglar {
 
-    Jaguar deathTrap;
-    
-    public CanBurgler () {
-        deathTrap = new Jaguar(9);
-    }
-    
-    /**
-     * retracts can burgler
-     */
-    public void retract() {
-        // FIRE ZE RETRACTOR!!!
-    }
+	Jaguar deathTrap;
+
+	public CanBurglar () {
+		  deathTrap = new Jaguar(9);
+	}
+
+	/**
+	 * retracts can burgler
+	 */
+	public void retract() {
+		  // FIRE ZE RETRACTOR!!!
+}
 }

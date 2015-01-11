@@ -10,26 +10,28 @@ import edu.wpi.first.wpilibj.Jaguar;
 /**
  *
  * @author Alex
+ * @author Dylan
  */
 public class BinElevator {
-     //TODO: move to VariableMap
-   double chainSpeed = 1;
-    Jaguar binElevator;
-    
-    //TODO: figure out how bin elevator works and do it
-    
-    public BinElevator () {
-        binElevator = new Jaguar (4);
-    }
-    public void raiseBin () {
-    // TODO: 
-    }
-    private void setChainUp () {
-        binElevator.set (chainSpeed);
-        
-    }
-    private void setChainDown () {
-        binElevator.set (-chainSpeed);
-    }
+	Jaguar binElevator;
+
+	//TODO: figure out how bin elevator works and do it
+
+	public BinElevator() {
+		binElevator = new Jaguar(VariableMap.PWM_BIN_ELEVATOR);
+	}
+	
+	public void raiseBin() {
+	// TODO: 
+	}
+	
+	private void setChainUp() {
+		binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+		
+	}
+	
+	private void setChainDown() {
+		binElevator.set(-VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+	}
     
 }

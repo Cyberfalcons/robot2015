@@ -12,18 +12,21 @@ import edu.wpi.first.wpilibj.Jaguar;
 /**
  *
  * @author Alex
+ * @author Dylan
  */
 public class Drive {
     Jaguar left;
     Jaguar right;
-    DigitalInput stepBump;
+    DigitalInput stepBumper;
     Encoder encRight;
     Encoder encLeft;      
     
-    public Drive (){
-        left = new Jaguar (0);
-        right = new Jaguar (1);
-        stepBump = new DigitalInput (0);
+    public Drive(){
+        left = new Jaguar(VariableMap.PWM_DRIVE_LEFT);
+        right = new Jaguar(VariableMap.PWM_DRIVE_RIGHT);
+        stepBumper = new DigitalInput(VariableMap.DIO_STEP_BUMPER);
+        encLeft = new Encoder(VariableMap.DIO_DRIVE_ENC_LEFT);
+        encRight = new Encoder(VariableMap.DIO_DRIVE_ENC_RIGHT);
     }
     /**
      * drives the right side motor at a specified power
@@ -32,6 +35,7 @@ public class Drive {
     public void setDriveRight (double power){
         right.set(power);
     }
+    
     /**
      * drives the left side motor at a specified power
      * @param power: power to run the motor at
@@ -39,12 +43,13 @@ public class Drive {
     public void setDriveLeft (double power) {
         left.set(power);
     }
+    
     /**
      * determines if the robot is up against a wall
      * @return boolean true if against wall
      */
     public boolean getHitStep () {
-        return stepBump.get(); 
+        return stepBumper.get(); 
     }
     
     /**
