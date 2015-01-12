@@ -2,7 +2,12 @@
 2015 robot code.
 
 ## TODO
-
+- [ ] Complete Architecture Design
+- [ ] Complete Sudo Code
+- [ ] Complete Actual Robot Code
+	- [ ] Autonomous Robot Code
+	- [ ] Teleop Robot Code
+- [ ] Layout Swag Lights
 
 ## Project Ideas
 * Correct for drift in the omni wheels
