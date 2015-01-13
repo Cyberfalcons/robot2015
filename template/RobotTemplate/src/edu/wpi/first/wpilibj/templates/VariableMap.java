@@ -28,21 +28,23 @@ public class VariableMap {
 	 
 	/* Digital IO Pins
 	 *
-	 * Port 0 - Drive Encoder Left
-	 * Port 1 - Drive Encoder Right
-	 * Port 2 - Step Bumper
-	 * Port 3 - Bin In Place
-	 * Port 4 -
-	 * Port 5 -
+	 * Port 0 - Drive Encoder Left A
+	 * Port 1 - Drive Encoder Left B
+	 * Port 2 - Drive Encoder Right A
+	 * Port 3 - Drive Encoder Right B
+	 * Port 4 - Step Bumper
+	 * Port 5 - Bin In Place
 	 * Port 6 -
 	 * Port 7 -
 	 * Port 8 -
 	 * Port 9 -
 	 */
-	 public static int DIO_DRIVE_ENC_LEFT = 0;
-	 public static int DIO_DRIVE_ENC_RIGHT = 1;
-	 public static int DIO_STEP_BUMPER = 2;
-	 public static int DIO_BIN_IN_THROAT = 3; // This probably needs a better name
+	 public static int DIO_DRIVE_ENC_LEFT_A = 0;
+         public static int DIO_DRIVE_ENC_LEFT_B = 1;
+	 public static int DIO_DRIVE_ENC_RIGHT_A = 2;
+         public static int DIO_DRIVE_ENC_RIGHT_B = 3;
+	 public static int DIO_STEP_BUMPER = 4;
+	 public static int DIO_BIN_IN_THROAT = 5; // This probably needs a better name
 
 
 	/* Misc useful constants */

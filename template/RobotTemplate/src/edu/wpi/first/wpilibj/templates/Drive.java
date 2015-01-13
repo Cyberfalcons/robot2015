@@ -28,8 +28,8 @@ public class Drive {
         left = new Jaguar(vm.PWM_DRIVE_LEFT);
         right = new Jaguar(map.PWM_DRIVE_RIGHT);
         stepBumper = new DigitalInput(map.DIO_STEP_BUMPER);
-        encLeft = new Encoder(map.DIO_DRIVE_ENC_LEFT);
-        encRight = new Encoder(map.DIO_DRIVE_ENC_RIGHT);
+        encLeft = new Encoder(map.DIO_DRIVE_ENC_LEFT_A, map.DIO_DRIVE_ENC_LEFT_B);
+        encRight = new Encoder(map.DIO_DRIVE_ENC_RIGHT_A, map.DIO_DRIVE_ENC_RIGHT_B);
     }
     /**
      * drives the right side motor at a specified power
