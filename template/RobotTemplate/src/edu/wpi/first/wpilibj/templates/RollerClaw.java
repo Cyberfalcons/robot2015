@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
  * @author Michelle
  */
 public class RollerClaw {
+        VariableMap map;
 
 	Jaguar leftRoller;
 	Jaguar rightRoller;
@@ -23,10 +24,11 @@ public class RollerClaw {
 	*/
 	DigitalInput binThere;
 
-	public RollerClaw() {
-		leftRoller = new Jaguar(PWM_ROLLER_LEFT);
-		rightRoller = new Jaguar(PWM_ROLLER_RIGHT);
-		binThere = new DigitalInput(DIO_BIN_IN_THROAT);  
+	public RollerClaw(VariableMap vm) {
+                map = vm;
+		leftRoller = new Jaguar(map.PWM_ROLLER_LEFT);
+		rightRoller = new Jaguar(map.PWM_ROLLER_RIGHT);
+		binThere = new DigitalInput(map.DIO_BIN_IN_THROAT);  
 	}
 	
 	//TODO: check directions

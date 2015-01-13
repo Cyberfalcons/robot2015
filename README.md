@@ -3,7 +3,7 @@
 
 ## TODO
 - [ ] Complete Architecture Design
-- [ ] Complete Sudo Code
+- [ ] Complete Pseudo Code
 - [ ] Complete Actual Robot Code
 	- [ ] Autonomous Robot Code
 	- [ ] Teleop Robot Code
