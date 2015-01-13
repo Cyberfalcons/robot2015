@@ -40,9 +40,9 @@ public class VariableMap {
 	 * Port 9 -
 	 */
 	 public static int DIO_DRIVE_ENC_LEFT_A = 0;
-         public static int DIO_DRIVE_ENC_LEFT_B = 1;
+	 public static int DIO_DRIVE_ENC_LEFT_B = 1;
 	 public static int DIO_DRIVE_ENC_RIGHT_A = 2;
-         public static int DIO_DRIVE_ENC_RIGHT_B = 3;
+	 public static int DIO_DRIVE_ENC_RIGHT_B = 3;
 	 public static int DIO_STEP_BUMPER = 4;
 	 public static int DIO_BIN_IN_THROAT = 5; // This probably needs a better name
 
