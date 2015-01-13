@@ -16,3 +16,7 @@
 
 * Fault detection on encoders
 	* Detect when an encoder is misbehaving and ignore it for the rest of the match. ie switch to an open loop controller.
+* No Linear Elevator Controller
+	* PID 
+* Software / Hardware Calibration
+* Change swag lights when faults are detected
