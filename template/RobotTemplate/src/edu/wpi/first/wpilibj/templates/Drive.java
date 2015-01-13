@@ -15,18 +15,21 @@ import edu.wpi.first.wpilibj.Jaguar;
  * @author Dylan
  */
 public class Drive {
+    VariableMap map;
+    
     Jaguar left;
     Jaguar right;
     DigitalInput stepBumper;
     Encoder encRight;
     Encoder encLeft;      
     
-    public Drive(){
-        left = new Jaguar(VariableMap.PWM_DRIVE_LEFT);
-        right = new Jaguar(VariableMap.PWM_DRIVE_RIGHT);
-        stepBumper = new DigitalInput(VariableMap.DIO_STEP_BUMPER);
-        encLeft = new Encoder(VariableMap.DIO_DRIVE_ENC_LEFT);
-        encRight = new Encoder(VariableMap.DIO_DRIVE_ENC_RIGHT);
+    public Drive(VariableMap vm){
+        map = vm;
+        left = new Jaguar(vm.PWM_DRIVE_LEFT);
+        right = new Jaguar(map.PWM_DRIVE_RIGHT);
+        stepBumper = new DigitalInput(map.DIO_STEP_BUMPER);
+        encLeft = new Encoder(map.DIO_DRIVE_ENC_LEFT);
+        encRight = new Encoder(map.DIO_DRIVE_ENC_RIGHT);
     }
     /**
      * drives the right side motor at a specified power
