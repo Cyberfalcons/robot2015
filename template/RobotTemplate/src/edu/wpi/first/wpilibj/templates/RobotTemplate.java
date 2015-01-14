@@ -8,7 +8,8 @@
 package edu.wpi.first.wpilibj.templates;
 
 
-import edu.wpi.first.wpilibj.SimpleRobot;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Watchdog;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -17,11 +18,22 @@ import edu.wpi.first.wpilibj.SimpleRobot;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class RobotTemplate extends SimpleRobot {
+public class RobotTemplate extends IterativeRobot {
+    
+    XBoxController xboxDriver;
+    VariableMap vm;
+    Drive drive;
+    
+    public void robotInit() {
+        vm = new VariableMap();
+        xboxDriver = new XBoxController(1);
+        drive = new Drive(vm);
+    }
+    
     /**
      * This function is called once each time the robot enters autonomous mode.
      */
-    public void autonomous() {
+    public void autonomousInit() {
         
     }
 
@@ -36,6 +48,23 @@ public class RobotTemplate extends SimpleRobot {
      * This function is called once each time the robot enters test mode.
      */
     public void test() {
+        
+    }
     
+    public void autonomousPeriodic() {
+        Watchdog.getInstance().feed();
+    }
+    
+    public void teleopInit() {
+        
+    }
+    
+    public void teleopPeriodic() {
+        // We are running
+        Watchdog.getInstance().feed();
+        
+        // Drive!
+        drive.setDriveRight(xboxDriver.getRightY());
+        drive.setDriveLeft(xboxDriver.getLeftY());
     }
 }
