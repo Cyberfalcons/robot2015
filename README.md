@@ -8,6 +8,7 @@
 	- [ ] Autonomous Robot Code
 	- [ ] Teleop Robot Code
 - [ ] Layout Swag Lights
+- [ ] Figure out how to use gyro to stabilize horizontal sway
 
 ## Project Ideas
 * Correct for drift in the omni wheels
