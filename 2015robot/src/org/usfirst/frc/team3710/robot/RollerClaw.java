@@ -1,18 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.usfirst.frc.team3710.robot;
 
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.DigitalInput;
 
-/**
- *
- * @author Alex
- * @author Michelle
- */
 public class RollerClaw {
         VariableMap map;
 

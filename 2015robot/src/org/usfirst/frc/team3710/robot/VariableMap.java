@@ -1,7 +1,5 @@
 package org.usfirst.frc.team3710.robot;
 
-
-
 public class VariableMap {
 	// A file for constants used in the robot code
 
