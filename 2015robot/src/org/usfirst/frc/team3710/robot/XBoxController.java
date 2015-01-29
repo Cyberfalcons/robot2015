@@ -2,130 +2,130 @@ package org.usfirst.frc.team3710.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class XBoxController extends Joystick{
-    
-    /**
-     * CONSTRUCTOR
-     */
-    public XBoxController(int usbPort) {
-        super(usbPort);
-    }
+public class XBoxController extends Joystick {
 
-    /**
-     * ****** BUTTONS ***********
-     */
-    public boolean getBtnA() {
-        return getRawButton(1);
-    }
+	/**
+	 * CONSTRUCTOR
+	 */
+	public XBoxController(int usbPort) {
+		super(usbPort);
+	}
 
-    public boolean getBtnB() {
-        return getRawButton(2);
-    }
+	/**
+	 * ****** BUTTONS ***********
+	 */
+	public boolean getBtnA() {
+		return getRawButton(1);
+	}
 
-    public boolean getBtnX() {
-        return getRawButton(3);
-    }
+	public boolean getBtnB() {
+		return getRawButton(2);
+	}
 
-    public boolean getBtnY() {
-        return getRawButton(4);
-    }
+	public boolean getBtnX() {
+		return getRawButton(3);
+	}
 
-    public boolean getBtnLB() {
-        return getRawButton(5);
-    }
+	public boolean getBtnY() {
+		return getRawButton(4);
+	}
 
-    public boolean getBtnRB() {
-        return getRawButton(6);
-    }
+	public boolean getBtnLB() {
+		return getRawButton(5);
+	}
 
-    public boolean getBtnBACK() {
-        return getRawButton(7);
-    }
+	public boolean getBtnRB() {
+		return getRawButton(6);
+	}
 
-    public boolean getBtnSTART() {
-        return getRawButton(8);
-    }
+	public boolean getBtnBACK() {
+		return getRawButton(7);
+	}
 
-    /**
-     * Left Stick Click.
-     */
-    public boolean getBtnL3() {
-        return getRawButton(9);
-    }
+	public boolean getBtnSTART() {
+		return getRawButton(8);
+	}
 
-    /**
-     * Right Stick Click
-     */
-    public boolean getBtnR3() {
-        return getRawButton(10);
-    }
-    
-    /**
-     * Right Trigger converted to a button.
-     */
-    public boolean getRightTrigger() {
-        if (getTriggers() < -.1) {
-            return true;
-        }
-        return false;
-    }
+	/**
+	 * Left Stick Click.
+	 */
+	public boolean getBtnL3() {
+		return getRawButton(9);
+	}
 
-    /**
-     * Left Trigger converted to a button.
-     */
-    public boolean getLeftTrigger() {
-        if (getTriggers() > .1) {
-            return true;
-        }
-        return false;
-    }
+	/**
+	 * Right Stick Click
+	 */
+	public boolean getBtnR3() {
+		return getRawButton(10);
+	}
 
-    /**
-     * ******** AXIS **************
-     */
-    /**
-     * Left thumb stick, X-axis
-     */
-    public double getLeftX() {
-        return getRawAxis(1);
-    }
+	/**
+	 * Right Trigger converted to a button.
+	 */
+	public boolean getRightTrigger() {
+		if (getTriggers() < -.1) {
+			return true;
+		}
+		return false;
+	}
 
-    /**
-     * Left thumb stick, Y-axis
-     */
-    public double getLeftY() {
-        return getRawAxis(2);
-    }
+	/**
+	 * Left Trigger converted to a button.
+	 */
+	public boolean getLeftTrigger() {
+		if (getTriggers() > .1) {
+			return true;
+		}
+		return false;
+	}
 
-    /**
-     * Right thumb stick, X-axis
-     */
-    public double getRightX() {
-        return getRawAxis(4);
-    }
+	/**
+	 * ******** AXIS **************
+	 */
+	/**
+	 * Left thumb stick, X-axis
+	 */
+	public double getLeftX() {
+		return getRawAxis(1);
+	}
 
-    /**
-     * Right thumb stick, Y-axis
-     */
-    public double getRightY() {
-        return getRawAxis(5);
-    }
+	/**
+	 * Left thumb stick, Y-axis
+	 */
+	public double getLeftY() {
+		return getRawAxis(2);
+	}
 
-    /**
-     * This one's a little tricky. Both triggers come in as one axis. left is
-     * positive and right is negative. Their two values add to give the result,
-     * so pressing both gives 0.
-     */
-    public double getTriggers() {
-        return getRawAxis(3);
-    }
-    
-    /**
-     * For some reason the D-pad registers as an axis, not a button and only the
-     * x-axis shows up. We have no way of using the D-pad y-axis.
-     */
-    public double getDpadX() {
-        return getRawAxis(6);
-    }
-    
+	/**
+	 * Right thumb stick, X-axis
+	 */
+	public double getRightX() {
+		return getRawAxis(4);
+	}
+
+	/**
+	 * Right thumb stick, Y-axis
+	 */
+	public double getRightY() {
+		return getRawAxis(5);
+	}
+
+	/**
+	 * This one's a little tricky. Both triggers come in as one axis. left is
+	 * positive and right is negative. Their two values add to give the result,
+	 * so pressing both gives 0.
+	 */
+	public double getTriggers() {
+		return getRawAxis(3);
+	}
+
+	/**
+	 * For some reason the D-pad registers as an axis, not a button and only the
+	 * x-axis shows up. We have no way of using the D-pad y-axis.
+	 */
+	public double getDpadX() {
+		return getRawAxis(6);
+	}
+
 }

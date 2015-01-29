@@ -6,14 +6,14 @@ public class CanBurglar {
 
 	Jaguar deathTrap;
 
-	public CanBurglar () {
-		  deathTrap = new Jaguar(9);
+	public CanBurglar() {
+		deathTrap = new Jaguar(9);
 	}
 
 	/**
 	 * retracts can burgler
 	 */
 	public void retract() {
-		  // FIRE ZE RETRACTOR!!!
-}
+		// FIRE ZE RETRACTOR!!!
+	}
 }
