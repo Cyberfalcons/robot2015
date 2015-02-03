@@ -10,7 +10,7 @@ public class VariableMap {
 	 * Port 2 - Left Roller
 	 * Port 3 - Right Roller
 	 * Port 4 - Bin Elevator Main Chain
-	 * Port 5 -
+	 * Port 5 - Tote Elevator Main Chain
 	 * Port 6 -
 	 * Port 7 -
 	 * Port 8 -
@@ -21,6 +21,7 @@ public class VariableMap {
 	 public static int PWM_ROLLER_LEFT = 2;
 	 public static int PWM_ROLLER_RIGHT = 3;
 	 public static int PWM_BIN_ELEVATOR = 4;
+	 public static int PWM_TOTE_ELEVATOR = 5;
 	 public static int PWM_CAN_BURGLAR = 9;
 	 
 	 
@@ -30,24 +31,29 @@ public class VariableMap {
 	 * Port 1 - Drive Encoder Left B
 	 * Port 2 - Drive Encoder Right A
 	 * Port 3 - Drive Encoder Right B
-	 * Port 4 - Step Bumper
-	 * Port 5 - Bin In Place
-	 * Port 6 -
-	 * Port 7 -
-	 * Port 8 -
-	 * Port 9 -
+	 * Port 4 - Bin Zeroing Bottom
+	 * Port 5 - Bin Zeroing Top
+	 * Port 6 - Bin Elevator Encoder A
+	 * Port 7 - Bin Elevator Encoder B
+	 * Port 8 - Tote Elevator Bottom 
+	 * Port 9 - Tote Elevator Top
 	 */
 	 public static int DIO_DRIVE_ENC_LEFT_A = 0;
 	 public static int DIO_DRIVE_ENC_LEFT_B = 1;
 	 public static int DIO_DRIVE_ENC_RIGHT_A = 2;
 	 public static int DIO_DRIVE_ENC_RIGHT_B = 3;
-	 public static int DIO_STEP_BUMPER = 4;
-	 public static int DIO_BIN_IN_THROAT = 5; // This probably needs a better name
+	 public static int DIO_BIN_ZEROING_TOP = 4;
+	 public static int DIO_BIN_ZEROING_BOTTOM = 5;
+	 public static int DIO_BIN_ELEVATOR_ENC_A = 6;
+	 public static int DIO_BIN_ELEVATOR_ENC_B = 7;
+	 public static int DIO_TOTE_ELEVATOR_BOTTOM = 8;
+	 public static int DIO_TOTE_ELEVATOR_TOP = 9;
 
 
 	/* Misc useful constants */
 	
 	public static double BIN_ELEVATOR_CHAIN_SPEED = 1.0;
+	public static double TOTE_ELEVATOR_CHAIN_SPEED = 1.0;
 	public static double CLAW_ROLLER_SPEED = 1.0;
 
 }

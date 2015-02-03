@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3710.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.*;
 
 public class XBoxController extends Joystick {
 

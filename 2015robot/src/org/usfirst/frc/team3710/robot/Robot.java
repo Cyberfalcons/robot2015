@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3710.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.*;
 
 public class Robot extends IterativeRobot {
 

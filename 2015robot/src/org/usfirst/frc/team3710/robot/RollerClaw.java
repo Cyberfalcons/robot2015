@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3710.robot;
 
-import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.*;
 
 public class RollerClaw {
 	VariableMap map;
@@ -9,16 +8,10 @@ public class RollerClaw {
 	Jaguar leftRoller;
 	Jaguar rightRoller;
 
-	/**
-	 * Is the bin fully in?
-	 */
-	DigitalInput binThere;
-
 	public RollerClaw(VariableMap vm) {
 		map = vm;
 		leftRoller = new Jaguar(map.PWM_ROLLER_LEFT);
 		rightRoller = new Jaguar(map.PWM_ROLLER_RIGHT);
-		binThere = new DigitalInput(map.DIO_BIN_IN_THROAT);
 	}
 
 	// TODO: check directions
@@ -47,13 +40,8 @@ public class RollerClaw {
 	}
 
 	public void binIn() {
-		if (binThere.get()) {
-			leftRollerStop();
-			rightRollerStop();
-		} else {
-			leftRollerIn();
-			rightRollerIn();
-		}
+		leftRollerIn();
+		rightRollerIn();
 	}
 
 	public void binOut() {
