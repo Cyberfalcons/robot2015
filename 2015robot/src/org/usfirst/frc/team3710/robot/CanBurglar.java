@@ -11,7 +11,7 @@ public class CanBurglar {
 	}
 
 	/**
-	 * retracts can burgler
+	 * retracts can burglar
 	 */
 	public void retract() {
 		// FIRE ZE RETRACTOR!!!
