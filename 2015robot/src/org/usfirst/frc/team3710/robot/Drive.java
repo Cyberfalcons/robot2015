@@ -18,8 +18,20 @@ public class Drive {
 		left = new Jaguar(vm.PWM_DRIVE_LEFT);
 		right = new Jaguar(map.PWM_DRIVE_RIGHT);
 		stepBumper = new DigitalInput(map.DIO_STEP_BUMPER);
-		encLeft = new Encoder(map.DIO_DRIVE_ENC_LEFT_A, map.DIO_DRIVE_ENC_LEFT_B);
-		encRight = new Encoder(map.DIO_DRIVE_ENC_RIGHT_A, map.DIO_DRIVE_ENC_RIGHT_B);
+		
+		encLeft = new Encoder(map.DIO_DRIVE_ENC_LEFT_A, map.DIO_DRIVE_ENC_LEFT_B, false, Encoder.EncodingType.k4X);
+		encLeft.setMaxPeriod(.1);
+		encLeft.setMinRate(10);
+		encLeft.setDistancePerPulse(5);
+		encLeft.setReverseDirection(true);
+		encLeft.setSamplesToAverage(7);
+		
+		encRight = new Encoder(map.DIO_DRIVE_ENC_RIGHT_A, map.DIO_DRIVE_ENC_RIGHT_B, false, Encoder.EncodingType.k4X);
+		encRight.setMaxPeriod(.1);
+		encRight.setMinRate(10);
+		encRight.setDistancePerPulse(5);
+		encRight.setReverseDirection(true);
+		encRight.setSamplesToAverage(7);
 	}
 
 	/**
