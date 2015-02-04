@@ -164,12 +164,19 @@ public class Controller {
 		return btnSTART;
 	}
 
-	public double getXAxis() {
+	public double getRightX() {
 		return xAxis;
 	}
 
-	public double getYAxis() {
+	public double getRightY() {
 		return yAxis;
 	}
 
+	public double getLeftX() {
+		return xAxis;
+	}
+
+	public double getLeftY() {
+		return yAxis;
+	}
 }
