@@ -2,7 +2,7 @@ package org.usfirst.frc.team3710.robot;
 
 import edu.wpi.first.wpilibj.*;
 
-public class JoystickController extends Controller{
+public class JoystickController extends Controller {
 	Joystick left;
 	Joystick right;
 
@@ -10,24 +10,20 @@ public class JoystickController extends Controller{
 		left = new Joystick(usbL);
 		right = new Joystick(usbR);
 	}
-	
-	public double getRightX()
-	{
+
+	public double getRightX() {
 		return right.getX();
 	}
-	
-	public double getRightY()
-	{
+
+	public double getRightY() {
 		return right.getY();
 	}
-	
-	public double getLeftX()
-	{
+
+	public double getLeftX() {
 		return left.getX();
 	}
-	
-	public double getLeftY()
-	{
+
+	public double getLeftY() {
 		return left.getY();
 	}
 

@@ -51,7 +51,6 @@ public class VariableMap {
 
 
 	/* Misc useful constants */
-	
 	public static double BIN_ELEVATOR_CHAIN_SPEED = 1.0;
 	public static double TOTE_ELEVATOR_CHAIN_SPEED = 1.0;
 	public static double CLAW_ROLLER_SPEED = 1.0;
