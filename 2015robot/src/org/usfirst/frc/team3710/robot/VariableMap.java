@@ -16,13 +16,13 @@ public class VariableMap {
 	 * Port 8 -
 	 * Port 9 - Can Burglar Retract
 	 */
-	 public static int PWM_DRIVE_LEFT = 0;
-	 public static int PWM_DRIVE_RIGHT = 1;
-	 public static int PWM_ROLLER_LEFT = 2;
-	 public static int PWM_ROLLER_RIGHT = 3;
-	 public static int PWM_BIN_ELEVATOR = 4;
-	 public static int PWM_TOTE_ELEVATOR = 5;
-	 public static int PWM_CAN_BURGLAR = 9;
+	 public static final int PWM_DRIVE_LEFT = 0;
+	 public static final int PWM_DRIVE_RIGHT = 1;
+	 public static final int PWM_ROLLER_LEFT = 2;
+	 public static final int PWM_ROLLER_RIGHT = 3;
+	 public static final int PWM_BIN_ELEVATOR = 4;
+	 public static final int PWM_TOTE_ELEVATOR = 5;
+	 public static final int PWM_CAN_BURGLAR = 9;
 	 
 	 
 	/* Digital IO Pins
@@ -38,21 +38,21 @@ public class VariableMap {
 	 * Port 8 - Tote Elevator Bottom 
 	 * Port 9 - Tote Elevator Top
 	 */
-	 public static int DIO_DRIVE_ENC_LEFT_A = 0;
-	 public static int DIO_DRIVE_ENC_LEFT_B = 1;
-	 public static int DIO_DRIVE_ENC_RIGHT_A = 2;
-	 public static int DIO_DRIVE_ENC_RIGHT_B = 3;
-	 public static int DIO_BIN_ZEROING_TOP = 4;
-	 public static int DIO_BIN_ZEROING_BOTTOM = 5;
-	 public static int DIO_BIN_ELEVATOR_ENC_A = 6;
-	 public static int DIO_BIN_ELEVATOR_ENC_B = 7;
-	 public static int DIO_TOTE_ELEVATOR_BOTTOM = 8;
-	 public static int DIO_TOTE_ELEVATOR_TOP = 9;
+	 public static final int DIO_DRIVE_ENC_LEFT_A = 0;
+	 public static final int DIO_DRIVE_ENC_LEFT_B = 1;
+	 public static final int DIO_DRIVE_ENC_RIGHT_A = 2;
+	 public static final int DIO_DRIVE_ENC_RIGHT_B = 3;
+	 public static final int DIO_BIN_ZEROING_TOP = 4;
+	 public static final int DIO_BIN_ZEROING_BOTTOM = 5;
+	 public static final int DIO_BIN_ELEVATOR_ENC_A = 6;
+	 public static final int DIO_BIN_ELEVATOR_ENC_B = 7;
+	 public static final int DIO_TOTE_ELEVATOR_BOTTOM = 8;
+	 public static final int DIO_TOTE_ELEVATOR_TOP = 9;
 
 
 	/* Misc useful constants */
-	public static double BIN_ELEVATOR_CHAIN_SPEED = 1.0;
-	public static double TOTE_ELEVATOR_CHAIN_SPEED = 1.0;
-	public static double CLAW_ROLLER_SPEED = 1.0;
+	public static final double BIN_ELEVATOR_CHAIN_SPEED = 1.0;
+	public static final double TOTE_ELEVATOR_CHAIN_SPEED = 1.0;
+	public static final double CLAW_ROLLER_SPEED = 1.0;
 
 }
