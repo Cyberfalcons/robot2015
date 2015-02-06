@@ -19,10 +19,18 @@ public class Robot extends IterativeRobot {
 		drive = new Drive(vm);
 	}
 
+	public void autonomousInit() {
+
+	}
+
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
+
+	}
+
+	public void teleopInit() {
 
 	}
 

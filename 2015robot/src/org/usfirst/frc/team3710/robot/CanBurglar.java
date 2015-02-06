@@ -4,16 +4,30 @@ import edu.wpi.first.wpilibj.*;
 
 public class CanBurglar {
 
-	Jaguar deathTrap;
+	VariableMap map;
+	Solenoid binRetractor;
+	boolean isRetracted = false;
 
-	public CanBurglar() {
-		deathTrap = new Jaguar(9);
+	public CanBurglar(VariableMap vm) {
+		map = vm;
+		binRetractor = new Solenoid(map.SOL_CAN_BURGLAR);
 	}
 
-	/**
-	 * retracts can burglar
-	 */
+	public void extend() {
+		if (isRetracted == true) {
+			binRetractor.set(true);
+			isRetracted = false;
+		}
+	}
+
 	public void retract() {
-		// FIRE ZE RETRACTOR!!!
+		if (isRetracted == false) {
+			binRetractor.set(false);
+			isRetracted = true;
+		}
+	}
+
+	public boolean getRetractedState() {
+		return isRetracted;
 	}
 }
