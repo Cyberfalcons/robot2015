@@ -157,6 +157,22 @@ public class Controller {
 			return false;
 	}
 	
+	public void unlockElevator() {
+		elevatorLock = false;
+	}
+	
+	public void unlockTote() {
+		toteLock = false;
+	}
+	
+	public void unlockPinch() {
+		pinchLock = false;
+	}
+	
+	public void unlockRoller() {
+		rollerLock = false;
+	}
+	
 	public double oElevatorManual() {
 		return getRightY();
 	}
