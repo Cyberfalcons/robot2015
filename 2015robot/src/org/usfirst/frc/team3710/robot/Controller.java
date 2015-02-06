@@ -4,179 +4,312 @@ import edu.wpi.first.wpilibj.*;
 
 public class Controller {
 
+	private static boolean pinchLock;
+	private static boolean toteLock;
+	private static boolean elevatorLock;
+	private static boolean rollerLock;
+	
+	private static boolean controlFlip;
+	private static boolean flipLock;
+	
 	public Controller() {
 
 	}
-
-	double xAxis;
-	double yAxis;
-
-	boolean rightButton1;
-	boolean rightButton2;
-	boolean rightButton3;
-	boolean rightButton4;
-	boolean rightButton5;
-	boolean rightButton6;
-	boolean rightButton7;
-	boolean rightButton8;
-	boolean rightButton9;
-	boolean rightButton10;
-	boolean rightButton11;
-
-	boolean leftButton1;
-	boolean leftButton2;
-	boolean leftButton3;
-	boolean leftButton4;
-	boolean leftButton5;
-	boolean leftButton6;
-	boolean leftButton7;
-	boolean leftButton8;
-	boolean leftButton9;
-	boolean leftButton10;
-	boolean leftButton11;
-
-	boolean btnA;
-	boolean btnB;
-	boolean btnX;
-	boolean btnY;
-	boolean btnLB;
-	boolean btnRB;
-	boolean btnBACK;
-	boolean btnSTART;
-
-	public boolean getRightButton1() {
-		return rightButton1;
+	
+	public boolean openPinchClaw() {
+		if (!pinchLock && (getRightButton4() || getBtnLB())) {
+			pinchLock = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean closePinchClaw() {
+		if (!pinchLock && (getRightButton5() || getBtnRB())) {
+			pinchLock = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean dropToteStack() {
+		if (!toteLock && (getRightButton2() || getLeftTrigger())) {
+			pinchLock = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public void checkFlip() {
+		if (!flipLock && (getLeftButton6() || getBtnA())) {
+			flipLock = true;
+			controlFlip = !controlFlip;
+		}
+		else if (flipLock && !(getLeftButton6() || getBtnA())) {
+			flipLock = false;
+		}
+	}
+	
+	public double driveLeft() {
+		if (controlFlip)
+			return getLeftY() * -1;
+		else
+			return getLeftY();
+	}
+	
+	public double driveRight() {
+		if (controlFlip)
+			return getRightY() * -1;
+		else
+			return getRightY();
+	}
+	
+	public boolean elevatorUp() {
+		if (!elevatorLock && (getRightButton3() || getDpadLEFT())) {
+			elevatorLock = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean elevatorDown() {
+		if (!elevatorLock && (getRightButton2() || getDpadRIGHT())) {
+			elevatorLock = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean rollerIn() {
+		if (!rollerLock && (getLeftButton2() || false/*TODO: XBox control*/)) {
+			rollerLock = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean rollerOut() {
+		if (!rollerLock && (getLeftButton3() || false/*TODO: XBox control*/)) {
+			rollerLock = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean toteIntake() {
+		if (!rollerLock && (getLeftButton4() || false/*TODO: XBox control*/)) {
+			rollerLock = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean oOpenPinchClaw() {
+		if (!pinchLock && (getRightButton4() || getBtnX())) {
+			pinchLock = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean oClosePinchClaw() {
+		if (!pinchLock && (getRightButton5() || getBtnB())) {
+			pinchLock = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean oDropToteStack() {
+		if (!toteLock && (getRightButton1() || getLeftTrigger())) {
+			pinchLock = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean oElevatorUp() {
+		if (!elevatorLock && (getRightButton3() || getBtnY())) {
+			elevatorLock = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean oElevatorDown() {
+		if (!elevatorLock && (getRightButton2() || getBtnA())) {
+			elevatorLock = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public double oElevatorManual() {
+		return getRightY();
 	}
 
-	public boolean getRightButton2() {
-		return rightButton2;
+	private boolean getRightButton1() {
+		return false;
 	}
 
-	public boolean getRightButton3() {
-		return rightButton3;
+	private boolean getRightButton2() {
+		return false;
 	}
 
-	public boolean getRightButton4() {
-		return rightButton4;
+	private boolean getRightButton3() {
+		return false;
 	}
 
-	public boolean getRightButton5() {
-		return rightButton5;
+	private boolean getRightButton4() {
+		return false;
 	}
 
-	public boolean getRightButton6() {
-		return rightButton6;
+	private boolean getRightButton5() {
+		return false;
 	}
 
-	public boolean getRightButton7() {
-		return rightButton7;
+	private boolean getRightButton6() {
+		return false;
 	}
 
-	public boolean getRightButton8() {
-		return rightButton8;
+	private boolean getRightButton7() {
+		return false;
 	}
 
-	public boolean getRightButton9() {
-		return rightButton9;
+	private boolean getRightButton8() {
+		return false;
 	}
 
-	public boolean getRightButton10() {
-		return rightButton10;
+	private boolean getRightButton9() {
+		return false;
 	}
 
-	public boolean getRightButton11() {
-		return rightButton11;
+	private boolean getRightButton10() {
+		return false;
 	}
 
-	public boolean getLeftButton1() {
-		return leftButton1;
+	private boolean getRightButton11() {
+		return false;
 	}
 
-	public boolean getLeftButton2() {
-		return leftButton2;
+	private boolean getLeftButton1() {
+		return false;
 	}
 
-	public boolean getLeftButton3() {
-		return leftButton3;
+	private boolean getLeftButton2() {
+		return false;
 	}
 
-	public boolean getLeftButton4() {
-		return leftButton4;
+	private boolean getLeftButton3() {
+		return false;
 	}
 
-	public boolean getLeftButton5() {
-		return leftButton5;
+	private boolean getLeftButton4() {
+		return false;
 	}
 
-	public boolean getLeftButton6() {
-		return leftButton6;
+	private boolean getLeftButton5() {
+		return false;
 	}
 
-	public boolean getLeftButton7() {
-		return leftButton7;
+	private boolean getLeftButton6() {
+		return false;
 	}
 
-	public boolean getLeftButton8() {
-		return leftButton8;
+	private boolean getLeftButton7() {
+		return false;
 	}
 
-	public boolean getLeftButton9() {
-		return leftButton9;
+	private boolean getLeftButton8() {
+		return false;
 	}
 
-	public boolean getLeftButton10() {
-		return leftButton10;
+	private boolean getLeftButton9() {
+		return false;
 	}
 
-	public boolean getLeftButton11() {
-		return leftButton11;
+	private boolean getLeftButton10() {
+		return false;
 	}
 
-	public boolean getBtnX() {
-		return btnX;
+	private boolean getLeftButton11() {
+		return false;
 	}
 
-	public boolean getBtnY() {
-		return btnY;
+	private boolean getBtnX() {
+		return false;
 	}
 
-	public boolean getBtnA() {
-		return btnA;
+	private boolean getBtnY() {
+		return false;
 	}
 
-	public boolean getBtnB() {
-		return btnB;
+	private boolean getBtnA() {
+		return false;
 	}
 
-	public boolean getBtnLB() {
-		return btnLB;
+	private boolean getBtnB() {
+		return false;
 	}
 
-	public boolean getBtnRB() {
-		return btnRB;
+	private boolean getBtnLB() {
+		return false;
 	}
 
-	public boolean getBtnBACK() {
-		return btnBACK;
+	private boolean getBtnRB() {
+		return false;
 	}
 
-	public boolean getBtnSTART() {
-		return btnSTART;
+	private boolean getBtnBACK() {
+		return false;
 	}
 
-	public double getRightX() {
-		return xAxis;
+	private boolean getBtnSTART() {
+		return false;
 	}
 
-	public double getRightY() {
-		return yAxis;
+	private double getRightX() {
+		return 0.0;
 	}
 
-	public double getLeftX() {
-		return xAxis;
+	private double getRightY() {
+		return 0.0;
 	}
 
-	public double getLeftY() {
-		return yAxis;
+	private double getLeftX() {
+		return 0.0;
+	}
+
+	private double getLeftY() {
+		return 0.0;
+	}
+	
+	private boolean getRightTrigger() {
+		return false;
+	}
+	
+	private boolean getLeftTrigger() {
+		return false;
+	}
+	
+	private boolean getDpadLEFT() {
+		return false;
+	}
+	
+	private boolean getDpadRIGHT() {
+		return false;
 	}
 }

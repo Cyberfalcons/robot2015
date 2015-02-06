@@ -10,26 +10,12 @@ public class Drive {
 	Encoder encRight;
 	Encoder encLeft;
 
-	public Drive(VariableMap vm) {
+	public Drive(VariableMap vm, Jaguar l, Jaguar r, Encoder el, Encoder er) {
 		map = vm;
-		left = new Jaguar(vm.PWM_DRIVE_LEFT);
-		right = new Jaguar(map.PWM_DRIVE_RIGHT);
-
-		encLeft = new Encoder(map.DIO_DRIVE_ENC_LEFT_A,
-				map.DIO_DRIVE_ENC_LEFT_B, false, Encoder.EncodingType.k4X);
-		encLeft.setMaxPeriod(.1);
-		encLeft.setMinRate(10);
-		encLeft.setDistancePerPulse(5);
-		encLeft.setReverseDirection(false);
-		encLeft.setSamplesToAverage(7);
-
-		encRight = new Encoder(map.DIO_DRIVE_ENC_RIGHT_A,
-				map.DIO_DRIVE_ENC_RIGHT_B, false, Encoder.EncodingType.k4X);
-		encRight.setMaxPeriod(.1);
-		encRight.setMinRate(10);
-		encRight.setDistancePerPulse(5);
-		encRight.setReverseDirection(false);
-		encRight.setSamplesToAverage(7);
+		left = l;
+		right = r;
+		encRight = er;
+		encLeft = el;
 	}
 
 	/**

@@ -55,4 +55,33 @@ public class XBoxControllerWrapper extends Controller {
 	public double getLeftY() {
 		return pad.getRawAxis(2);
 	}
+	
+	public boolean getDpadLEFT() {
+		if (pad.getDpadX() > 0)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean getDpadRIGHT() {
+		if (pad.getTriggers() < 0)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean getLeftTrigger() {
+		if (pad.getTriggers() > 0.1)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean getRightTrigger() {
+		if (pad.getTriggers() < -0.1)
+			return true;
+		else
+			return false;
+	}
+	
 }

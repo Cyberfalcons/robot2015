@@ -10,6 +10,13 @@ public class JoystickControllerWrapper extends Controller {
 		left = new Joystick(usbL);
 		right = new Joystick(usbR);
 	}
+	
+	/*
+	 * Initialize for operator (one joystick)
+	 */
+	public JoystickControllerWrapper(int usb) {
+		right = new Joystick(usb);
+	}
 
 	public double getRightX() {
 		return right.getX();
