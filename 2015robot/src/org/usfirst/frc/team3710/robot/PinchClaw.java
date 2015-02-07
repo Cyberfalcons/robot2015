@@ -8,9 +8,9 @@ public class PinchClaw {
 	VariableMap map;
 	boolean isClawOpen = true;
 
-	public PinchClaw(VariableMap vm) {
+	public PinchClaw(VariableMap vm, Victor c) {
 		map = vm;
-		claw = new Victor(map.PWM_PINCH_CLAW);
+		claw = c;
 	}
 
 	public void openClaw(){

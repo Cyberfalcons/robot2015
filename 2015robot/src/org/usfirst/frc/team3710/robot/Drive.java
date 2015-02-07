@@ -5,12 +5,12 @@ import edu.wpi.first.wpilibj.*;
 public class Drive {
 	VariableMap map;
 
-	Jaguar left;
-	Jaguar right;
+	Talon left;
+	Talon right;
 	Encoder encRight;
 	Encoder encLeft;
 
-	public Drive(VariableMap vm, Jaguar l, Jaguar r, Encoder el, Encoder er) {
+	public Drive(VariableMap vm, Talon l, Talon r, Encoder el, Encoder er) {
 		map = vm;
 		left = l;
 		right = r;

@@ -7,9 +7,11 @@ public class Robot extends IterativeRobot {
 	Controller driverControl;
 	VariableMap vm;
 	Drive drive;
+	PinchClaw claw;
 	
-	Jaguar driveRight, driveLeft;
+	Talon driveRight, driveLeft;
 	Encoder encLeft, encRight;
+	Victor pinchClaw;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -19,8 +21,9 @@ public class Robot extends IterativeRobot {
 		vm = new VariableMap();
 		driverControl = new JoystickControllerWrapper(1,2);
 		
-		driveLeft = new Jaguar(vm.PWM_DRIVE_LEFT);
-		driveRight = new Jaguar(vm.PWM_DRIVE_RIGHT);
+		driveLeft = new Talon(vm.PWM_DRIVE_LEFT);
+		driveRight = new Talon(vm.PWM_DRIVE_RIGHT);
+		pinchClaw = new Victor(vm.PWM_PINCH_CLAW);
 		
 		encLeft = new Encoder(vm.DIO_DRIVE_ENC_LEFT_A,
 				vm.DIO_DRIVE_ENC_LEFT_B, false, Encoder.EncodingType.k4X);
@@ -39,6 +42,7 @@ public class Robot extends IterativeRobot {
 		encRight.setSamplesToAverage(7);
 		
 		drive = new Drive(vm,driveLeft,driveRight,encLeft,encRight);
+		claw = new PinchClaw(vm, pinchClaw);
 	}
 
 	public void autonomousInit() {
