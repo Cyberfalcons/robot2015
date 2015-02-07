@@ -12,7 +12,7 @@ public class VariableMap {
 	 * Port 3 - Right Roller 
 	 * Port 4 - Bin Elevator Main Chain 
 	 * Port 5 - Tote Elevator Main Chain 
-	 * Port 6 - 
+	 * Port 6 - Pinch Claw
 	 * Port 7 - 
 	 * Port 8 - 
 	 * Port 9 - 
@@ -23,6 +23,7 @@ public class VariableMap {
 	public static final int PWM_ROLLER_RIGHT = 3;
 	public static final int PWM_BIN_ELEVATOR = 4;
 	public static final int PWM_TOTE_ELEVATOR = 5;
+	public static final int PWM_PINCH_CLAW = 6;
 
 	/*
 	 * Digital IO Pins
@@ -68,5 +69,6 @@ public class VariableMap {
 	public static final double BIN_ELEVATOR_CHAIN_SPEED = 1.0;
 	public static final double TOTE_ELEVATOR_CHAIN_SPEED = 1.0;
 	public static final double CLAW_ROLLER_SPEED = 1.0;
+	public static final double PINCH_CLAW_SPEED = 1.0;
 
 }
