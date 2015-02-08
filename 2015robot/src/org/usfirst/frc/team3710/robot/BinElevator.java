@@ -10,7 +10,7 @@ public class BinElevator {
 		binElevator = t;
 
 		encChain = e;
-		
+
 		encChain.setMaxPeriod(.1);
 		encChain.setMinRate(10);
 		encChain.setDistancePerPulse(5);
@@ -38,5 +38,9 @@ public class BinElevator {
 
 	public int getEncoderEnc() {
 		return encChain.get();
+	}
+
+	public void resetEncoder() {
+		encChain.reset();
 	}
 }

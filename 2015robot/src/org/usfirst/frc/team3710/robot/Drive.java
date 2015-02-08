@@ -11,14 +11,14 @@ public class Drive {
 	public Drive(Talon l, Talon r, Encoder el, Encoder er) {
 		left = l;
 		right = r;
-		
+
 		encLeft = el;
 		encLeft.setMaxPeriod(.1);
 		encLeft.setMinRate(10);
 		encLeft.setDistancePerPulse(5);
 		encLeft.setReverseDirection(false);
 		encLeft.setSamplesToAverage(7);
-		
+
 		encRight = er;
 		encRight.setMaxPeriod(.1);
 		encRight.setMinRate(10);
@@ -63,5 +63,13 @@ public class Drive {
 	 */
 	public int getEncoderLeft() {
 		return encLeft.get();
+	}
+
+	public void resetLeftEncoder() {
+		encLeft.reset();
+	}
+
+	public void resetRightEncoder() {
+		encRight.reset();
 	}
 }
