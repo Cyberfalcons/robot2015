@@ -5,20 +5,18 @@ import edu.wpi.first.wpilibj.*;
 public class PinchClaw {
 	Victor claw;
 
-	VariableMap map;
 	boolean isClawOpen = true;
 
-	public PinchClaw(VariableMap vm, Victor c) {
-		map = vm;
+	public PinchClaw(Victor c) {
 		claw = c;
 	}
 
 	public void openClaw(){
-		claw.set(map.PINCH_CLAW_SPEED);
+		claw.set(VariableMap.PINCH_CLAW_SPEED);
 	}
 
 	public void closeClaw() {
-		claw.set(-map.PINCH_CLAW_SPEED);
+		claw.set(-VariableMap.PINCH_CLAW_SPEED);
 	}
 
 	public boolean getIfClawOpen() {

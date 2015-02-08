@@ -3,15 +3,12 @@ package org.usfirst.frc.team3710.robot;
 import edu.wpi.first.wpilibj.*;
 
 public class RollerClaw {
-	VariableMap map;
+	Talon leftRoller;
+	Talon rightRoller;
 
-	Jaguar leftRoller;
-	Jaguar rightRoller;
-
-	public RollerClaw(VariableMap vm) {
-		map = vm;
-		leftRoller = new Jaguar(map.PWM_ROLLER_LEFT);
-		rightRoller = new Jaguar(map.PWM_ROLLER_RIGHT);
+	public RollerClaw(Talon l, Talon r) {
+		leftRoller = l;
+		rightRoller = r;
 	}
 
 	// TODO: check directions

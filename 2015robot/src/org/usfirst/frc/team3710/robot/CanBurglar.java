@@ -3,14 +3,11 @@ package org.usfirst.frc.team3710.robot;
 import edu.wpi.first.wpilibj.*;
 
 public class CanBurglar {
-
-	VariableMap map;
 	Solenoid binRetractor;
 	boolean isRetracted = false;
 
-	public CanBurglar(VariableMap vm) {
-		map = vm;
-		binRetractor = new Solenoid(map.SOL_CAN_BURGLAR);
+	public CanBurglar(Solenoid s) {
+		binRetractor = s;
 	}
 
 	public void extend() {
