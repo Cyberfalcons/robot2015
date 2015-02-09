@@ -82,5 +82,9 @@ public class Robot extends IterativeRobot {
 		drive.setDriveRight(driverControl.driveRight());
 		drive.setDriveLeft(driverControl.driveLeft());
 	}
+	
+	public void initializeSmartDashboard(){
+		
+	}
 
 }
