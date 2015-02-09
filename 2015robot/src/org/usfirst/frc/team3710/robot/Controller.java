@@ -60,9 +60,9 @@ public class Controller {
 	
 	public double driveRight() {
 		if (controlFlip)
-			return getRightY() * -1;
-		else
 			return getRightY();
+		else
+			return getRightY() * -1;
 	}
 	
 	public boolean elevatorUp() {
@@ -175,155 +175,155 @@ public class Controller {
 		return getRightY();
 	}
 
-	private boolean getRightButton1() {
+	public boolean getRightButton1() {
 		return false;
 	}
 
-	private boolean getRightButton2() {
+	public boolean getRightButton2() {
 		return false;
 	}
 
-	private boolean getRightButton3() {
+	public boolean getRightButton3() {
 		return false;
 	}
 
-	private boolean getRightButton4() {
+	public boolean getRightButton4() {
 		return false;
 	}
 
-	private boolean getRightButton5() {
+	public boolean getRightButton5() {
 		return false;
 	}
 
-	private boolean getRightButton6() {
+	public boolean getRightButton6() {
 		return false;
 	}
 
-	private boolean getRightButton7() {
+	public boolean getRightButton7() {
 		return false;
 	}
 
-	private boolean getRightButton8() {
+	public boolean getRightButton8() {
 		return false;
 	}
 
-	private boolean getRightButton9() {
+	public boolean getRightButton9() {
 		return false;
 	}
 
-	private boolean getRightButton10() {
+	public boolean getRightButton10() {
 		return false;
 	}
 
-	private boolean getRightButton11() {
+	public boolean getRightButton11() {
 		return false;
 	}
 
-	private boolean getLeftButton1() {
+	public boolean getLeftButton1() {
 		return false;
 	}
 
-	private boolean getLeftButton2() {
+	public boolean getLeftButton2() {
 		return false;
 	}
 
-	private boolean getLeftButton3() {
+	public boolean getLeftButton3() {
 		return false;
 	}
 
-	private boolean getLeftButton4() {
+	public boolean getLeftButton4() {
 		return false;
 	}
 
-	private boolean getLeftButton5() {
+	public boolean getLeftButton5() {
 		return false;
 	}
 
-	private boolean getLeftButton6() {
+	public boolean getLeftButton6() {
 		return false;
 	}
 
-	private boolean getLeftButton7() {
+	public boolean getLeftButton7() {
 		return false;
 	}
 
-	private boolean getLeftButton8() {
+	public boolean getLeftButton8() {
 		return false;
 	}
 
-	private boolean getLeftButton9() {
+	public boolean getLeftButton9() {
 		return false;
 	}
 
-	private boolean getLeftButton10() {
+	public boolean getLeftButton10() {
 		return false;
 	}
 
-	private boolean getLeftButton11() {
+	public boolean getLeftButton11() {
 		return false;
 	}
 
-	private boolean getBtnX() {
+	public boolean getBtnX() {
 		return false;
 	}
 
-	private boolean getBtnY() {
+	public boolean getBtnY() {
 		return false;
 	}
 
-	private boolean getBtnA() {
+	public boolean getBtnA() {
 		return false;
 	}
 
-	private boolean getBtnB() {
+	public boolean getBtnB() {
 		return false;
 	}
 
-	private boolean getBtnLB() {
+	public boolean getBtnLB() {
 		return false;
 	}
 
-	private boolean getBtnRB() {
+	public boolean getBtnRB() {
 		return false;
 	}
 
-	private boolean getBtnBACK() {
+	public boolean getBtnBACK() {
 		return false;
 	}
 
-	private boolean getBtnSTART() {
+	public boolean getBtnSTART() {
 		return false;
 	}
 
-	private double getRightX() {
+	public double getRightX() {
 		return 0.0;
 	}
 
-	private double getRightY() {
+	public double getRightY() {
 		return 0.0;
 	}
 
-	private double getLeftX() {
+	public double getLeftX() {
 		return 0.0;
 	}
 
-	private double getLeftY() {
+	public double getLeftY() {
 		return 0.0;
 	}
 	
-	private boolean getRightTrigger() {
+	public boolean getRightTrigger() {
 		return false;
 	}
 	
-	private boolean getLeftTrigger() {
+	public boolean getLeftTrigger() {
 		return false;
 	}
 	
-	private boolean getDpadLEFT() {
+	public boolean getDpadLEFT() {
 		return false;
 	}
 	
-	private boolean getDpadRIGHT() {
+	public boolean getDpadRIGHT() {
 		return false;
 	}
 }
