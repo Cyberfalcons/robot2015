@@ -110,5 +110,18 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
 		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());
 		SmartDashboard.putDouble("Bin Elevator", encBinElevator.get());
+		
+		SmartDashboard.putString("PDP Channel 0", "Current: " + pdp.getCurrent(0));
+		SmartDashboard.putString("PDP Channel 1", "Current: " + pdp.getCurrent(1));
+		SmartDashboard.putString("PDP Channel 2", "Current: " + pdp.getCurrent(2));
+		SmartDashboard.putString("PDP Channel 3", "Current: " + pdp.getCurrent(3));
+		SmartDashboard.putString("PDP Channel 4", "Current: " + pdp.getCurrent(4));
+		SmartDashboard.putString("PDP Channel 5", "Current: " + pdp.getCurrent(5));
+		SmartDashboard.putString("PDP Channel 6", "Current: " + pdp.getCurrent(6));
+		
+		SmartDashboard.putString("PDP Temp", "Temp: " + pdp.getTemperature());
+		SmartDashboard.putString("PDP Total Current", "Current: " + pdp.getTotalCurrent());
+		SmartDashboard.putString("PDP Voltage", "Voltage: " + pdp.getVoltage());
+		SmartDashboard.putString("PDP Total Power", "Power: " + pdp.getTotalPower() + " watts");
 	}
 }
