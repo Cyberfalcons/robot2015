@@ -3,29 +3,46 @@ package org.usfirst.frc.team3710.robot;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.util.ArrayList;
 
 public class Robot extends IterativeRobot {
-
-	private Controller driverControl;
-	private Drive drive;
-	private PinchClaw claw;
-	private BinElevator binElevator;
-	private CanBurglar canBurglar;
-	private RollerClaw rollerClaw;
-	private ToteElevator toteElevator;
-	private PowerDistributionPanel pdp;
+	
+	//Systems
+	Controller driverControl;
+	Drive drive;
+	PinchClaw claw;
+	BinElevator binElevator;
+	CanBurglar canBurglar;
+	RollerClaw rollerClaw;
+	ToteElevator toteElevator;
+	PowerDistributionPanel pdp;
 
 	// Controller and Sensor
-	private Talon driveRightTalon, driveLeftTalon, binElevatorTalon,rollerClawRightTalon, rollerClawLeftTalon, toteElevatorTalon;
-	private Encoder encDriveLeft, encDriveRight, encBinElevator;
-	private Victor pinchClawVictor;
-	private Solenoid canBurglarSolenoid;
-	private DigitalInput toteElevatorTop, toteElevatorBottom;
+	Talon driveRightTalon, driveLeftTalon, binElevatorTalon,rollerClawRightTalon, rollerClawLeftTalon, toteElevatorTalon;
+	Encoder encDriveLeft, encDriveRight, encBinElevator;
+	Victor pinchClawVictor;
+	Solenoid canBurglarSolenoid;
+	DigitalInput toteElevatorTop, toteElevatorBottom;
 
 	// SmartDashboard Objects
 	private int autonomousMode = 0;
 	private SendableChooser autoChooser;
-
+	
+	//Data Collection
+	ArrayList<Double> pdpChannel0Current;
+	ArrayList<Double> pdpChannel1Current;
+	ArrayList<Double> pdpChannel2Current;
+	ArrayList<Double> pdpChannel3Current;
+	ArrayList<Double> pdpChannel4Current;
+	ArrayList<Double> pdpChannel5Current;
+	ArrayList<Double> pdpChannel6Current;
+	ArrayList<Double> pdpChannel7Current;
+	ArrayList<Double> pdpChannel8Current;
+	ArrayList<Double> pdpChannel9Current;
+	
+	//Misc
+	int tick = 0;
+	
 	public void robotInit() {
 		// Drive
 		driveLeftTalon = new Talon(VariableMap.PWM_DRIVE_LEFT);
@@ -64,6 +81,18 @@ public class Robot extends IterativeRobot {
 
 		// SmartDashboard
 		initializeSmartDashboard();
+		
+		//Data Collection
+		pdpChannel0Current = new ArrayList<Double>();
+		pdpChannel1Current = new ArrayList<Double>();
+		pdpChannel2Current = new ArrayList<Double>();
+		pdpChannel3Current = new ArrayList<Double>();
+		pdpChannel4Current = new ArrayList<Double>();
+		pdpChannel5Current = new ArrayList<Double>();
+		pdpChannel6Current = new ArrayList<Double>();
+		pdpChannel7Current = new ArrayList<Double>();
+		pdpChannel8Current = new ArrayList<Double>();
+		pdpChannel9Current = new ArrayList<Double>();
 	}
 
 	public void autonomousInit() {
@@ -83,11 +112,13 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-
+		tick = 0;
 	}
 
 	public void teleopPeriodic() {
+		tick++;
 		drive();
+		collectData();
 	}
 
 	public void testPeriodic() {
@@ -99,9 +130,33 @@ public class Robot extends IterativeRobot {
 		drive.setDriveRight(driverControl.driveRight());
 		drive.setDriveLeft(driverControl.driveLeft());
 	}
+	
+	public void raiseBinElevator(int stackHeight){
+		
+	}
+	
+	public void lowerBinElevator(int stackHeight){
+		
+	}
+	
+	public void collectData(){
+		if(tick % 5 == 0)
+		{
+			pdpChannel0Current.add(pdp.getCurrent(0));
+			pdpChannel1Current.add(pdp.getCurrent(1));
+			pdpChannel2Current.add(pdp.getCurrent(2));
+			pdpChannel3Current.add(pdp.getCurrent(3));
+			pdpChannel4Current.add(pdp.getCurrent(4));
+			pdpChannel5Current.add(pdp.getCurrent(5));
+			pdpChannel6Current.add(pdp.getCurrent(6));
+			pdpChannel7Current.add(pdp.getCurrent(7));
+			pdpChannel8Current.add(pdp.getCurrent(8));
+			pdpChannel9Current.add(pdp.getCurrent(9));
+		}
+	}
 
 	@SuppressWarnings("deprecation")
-	public void initializeSmartDashboard() {
+	private void initializeSmartDashboard() {
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("Default", 0);
 		autoChooser.addObject("Custom 1", 1);
