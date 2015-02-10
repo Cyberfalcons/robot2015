@@ -1,6 +1,8 @@
 package org.usfirst.frc.team3710.robot;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
@@ -19,6 +21,9 @@ public class Robot extends IterativeRobot {
 	Victor pinchClawVictor;
 	Solenoid canBurglarSolenoid;
 	DigitalInput toteElevatorTop, toteElevatorBottom;
+	
+	//SmartDashboard Objects
+	SendableChooser autoChooser;
 
 	public void robotInit() {
 		//Drive
@@ -55,10 +60,13 @@ public class Robot extends IterativeRobot {
 		toteElevator = new ToteElevator(toteElevatorTalon, toteElevatorBottom, toteElevatorTop);
 		driverControl = new JoystickControllerWrapper(1, 2);
 		pdp = new PowerDistributionPanel();
+		
+		//SmartDashboard
+		initializeSmartDashboard();
 	}
 
 	public void autonomousInit() {
-
+		autoChooser.getSelected();
 	}
 
 	public void autonomousPeriodic() {
@@ -76,7 +84,7 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 
 	}
-
+	
 	public void drive() {
 		driverControl.checkFlip();
 		drive.setDriveRight(driverControl.driveRight());
@@ -84,7 +92,13 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void initializeSmartDashboard(){
-		
+		autoChooser = new SendableChooser();
+		autoChooser.addDefault("Default",new AutonomousModeDefault());
+		autoChooser.addObject("Custom 1", new AutonomousMode1());
+		autoChooser.addObject("Custom 2", new AutonomousMode2());
+		autoChooser.addObject("Custom 3", new AutonomousMode3());
+		autoChooser.addObject("Custom 4", new AutonomousMode4());
+		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 	}
 
 }
