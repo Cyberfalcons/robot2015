@@ -3,6 +3,7 @@ package org.usfirst.frc.team3710.robot;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Robot extends IterativeRobot {
@@ -40,8 +41,15 @@ public class Robot extends IterativeRobot {
 	ArrayList<Double> pdpChannel8Current;
 	ArrayList<Double> pdpChannel9Current;
 	
+	ArrayList<Double> pdpTemp;
+	ArrayList<Double> pdpTotalCurrent;
+	ArrayList<Double> pdpVoltage;
+	ArrayList<Double> pdpTotalPower;
+	ArrayList<Double> pdpTotalEnergy;
+	
 	//Misc
 	int tick = 0;
+	boolean dataToWrite = false;
 	
 	public void robotInit() {
 		// Drive
@@ -93,6 +101,12 @@ public class Robot extends IterativeRobot {
 		pdpChannel7Current = new ArrayList<Double>();
 		pdpChannel8Current = new ArrayList<Double>();
 		pdpChannel9Current = new ArrayList<Double>();
+		
+		pdpTemp = new ArrayList<Double>();
+		pdpTotalCurrent = new ArrayList<Double>();
+		pdpVoltage = new ArrayList<Double>();
+		pdpTotalPower = new ArrayList<Double>();
+		pdpTotalEnergy = new ArrayList<Double>();
 	}
 
 	public void autonomousInit() {
@@ -113,6 +127,7 @@ public class Robot extends IterativeRobot {
 
 	public void teleopInit() {
 		tick = 0;
+		dataToWrite = true;
 	}
 
 	public void teleopPeriodic() {
@@ -123,6 +138,23 @@ public class Robot extends IterativeRobot {
 
 	public void testPeriodic() {
 
+	}
+	
+	public void disabledPeriodic(){
+		if (dataToWrite == true)
+		{
+			try{
+			File f = new File("sad.txt");
+			FileWriter fw = new FileWriter(f);
+			BufferedWriter bw = new BufferedWriter(fw);
+			
+			
+			
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		dataToWrite = false;
 	}
 
 	public void drive() {
@@ -140,8 +172,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void collectData(){
-		if(tick % 5 == 0)
-		{
+		if(tick % 5 == 0){
 			pdpChannel0Current.add(pdp.getCurrent(0));
 			pdpChannel1Current.add(pdp.getCurrent(1));
 			pdpChannel2Current.add(pdp.getCurrent(2));
@@ -152,6 +183,12 @@ public class Robot extends IterativeRobot {
 			pdpChannel7Current.add(pdp.getCurrent(7));
 			pdpChannel8Current.add(pdp.getCurrent(8));
 			pdpChannel9Current.add(pdp.getCurrent(9));
+			
+			pdpTemp.add(pdp.getTemperature());
+			pdpTotalCurrent.add(pdp.getTotalCurrent());
+			pdpVoltage.add(pdp.getVoltage());
+			pdpTotalPower.add(pdp.getTotalPower());
+			pdpTotalEnergy.add(pdp.getTotalEnergy());
 		}
 	}
 
@@ -178,5 +215,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putString("PDP Total Current", "Current: " + pdp.getTotalCurrent());
 		SmartDashboard.putString("PDP Voltage", "Voltage: " + pdp.getVoltage());
 		SmartDashboard.putString("PDP Total Power", "Power: " + pdp.getTotalPower() + " watts");
+		SmartDashboard.putString("PDP Total Energy: ", "Energy: " + pdp.getTotalEnergy());
 	}
 }
