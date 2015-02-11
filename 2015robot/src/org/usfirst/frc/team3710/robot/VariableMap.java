@@ -43,8 +43,8 @@ public class VariableMap {
 	public static final int DIO_DRIVE_ENC_LEFT_B = 1;
 	public static final int DIO_DRIVE_ENC_RIGHT_A = 2;
 	public static final int DIO_DRIVE_ENC_RIGHT_B = 3;
-	public static final int DIO_BIN_ZEROING_TOP = 4;
-	public static final int DIO_BIN_ZEROING_BOTTOM = 5;
+	public static final int DIO_BIN_ELEVATOR_TOP = 4;
+	public static final int DIO_BIN_ELEVATOR_BOTTOM = 5;
 	public static final int DIO_BIN_ELEVATOR_ENC_A = 6;
 	public static final int DIO_BIN_ELEVATOR_ENC_B = 7;
 	public static final int DIO_TOTE_ELEVATOR_BOTTOM = 8;

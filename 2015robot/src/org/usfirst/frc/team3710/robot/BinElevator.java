@@ -5,11 +5,14 @@ import edu.wpi.first.wpilibj.*;
 public class BinElevator {
 	Talon binElevator;
 	Encoder encChain;
+	DigitalInput top;
+	DigitalInput bottom;
 
-	public BinElevator(Talon t, Encoder e) {
+	public BinElevator(Talon t, Encoder e, DigitalInput to, DigitalInput b) {
 		binElevator = t;
-
 		encChain = e;
+		top = to;
+		bottom = b;
 
 		encChain.setMaxPeriod(.1);
 		encChain.setMinRate(10);
