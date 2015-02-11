@@ -154,7 +154,7 @@ public class Robot extends IterativeRobot {
 			
 			//Writing headers
 			bw.write("Channel 0 Current, Channel 1 Current, Channel 2 Current, Channel 3 Current, Channel 4 Current, Channel 5 Current, Channel 6 Current, Channel 7 Current, Channel 8 Current, Channel 9 Current, Temperature, Total Current, Voltage, Total Power, Total Energy");
-			
+			bw.newLine();
 			for(int i = 0; i < numDataPoints; i++)
 			{
 				bw.write(pdpChannel0Current.get(i) + "," + pdpChannel1Current.get(i) + "," + pdpChannel2Current.get(i) + "," + pdpChannel3Current.get(i) + "," + pdpChannel4Current.get(i) + "," + pdpChannel5Current.get(i) + "," + pdpChannel6Current.get(i) + "," + pdpChannel7Current.get(i) + "," + pdpChannel8Current.get(i) + "," + pdpChannel9Current.get(i) + "," + pdpTemp.get(i) + "," + pdpTotalCurrent.get(i) + "," + pdpVoltage.get(i) + "," + pdpTotalPower.get(i) + "," + pdpTotalEnergy.get(i));
@@ -184,7 +184,6 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void collectData(){
-		if(tick % 5 == 0){
 			pdpChannel0Current.add(pdp.getCurrent(0));
 			pdpChannel1Current.add(pdp.getCurrent(1));
 			pdpChannel2Current.add(pdp.getCurrent(2));
@@ -203,7 +202,6 @@ public class Robot extends IterativeRobot {
 			pdpTotalEnergy.add(pdp.getTotalEnergy());
 			
 			numDataPoints++;
-		}
 	}
 
 	@SuppressWarnings("deprecation")
