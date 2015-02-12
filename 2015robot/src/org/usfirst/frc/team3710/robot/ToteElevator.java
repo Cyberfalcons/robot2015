@@ -3,12 +3,12 @@ package org.usfirst.frc.team3710.robot;
 import edu.wpi.first.wpilibj.*;
 
 public class ToteElevator {
-	Talon toteElevator;
+	Victor toteElevator;
 	DigitalInput toteBottom;
 	DigitalInput toteTop;
 
-	public ToteElevator(Talon t, DigitalInput tB, DigitalInput tT) {
-		toteElevator = t;
+	public ToteElevator(Victor v, DigitalInput tB, DigitalInput tT) {
+		toteElevator = v;
 		toteBottom = tB;
 		toteTop = tT;
 	}

@@ -53,16 +53,16 @@ public class Controller {
 	
 	public double driveLeft() {
 		if (controlFlip)
-			return getLeftY() * -1;
+			return getLeftY() * (0.5+(getRightZ()*0.5)) * -1;
 		else
-			return getLeftY();
+			return getLeftY() * (0.5+(getRightZ()*0.5));
 	}
 	
 	public double driveRight() {
 		if (controlFlip)
-			return getRightY();
+			return getRightY() * (0.5+(getRightZ()*0.5));
 		else
-			return getRightY() * -1;
+			return getRightY() * (0.5+(getRightZ()*0.5)) * -1;
 	}
 	
 	public boolean elevatorUp() {
@@ -302,6 +302,10 @@ public class Controller {
 	public double getRightY() {
 		return 0.0;
 	}
+	
+	public double getRightZ() {
+		return 1.0;
+	}
 
 	public double getLeftX() {
 		return 0.0;
@@ -309,6 +313,10 @@ public class Controller {
 
 	public double getLeftY() {
 		return 0.0;
+	}
+	
+	public double getLeftZ() {
+		return 1.0;
 	}
 	
 	public boolean getRightTrigger() {

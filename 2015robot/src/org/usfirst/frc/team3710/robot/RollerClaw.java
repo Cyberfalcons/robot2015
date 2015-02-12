@@ -3,10 +3,10 @@ package org.usfirst.frc.team3710.robot;
 import edu.wpi.first.wpilibj.*;
 
 public class RollerClaw {
-	Talon leftRoller;
-	Talon rightRoller;
+	Victor leftRoller;
+	Victor rightRoller;
 
-	public RollerClaw(Talon l, Talon r) {
+	public RollerClaw(Victor l, Victor r) {
 		leftRoller = l;
 		rightRoller = r;
 	}

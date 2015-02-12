@@ -27,6 +27,11 @@ public class JoystickControllerWrapper extends Controller {
 	public double getRightY() {
 		return right.getY();
 	}
+	
+	@Override
+	public double getRightZ() {
+		return right.getRawAxis(2);
+	}
 
 	@Override
 	public double getLeftX() {
@@ -36,6 +41,11 @@ public class JoystickControllerWrapper extends Controller {
 	@Override
 	public double getLeftY() {
 		return left.getY();
+	}
+	
+	@Override
+	public double getLeftZ() {
+		return left.getRawAxis(2);
 	}
 
 	@Override

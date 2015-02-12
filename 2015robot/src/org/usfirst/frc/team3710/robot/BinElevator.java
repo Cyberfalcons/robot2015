@@ -3,13 +3,13 @@ package org.usfirst.frc.team3710.robot;
 import edu.wpi.first.wpilibj.*;
 
 public class BinElevator {
-	Talon binElevator;
+	Victor binElevator;
 	Encoder encChain;
 	DigitalInput top;
 	DigitalInput bottom;
 
-	public BinElevator(Talon t, Encoder e, DigitalInput to, DigitalInput b) {
-		binElevator = t;
+	public BinElevator(Victor v, Encoder e, DigitalInput to, DigitalInput b) {
+		binElevator = v;
 		encChain = e;
 		top = to;
 		bottom = b;

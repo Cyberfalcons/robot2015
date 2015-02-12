@@ -3,8 +3,9 @@ package org.usfirst.frc.team3710.robot;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.io.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Robot extends IterativeRobot {
 	
@@ -19,9 +20,9 @@ public class Robot extends IterativeRobot {
 	PowerDistributionPanel pdp;
 
 	// Controller and Sensor
-	Talon driveRightTalon, driveLeftTalon, binElevatorTalon,rollerClawRightTalon, rollerClawLeftTalon, toteElevatorTalon;
+	Talon driveRightTalon, driveLeftTalon;
 	Encoder encDriveLeft, encDriveRight, encBinElevator;
-	Victor pinchClawVictor;
+	Victor pinchClawVictor, binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor, toteElevatorVictor;
 	Solenoid canBurglarSolenoid;
 	DigitalInput toteElevatorTop, toteElevatorBottom, binElevatorTop, binElevatorBottom;
 
@@ -30,25 +31,25 @@ public class Robot extends IterativeRobot {
 	private SendableChooser autoChooser;
 	
 	//Data Collection
-	ArrayList<Double> pdpChannel0Current;
-	ArrayList<Double> pdpChannel1Current;
-	ArrayList<Double> pdpChannel2Current;
-	ArrayList<Double> pdpChannel3Current;
-	ArrayList<Double> pdpChannel4Current;
-	ArrayList<Double> pdpChannel5Current;
-	ArrayList<Double> pdpChannel6Current;
-	ArrayList<Double> pdpChannel7Current;
-	ArrayList<Double> pdpChannel8Current;
-	ArrayList<Double> pdpChannel9Current;
+	LinkedList<Double> pdpChannel0Current;
+	LinkedList<Double> pdpChannel1Current;
+	LinkedList<Double> pdpChannel2Current;
+	LinkedList<Double> pdpChannel3Current;
+	LinkedList<Double> pdpChannel4Current;
+	LinkedList<Double> pdpChannel5Current;
+	LinkedList<Double> pdpChannel6Current;
+	LinkedList<Double> pdpChannel7Current;
+	LinkedList<Double> pdpChannel8Current;
+	LinkedList<Double> pdpChannel9Current;
 	
-	ArrayList<Double> pdpTemp;
-	ArrayList<Double> pdpTotalCurrent;
-	ArrayList<Double> pdpVoltage;
-	ArrayList<Double> pdpTotalPower;
-	ArrayList<Double> pdpTotalEnergy;
+	LinkedList<Double> pdpTemp;
+	LinkedList<Double> pdpTotalCurrent;
+	LinkedList<Double> pdpVoltage;
+	LinkedList<Double> pdpTotalPower;
+	LinkedList<Double> pdpTotalEnergy;
 	
 	//Misc
-	int tick = 0;
+	int ticks = 0;
 	boolean dataToWrite = false;
 	int numDataPoints = 0;
 	
@@ -63,7 +64,7 @@ public class Robot extends IterativeRobot {
 		pinchClawVictor = new Victor(VariableMap.PWM_PINCH_CLAW);
 
 		// Bin Elevator
-		binElevatorTalon = new Talon(VariableMap.PWM_BIN_ELEVATOR);
+		binElevatorVictor = new Victor(VariableMap.PWM_BIN_ELEVATOR);
 		encBinElevator = new Encoder(VariableMap.DIO_BIN_ELEVATOR_ENC_A,VariableMap.DIO_BIN_ELEVATOR_ENC_B, false,Encoder.EncodingType.k4X);
         binElevatorTop = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_TOP);
         binElevatorBottom = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_BOTTOM);
@@ -72,21 +73,21 @@ public class Robot extends IterativeRobot {
 		canBurglarSolenoid = new Solenoid(VariableMap.SOL_CAN_BURGLAR);
 
 		// Roller Claw
-		rollerClawRightTalon = new Talon(VariableMap.PWM_ROLLER_RIGHT);
-		rollerClawLeftTalon = new Talon(VariableMap.PWM_ROLLER_LEFT);
+		rollerClawRightVictor = new Victor(VariableMap.PWM_ROLLER_RIGHT);
+		rollerClawLeftVictor = new Victor(VariableMap.PWM_ROLLER_LEFT);
 
 		// Tote Elevator
-		toteElevatorTalon = new Talon(VariableMap.PWM_TOTE_ELEVATOR);
+		toteElevatorVictor = new Victor(VariableMap.PWM_TOTE_ELEVATOR);
 		toteElevatorBottom = new DigitalInput(VariableMap.DIO_TOTE_ELEVATOR_BOTTOM);
 		toteElevatorTop = new DigitalInput(VariableMap.DIO_TOTE_ELEVATOR_TOP);
 
 		// Systems
 		drive = new Drive(driveLeftTalon, driveRightTalon, encDriveLeft,encDriveRight);
 		claw = new PinchClaw(pinchClawVictor);
-		binElevator = new BinElevator(binElevatorTalon, encBinElevator, binElevatorTop, binElevatorBottom);
+		binElevator = new BinElevator(binElevatorVictor, encBinElevator, binElevatorTop, binElevatorBottom);
 		canBurglar = new CanBurglar(canBurglarSolenoid);
-		rollerClaw = new RollerClaw(rollerClawLeftTalon, rollerClawRightTalon);
-		toteElevator = new ToteElevator(toteElevatorTalon, toteElevatorBottom,toteElevatorTop);
+		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
+		toteElevator = new ToteElevator(toteElevatorVictor, toteElevatorBottom,toteElevatorTop);
 		driverControl = new JoystickControllerWrapper(1, 2);
 		pdp = new PowerDistributionPanel();
 
@@ -94,26 +95,27 @@ public class Robot extends IterativeRobot {
 		initializeSmartDashboard();
 		
 		//Data Collection
-		pdpChannel0Current = new ArrayList<Double>();
-		pdpChannel1Current = new ArrayList<Double>();
-		pdpChannel2Current = new ArrayList<Double>();
-		pdpChannel3Current = new ArrayList<Double>();
-		pdpChannel4Current = new ArrayList<Double>();
-		pdpChannel5Current = new ArrayList<Double>();
-		pdpChannel6Current = new ArrayList<Double>();
-		pdpChannel7Current = new ArrayList<Double>();
-		pdpChannel8Current = new ArrayList<Double>();
-		pdpChannel9Current = new ArrayList<Double>();
+		pdpChannel0Current = new LinkedList<Double>();
+		pdpChannel1Current = new LinkedList<Double>();
+		pdpChannel2Current = new LinkedList<Double>();
+		pdpChannel3Current = new LinkedList<Double>();
+		pdpChannel4Current = new LinkedList<Double>();
+		pdpChannel5Current = new LinkedList<Double>();
+		pdpChannel6Current = new LinkedList<Double>();
+		pdpChannel7Current = new LinkedList<Double>();
+		pdpChannel8Current = new LinkedList<Double>();
+		pdpChannel9Current = new LinkedList<Double>();
 		
-		pdpTemp = new ArrayList<Double>();
-		pdpTotalCurrent = new ArrayList<Double>();
-		pdpVoltage = new ArrayList<Double>();
-		pdpTotalPower = new ArrayList<Double>();
-		pdpTotalEnergy = new ArrayList<Double>();
+		pdpTemp = new LinkedList<Double>();
+		pdpTotalCurrent = new LinkedList<Double>();
+		pdpVoltage = new LinkedList<Double>();
+		pdpTotalPower = new LinkedList<Double>();
+		pdpTotalEnergy = new LinkedList<Double>();
 	}
 
 	public void autonomousInit() {
 		autonomousMode = (int) autoChooser.getSelected();
+		dataToWrite = true;
 	}
 
 	public void autonomousPeriodic() {
@@ -126,16 +128,17 @@ public class Robot extends IterativeRobot {
 		case 1:
 			break;
 		}
+		collectData();
 	}
 
 	public void teleopInit() {
-		tick = 0;
+		ticks = 0;
 		numDataPoints = 0;
 		dataToWrite = true;
 	}
 
 	public void teleopPeriodic() {
-		tick++;
+		ticks++;
 		drive();
 		collectData();
 	}
@@ -160,7 +163,9 @@ public class Robot extends IterativeRobot {
 				bw.write(pdpChannel0Current.get(i) + "," + pdpChannel1Current.get(i) + "," + pdpChannel2Current.get(i) + "," + pdpChannel3Current.get(i) + "," + pdpChannel4Current.get(i) + "," + pdpChannel5Current.get(i) + "," + pdpChannel6Current.get(i) + "," + pdpChannel7Current.get(i) + "," + pdpChannel8Current.get(i) + "," + pdpChannel9Current.get(i) + "," + pdpTemp.get(i) + "," + pdpTotalCurrent.get(i) + "," + pdpVoltage.get(i) + "," + pdpTotalPower.get(i) + "," + pdpTotalEnergy.get(i));
 				bw.newLine();
 			}
+			
 			bw.close();
+			fw.close();
 			
 			}catch(Exception e){
 				e.printStackTrace();
@@ -184,24 +189,27 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void collectData(){
-			pdpChannel0Current.add(pdp.getCurrent(0));
-			pdpChannel1Current.add(pdp.getCurrent(1));
-			pdpChannel2Current.add(pdp.getCurrent(2));
-			pdpChannel3Current.add(pdp.getCurrent(3));
-			pdpChannel4Current.add(pdp.getCurrent(4));
-			pdpChannel5Current.add(pdp.getCurrent(5));
-			pdpChannel6Current.add(pdp.getCurrent(6));
-			pdpChannel7Current.add(pdp.getCurrent(7));
-			pdpChannel8Current.add(pdp.getCurrent(8));
-			pdpChannel9Current.add(pdp.getCurrent(9));
-			
-			pdpTemp.add(pdp.getTemperature());
-			pdpTotalCurrent.add(pdp.getTotalCurrent());
-			pdpVoltage.add(pdp.getVoltage());
-			pdpTotalPower.add(pdp.getTotalPower());
-			pdpTotalEnergy.add(pdp.getTotalEnergy());
-			
-			numDataPoints++;
+			if(ticks % 20 == 0)
+			{
+				pdpChannel0Current.add(pdp.getCurrent(0));
+				pdpChannel1Current.add(pdp.getCurrent(1));
+				pdpChannel2Current.add(pdp.getCurrent(2));
+				pdpChannel3Current.add(pdp.getCurrent(3));
+				pdpChannel4Current.add(pdp.getCurrent(4));
+				pdpChannel5Current.add(pdp.getCurrent(5));
+				pdpChannel6Current.add(pdp.getCurrent(6));
+				pdpChannel7Current.add(pdp.getCurrent(7));
+				pdpChannel8Current.add(pdp.getCurrent(8));
+				pdpChannel9Current.add(pdp.getCurrent(9));
+				
+				pdpTemp.add(pdp.getTemperature());
+				pdpTotalCurrent.add(pdp.getTotalCurrent());
+				pdpVoltage.add(pdp.getVoltage());
+				pdpTotalPower.add(pdp.getTotalPower());
+				pdpTotalEnergy.add(pdp.getTotalEnergy());
+				
+				numDataPoints++;
+			}
 	}
 
 	@SuppressWarnings("deprecation")
