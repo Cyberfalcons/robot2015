@@ -3,12 +3,13 @@
 
 ## TODO
 - [ ] Complete Architecture Design
-- [ ] Complete Pseudo Code
+- [x] Complete Pseudo Code
 - [ ] Complete Actual Robot Code
 	- [ ] Autonomous Robot Code
-	- [ ] Teleop Robot Code
+	- [x] Teleop Robot Code
 - [ ] Layout Swag Lights
-- [ ] Figure out how to use gyro to stabilize horizontal sway
+- [x] Figure out how to use gyro to stabilize horizontal sway
+- [ ] Actually implement the gyro to stabalize horizontal sway
 
 ## Project Ideas
 * Correct for drift in the omni wheels
