@@ -229,24 +229,22 @@ public class Robot extends IterativeRobot {
 		binElevatorPIDD = d;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void updateValuesFromSmartDashboard()
 	{
-		binElevatorPIDP = SmartDashboard.getDouble("Bin Elevator PID P");
-		binElevatorPIDI = SmartDashboard.getDouble("Bin Elevator PID I");
-		binElevatorPIDD = SmartDashboard.getDouble("Bin Elevator PID D");
+		binElevatorPIDP = SmartDashboard.getNumber("Bin Elevator PID P");
+		binElevatorPIDI = SmartDashboard.getNumber("Bin Elevator PID I");
+		binElevatorPIDD = SmartDashboard.getNumber("Bin Elevator PID D");
 	}
 
-	@SuppressWarnings("deprecation")
 	private void initializeSmartDashboard() {
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("Default", 0);
 		autoChooser.addObject("Custom 1", 1);
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 
-		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
-		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());
-		SmartDashboard.putDouble("Bin Elevator", encBinElevator.get());
+		SmartDashboard.putNumber("Left Encoder", encDriveLeft.get());
+		SmartDashboard.putNumber("Right Encoder", encDriveRight.get());
+		SmartDashboard.putNumber("Bin Elevator", encBinElevator.get());
 		
 		SmartDashboard.putString("PDP Channel 0", "Current: " + pdp.getCurrent(0));
 		SmartDashboard.putString("PDP Channel 1", "Current: " + pdp.getCurrent(1));
@@ -262,8 +260,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putString("PDP Total Power", "Power: " + pdp.getTotalPower() + " watts");
 		SmartDashboard.putString("PDP Total Energy: ", "Energy: " + pdp.getTotalEnergy());
 		
-		SmartDashboard.putDouble("Bin Elevator PID P", binElevatorPIDP);
-		SmartDashboard.putDouble("Bin Elevator PID I", binElevatorPIDI);
-		SmartDashboard.putDouble("Bin Elevator PID D", binElevatorPIDD);
+		SmartDashboard.putNumber("Bin Elevator PID P", binElevatorPIDP);
+		SmartDashboard.putNumber("Bin Elevator PID I", binElevatorPIDI);
+		SmartDashboard.putNumber("Bin Elevator PID D", binElevatorPIDD);
 	}
 }
