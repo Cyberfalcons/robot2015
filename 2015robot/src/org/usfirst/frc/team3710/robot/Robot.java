@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.io.*;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class Robot extends IterativeRobot {
@@ -25,6 +26,7 @@ public class Robot extends IterativeRobot {
 	Victor pinchClawVictor, binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor, toteElevatorVictor;
 	Solenoid canBurglarSolenoid;
 	DigitalInput toteElevatorTop, toteElevatorBottom, binElevatorTop, binElevatorBottom;
+	PIDController binElevatorPID;
 
 	// SmartDashboard Objects
 	private int autonomousMode = 0;
@@ -52,6 +54,10 @@ public class Robot extends IterativeRobot {
 	int ticks = 0;
 	boolean dataToWrite = false;
 	int numDataPoints = 0;
+	double binElevatorPIDP = VariableMap.BIN_ELEVATOR_PID_P;
+	double binElevatorPIDI = VariableMap.BIN_ELEVATOR_PID_I;
+	double binElevatorPIDD = VariableMap.BIN_ELEVATOR_PID_D;
+	
 	
 	public void robotInit() {
 		// Drive
@@ -68,6 +74,7 @@ public class Robot extends IterativeRobot {
 		encBinElevator = new Encoder(VariableMap.DIO_BIN_ELEVATOR_ENC_A,VariableMap.DIO_BIN_ELEVATOR_ENC_B, false,Encoder.EncodingType.k4X);
         binElevatorTop = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_TOP);
         binElevatorBottom = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_BOTTOM);
+        binElevatorPID = new PIDController(binElevatorPIDP, binElevatorPIDI, binElevatorPIDD, encBinElevator, binElevatorVictor);
 		
 		// Can Burglar
 		canBurglarSolenoid = new Solenoid(VariableMap.SOL_CAN_BURGLAR);
@@ -84,15 +91,12 @@ public class Robot extends IterativeRobot {
 		// Systems
 		drive = new Drive(driveLeftTalon, driveRightTalon, encDriveLeft,encDriveRight);
 		claw = new PinchClaw(pinchClawVictor);
-		binElevator = new BinElevator(binElevatorVictor, encBinElevator, binElevatorTop, binElevatorBottom);
+		binElevator = new BinElevator(binElevatorVictor, encBinElevator, binElevatorTop, binElevatorBottom, binElevatorPID);
 		canBurglar = new CanBurglar(canBurglarSolenoid);
 		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
 		toteElevator = new ToteElevator(toteElevatorVictor, toteElevatorBottom,toteElevatorTop);
 		driverControl = new JoystickControllerWrapper(1, 2);
 		pdp = new PowerDistributionPanel();
-
-		// SmartDashboard
-		initializeSmartDashboard();
 		
 		//Data Collection
 		pdpChannel0Current = new LinkedList<Double>();
@@ -111,6 +115,9 @@ public class Robot extends IterativeRobot {
 		pdpVoltage = new LinkedList<Double>();
 		pdpTotalPower = new LinkedList<Double>();
 		pdpTotalEnergy = new LinkedList<Double>();
+		
+		// SmartDashboard
+		initializeSmartDashboard();
 	}
 
 	public void autonomousInit() {
@@ -139,6 +146,7 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 		ticks++;
+		updateValuesFromSmartDashboard();
 		drive();
 		collectData();
 	}
@@ -151,7 +159,9 @@ public class Robot extends IterativeRobot {
 		if (dataToWrite == true)
 		{
 			try{
-			File f = new File("data.csv");
+			Date d = new Date();
+		    String currentTime = d.toString();
+			File f = new File(currentTime + ".csv");
 			FileWriter fw = new FileWriter(f);
 			BufferedWriter bw = new BufferedWriter(fw);
 			
@@ -211,6 +221,21 @@ public class Robot extends IterativeRobot {
 				numDataPoints++;
 			}
 	}
+	
+	public void updateBinElevatorPID(double p, double i, double d)
+	{
+		binElevatorPIDP = p;
+		binElevatorPIDI = i;
+		binElevatorPIDD = d;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void updateValuesFromSmartDashboard()
+	{
+		binElevatorPIDP = SmartDashboard.getDouble("Bin Elevator PID P");
+		binElevatorPIDI = SmartDashboard.getDouble("Bin Elevator PID I");
+		binElevatorPIDD = SmartDashboard.getDouble("Bin Elevator PID D");
+	}
 
 	@SuppressWarnings("deprecation")
 	private void initializeSmartDashboard() {
@@ -236,5 +261,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putString("PDP Voltage", "Voltage: " + pdp.getVoltage());
 		SmartDashboard.putString("PDP Total Power", "Power: " + pdp.getTotalPower() + " watts");
 		SmartDashboard.putString("PDP Total Energy: ", "Energy: " + pdp.getTotalEnergy());
+		
+		SmartDashboard.putDouble("Bin Elevator PID P", binElevatorPIDP);
+		SmartDashboard.putDouble("Bin Elevator PID I", binElevatorPIDI);
+		SmartDashboard.putDouble("Bin Elevator PID D", binElevatorPIDD);
 	}
 }

@@ -7,12 +7,14 @@ public class BinElevator {
 	Encoder encChain;
 	DigitalInput top;
 	DigitalInput bottom;
+	PIDController pid;
 
-	public BinElevator(Victor v, Encoder e, DigitalInput to, DigitalInput b) {
+	public BinElevator(Victor v, Encoder e, DigitalInput to, DigitalInput b, PIDController p) {
 		binElevator = v;
 		encChain = e;
 		top = to;
 		bottom = b;
+		pid = p;
 
 		encChain.setMaxPeriod(.1);
 		encChain.setMinRate(10);

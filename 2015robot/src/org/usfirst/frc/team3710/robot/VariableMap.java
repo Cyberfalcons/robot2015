@@ -70,5 +70,8 @@ public class VariableMap {
 	public static final double TOTE_ELEVATOR_CHAIN_SPEED = 1.0;
 	public static final double CLAW_ROLLER_SPEED = 1.0;
 	public static final double PINCH_CLAW_SPEED = 1.0;
+	public static final double BIN_ELEVATOR_PID_P = 0.1;
+	public static final double BIN_ELEVATOR_PID_I = 0.1;
+	public static final double BIN_ELEVATOR_PID_D = 0.1;
 
 }
