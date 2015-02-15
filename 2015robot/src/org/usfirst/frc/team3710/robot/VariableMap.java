@@ -17,13 +17,16 @@ public class VariableMap {
 	 * Port 8 - 
 	 * Port 9 - 
 	 */
-	public static final int PWM_DRIVE_LEFT = 0;
-	public static final int PWM_DRIVE_RIGHT = 1;
+	public static final int PWM_DRIVE_LEFT_A = 0;
+	public static final int PWM_DRIVE_RIGHT_A = 1;
 	public static final int PWM_ROLLER_LEFT = 2;
 	public static final int PWM_ROLLER_RIGHT = 3;
 	public static final int PWM_BIN_ELEVATOR = 4;
 	public static final int PWM_TOTE_ELEVATOR = 5;
 	public static final int PWM_PINCH_CLAW = 6;
+	public static final int PWM_DRIVE_LEFT_B = 8;
+	public static final int PWM_DRIVE_RIGHT_B = 9;
+	
 
 	/*
 	 * Digital IO Pins

@@ -21,7 +21,7 @@ public class Robot extends IterativeRobot {
 	PowerDistributionPanel pdp;
 
 	// Controller and Sensor
-	Talon driveRightTalon, driveLeftTalon;
+	Talon driveRightTalonA, driveLeftTalonA, driveRightTalonB, driveLeftTalonB;
 	Encoder encDriveLeft, encDriveRight, encBinElevator;
 	Victor pinchClawVictor, binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor, toteElevatorVictor;
 	Solenoid canBurglarSolenoid;
@@ -61,8 +61,10 @@ public class Robot extends IterativeRobot {
 	
 	public void robotInit() {
 		// Drive
-		driveLeftTalon = new Talon(VariableMap.PWM_DRIVE_LEFT);
-		driveRightTalon = new Talon(VariableMap.PWM_DRIVE_RIGHT);
+		driveLeftTalonA = new Talon(VariableMap.PWM_DRIVE_LEFT_A);
+		driveLeftTalonA = new Talon(VariableMap.PWM_DRIVE_LEFT_A);
+		driveRightTalonA = new Talon(VariableMap.PWM_DRIVE_RIGHT_A);
+		driveRightTalonB = new Talon(VariableMap.PWM_DRIVE_RIGHT_B);
 		encDriveLeft = new Encoder(VariableMap.DIO_DRIVE_ENC_LEFT_A,VariableMap.DIO_DRIVE_ENC_LEFT_B, false,Encoder.EncodingType.k4X);
 		encDriveRight = new Encoder(VariableMap.DIO_DRIVE_ENC_RIGHT_A,VariableMap.DIO_DRIVE_ENC_RIGHT_B, false,Encoder.EncodingType.k4X);
 
@@ -89,13 +91,13 @@ public class Robot extends IterativeRobot {
 		toteElevatorTop = new DigitalInput(VariableMap.DIO_TOTE_ELEVATOR_TOP);
 
 		// Systems
-		drive = new Drive(driveLeftTalon, driveRightTalon, encDriveLeft,encDriveRight);
+		drive = new Drive(driveLeftTalonA, driveLeftTalonB, driveRightTalonB, driveRightTalonA, encDriveLeft,encDriveRight);
 		claw = new PinchClaw(pinchClawVictor);
 		binElevator = new BinElevator(binElevatorVictor, encBinElevator, binElevatorTop, binElevatorBottom, binElevatorPID);
 		canBurglar = new CanBurglar(canBurglarSolenoid);
 		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
 		toteElevator = new ToteElevator(toteElevatorVictor, toteElevatorBottom,toteElevatorTop);
-		driverControl = new JoystickControllerWrapper(1, 2);
+		driverControl = new JoystickControllerWrapper(0, 1);
 		pdp = new PowerDistributionPanel();
 		
 		//Data Collection
@@ -148,6 +150,8 @@ public class Robot extends IterativeRobot {
 		ticks++;
 		updateValuesFromSmartDashboard();
 		drive();
+		System.out.println(driverControl.driveLeft());
+		System.out.println(driverControl.driveRight());
 		collectData();
 	}
 

@@ -3,14 +3,18 @@ package org.usfirst.frc.team3710.robot;
 import edu.wpi.first.wpilibj.*;
 
 public class Drive {
-	Talon left;
-	Talon right;
+	Talon leftA;
+	Talon leftB;
+	Talon rightA;
+	Talon rightB;
 	Encoder encRight;
 	Encoder encLeft;
 
-	public Drive(Talon l, Talon r, Encoder el, Encoder er) {
-		left = l;
-		right = r;
+	public Drive(Talon la, Talon lb, Talon ra, Talon rb, Encoder el, Encoder er) {
+		leftA = la;
+		rightA = ra;
+		leftB = lb;
+		rightB = rb;
 
 		encLeft = el;
 		encLeft.setMaxPeriod(.1);
@@ -34,7 +38,8 @@ public class Drive {
 	 *            : power to run the motor at
 	 */
 	public void setDriveRight(double power) {
-		right.set(power);
+		rightA.set(power);
+		rightB.set(power);
 	}
 
 	/**
@@ -44,7 +49,8 @@ public class Drive {
 	 *            : power to run the motor at
 	 */
 	public void setDriveLeft(double power) {
-		left.set(power);
+		leftA.set(power);
+		leftB.set(power);
 	}
 
 	/**
