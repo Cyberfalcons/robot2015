@@ -174,7 +174,7 @@ public class Robot extends IterativeRobot {
 			bw.newLine();
 			for(int i = 0; i < numDataPoints; i++)
 			{
-				bw.write(pdpChannel0Current.get(i) + "," + pdpChannel1Current.get(i) + "," + pdpChannel2Current.get(i) + "," + pdpChannel3Current.get(i) + "," + pdpChannel4Current.get(i) + "," + pdpChannel5Current.get(i) + "," + pdpChannel6Current.get(i) + "," + pdpChannel7Current.get(i) + "," + pdpChannel8Current.get(i) + "," + pdpChannel9Current.get(i) + "," + pdpTemp.get(i) + "," + pdpTotalCurrent.get(i) + "," + pdpVoltage.get(i) + "," + pdpTotalPower.get(i) + "," + pdpTotalEnergy.get(i));
+				bw.write(pdpChannel0Current.pop() + "," + pdpChannel1Current.pop() + "," + pdpChannel2Current.pop() + "," + pdpChannel3Current.pop() + "," + pdpChannel4Current.pop() + "," + pdpChannel5Current.pop() + "," + pdpChannel6Current.pop() + "," + pdpChannel7Current.pop() + "," + pdpChannel8Current.pop() + "," + pdpChannel9Current.pop() + "," + pdpTemp.pop() + "," + pdpTotalCurrent.pop() + "," + pdpVoltage.pop() + "," + pdpTotalPower.pop() + "," + pdpTotalEnergy.pop());
 				bw.newLine();
 			}
 			
