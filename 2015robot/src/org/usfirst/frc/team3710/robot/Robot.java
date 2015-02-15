@@ -62,7 +62,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		// Drive
 		driveLeftTalonA = new Talon(VariableMap.PWM_DRIVE_LEFT_A);
-		driveLeftTalonA = new Talon(VariableMap.PWM_DRIVE_LEFT_A);
+		driveLeftTalonB = new Talon(VariableMap.PWM_DRIVE_LEFT_B);
 		driveRightTalonA = new Talon(VariableMap.PWM_DRIVE_RIGHT_A);
 		driveRightTalonB = new Talon(VariableMap.PWM_DRIVE_RIGHT_B);
 		encDriveLeft = new Encoder(VariableMap.DIO_DRIVE_ENC_LEFT_A,VariableMap.DIO_DRIVE_ENC_LEFT_B, false,Encoder.EncodingType.k4X);
@@ -91,7 +91,7 @@ public class Robot extends IterativeRobot {
 		toteElevatorTop = new DigitalInput(VariableMap.DIO_TOTE_ELEVATOR_TOP);
 
 		// Systems
-		drive = new Drive(driveLeftTalonA, driveLeftTalonB, driveRightTalonB, driveRightTalonA, encDriveLeft,encDriveRight);
+		drive = new Drive(driveLeftTalonA, driveLeftTalonB, driveRightTalonA, driveRightTalonB, encDriveLeft,encDriveRight);
 		claw = new PinchClaw(pinchClawVictor);
 		binElevator = new BinElevator(binElevatorVictor, encBinElevator, binElevatorTop, binElevatorBottom, binElevatorPID);
 		canBurglar = new CanBurglar(canBurglarSolenoid);
