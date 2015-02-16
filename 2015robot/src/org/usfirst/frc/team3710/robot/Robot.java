@@ -24,7 +24,7 @@ public class Robot extends IterativeRobot {
 	Talon driveRightTalonA, driveLeftTalonA, driveRightTalonB, driveLeftTalonB;
 	Encoder encDriveLeft, encDriveRight, encBinElevator;
 	Victor pinchClawVictor, binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor, toteElevatorVictor;
-	Solenoid canBurglarSolenoid;
+	Solenoid toteElevatorLockSolenoid;
 	DigitalInput toteElevatorTop, toteElevatorBottom, binElevatorTop, binElevatorBottom;
 	PIDController binElevatorPID;
 
@@ -79,9 +79,6 @@ public class Robot extends IterativeRobot {
         binElevatorTop = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_TOP);
         binElevatorBottom = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_BOTTOM);
         binElevatorPID = new PIDController(binElevatorPIDP, binElevatorPIDI, binElevatorPIDD, encBinElevator, binElevatorVictor);
-		
-		// Can Burglar
-		canBurglarSolenoid = new Solenoid(VariableMap.SOL_CAN_BURGLAR);
 
 		// Roller Claw
 		rollerClawRightVictor = new Victor(VariableMap.PWM_ROLLER_RIGHT);
@@ -91,14 +88,15 @@ public class Robot extends IterativeRobot {
 		toteElevatorVictor = new Victor(VariableMap.PWM_TOTE_ELEVATOR);
 		toteElevatorBottom = new DigitalInput(VariableMap.DIO_TOTE_ELEVATOR_BOTTOM);
 		toteElevatorTop = new DigitalInput(VariableMap.DIO_TOTE_ELEVATOR_TOP);
+		toteElevatorLockSolenoid = new Solenoid(VariableMap.SOL_TOTE_ELEVATOR_LOCK);
 
 		// Systems
 		drive = new Drive(driveLeftTalonA, driveLeftTalonB, driveRightTalonA, driveRightTalonB, encDriveLeft,encDriveRight);
 		claw = new PinchClaw(pinchClawVictor);
 		binElevator = new BinElevator(binElevatorVictor, encBinElevator, binElevatorTop, binElevatorBottom, binElevatorPID);
-		canBurglar = new CanBurglar(canBurglarSolenoid);
+		canBurglar = new CanBurglar();
 		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
-		toteElevator = new ToteElevator(toteElevatorVictor, toteElevatorBottom,toteElevatorTop);
+		toteElevator = new ToteElevator(toteElevatorVictor,toteElevatorLockSolenoid, toteElevatorBottom,toteElevatorTop);
 		driverControl = new JoystickControllerWrapper(0, 1);
 		operatorControl = new XBoxControllerWrapper(2);
 		pdp = new PowerDistributionPanel();

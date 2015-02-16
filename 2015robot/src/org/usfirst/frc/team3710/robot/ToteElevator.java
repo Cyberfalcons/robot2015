@@ -6,9 +6,11 @@ public class ToteElevator {
 	Victor toteElevator;
 	DigitalInput toteBottom;
 	DigitalInput toteTop;
+	Solenoid lock;
 
-	public ToteElevator(Victor v, DigitalInput tB, DigitalInput tT) {
+	public ToteElevator(Victor v, Solenoid l,  DigitalInput tB, DigitalInput tT) {
 		toteElevator = v;
+		lock = l;
 		toteBottom = tB;
 		toteTop = tT;
 	}

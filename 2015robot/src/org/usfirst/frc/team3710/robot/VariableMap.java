@@ -66,7 +66,7 @@ public class VariableMap {
 	 * Port 8 - 
 	 * Port 9 -
 	 */
-	public static final int SOL_CAN_BURGLAR = 0;
+	public static final int SOL_TOTE_ELEVATOR_LOCK = 0;
 
 	/* Misc useful constants */
 	public static final double BIN_ELEVATOR_CHAIN_SPEED = 1.0;
