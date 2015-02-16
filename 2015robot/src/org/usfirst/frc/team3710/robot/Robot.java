@@ -11,7 +11,7 @@ import java.util.LinkedList;
 public class Robot extends IterativeRobot {
 	
 	//Systems
-	Controller driverControl;
+	Controller driverControl, operatorControl;
 	Drive drive;
 	PinchClaw claw;
 	BinElevator binElevator;
@@ -50,13 +50,15 @@ public class Robot extends IterativeRobot {
 	LinkedList<Double> pdpTotalPower;
 	LinkedList<Double> pdpTotalEnergy;
 	
+	LinkedList<String> time;
+	
 	//Misc
 	int ticks = 0;
 	boolean dataToWrite = false;
-	int numDataPoints = 0;
 	double binElevatorPIDP = VariableMap.BIN_ELEVATOR_PID_P;
 	double binElevatorPIDI = VariableMap.BIN_ELEVATOR_PID_I;
 	double binElevatorPIDD = VariableMap.BIN_ELEVATOR_PID_D;
+	Date d;
 	
 	
 	public void robotInit() {
@@ -98,6 +100,7 @@ public class Robot extends IterativeRobot {
 		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
 		toteElevator = new ToteElevator(toteElevatorVictor, toteElevatorBottom,toteElevatorTop);
 		driverControl = new JoystickControllerWrapper(0, 1);
+		operatorControl = new XBoxControllerWrapper(2);
 		pdp = new PowerDistributionPanel();
 		
 		//Data Collection
@@ -118,8 +121,13 @@ public class Robot extends IterativeRobot {
 		pdpTotalPower = new LinkedList<Double>();
 		pdpTotalEnergy = new LinkedList<Double>();
 		
+		time = new LinkedList<String>();
+		
 		// SmartDashboard
 		initializeSmartDashboard();
+		
+		//Misc
+		d = new Date();
 	}
 
 	public void autonomousInit() {
@@ -142,16 +150,14 @@ public class Robot extends IterativeRobot {
 
 	public void teleopInit() {
 		ticks = 0;
-		numDataPoints = 0;
 		dataToWrite = true;
 	}
 
 	public void teleopPeriodic() {
 		ticks++;
+		doDrive();
+		
 		updateValuesFromSmartDashboard();
-		drive();
-		System.out.println(driverControl.driveLeft());
-		System.out.println(driverControl.driveRight());
 		collectData();
 	}
 
@@ -163,16 +169,14 @@ public class Robot extends IterativeRobot {
 		if (dataToWrite == true)
 		{
 			try{
-			Date d = new Date();
-		    String currentTime = d.toString();
 			//Writing headers
-		    System.out.println(currentTime);
 		    System.out.println("=============================================================");
-			System.out.println("Channel 0 Current, Channel 1 Current, Channel 2 Current, Channel 3 Current, Channel 4 Current, Channel 5 Current, Channel 6 Current, Channel 7 Current, Channel 8 Current, Channel 9 Current, Temperature, Total Current, Voltage, Total Power, Total Energy");
-			for(int i = 0; i < numDataPoints; i++)
+			System.out.println("Time, Channel 0 Current, Channel 1 Current, Channel 2 Current, Channel 3 Current, Channel 4 Current, Channel 5 Current, Channel 6 Current, Channel 7 Current, Channel 8 Current, Channel 9 Current, Temperature, Total Current, Voltage, Total Power, Total Energy");
+			for(int i = 0; i < pdpChannel0Current.size(); i++)
 			{
-				System.out.println(pdpChannel0Current.get(i) + "," + pdpChannel1Current.get(i) + "," + pdpChannel2Current.get(i) + "," + pdpChannel3Current.get(i) + "," + pdpChannel4Current.get(i) + "," + pdpChannel5Current.get(i) + "," + pdpChannel6Current.get(i) + "," + pdpChannel7Current.get(i) + "," + pdpChannel8Current.get(i) + "," + pdpChannel9Current.get(i) + "," + pdpTemp.get(i) + "," + pdpTotalCurrent.get(i) + "," + pdpVoltage.get(i) + "," + pdpTotalPower.get(i) + "," + pdpTotalEnergy.get(i));
+				System.out.println(time.get(i) + "," + pdpChannel0Current.get(i) + "," + pdpChannel1Current.get(i) + "," + pdpChannel2Current.get(i) + "," + pdpChannel3Current.get(i) + "," + pdpChannel4Current.get(i) + "," + pdpChannel5Current.get(i) + "," + pdpChannel6Current.get(i) + "," + pdpChannel7Current.get(i) + "," + pdpChannel8Current.get(i) + "," + pdpChannel9Current.get(i) + "," + pdpTemp.get(i) + "," + pdpTotalCurrent.get(i) + "," + pdpVoltage.get(i) + "," + pdpTotalPower.get(i) + "," + pdpTotalEnergy.get(i));
 			}
+			System.out.println("=============================================================");
 			
 			}catch(Exception e){
 				e.printStackTrace();
@@ -181,22 +185,34 @@ public class Robot extends IterativeRobot {
 		dataToWrite = false;
 	}
 
-	public void drive() {
+	public void doDrive() {
 		driverControl.checkFlip();
 		drive.setDriveRight(driverControl.driveRight());
 		drive.setDriveLeft(driverControl.driveLeft());
 	}
 	
-	public void raiseBinElevator(int stackHeight){
+	public void doPinchClaw(){
 		
 	}
 	
-	public void lowerBinElevator(int stackHeight){
+	public void doRollerClaw(){
+		
+	}
+	
+	public void doCanBurglar(){
+		
+	}
+	
+	public void doToteElevator(){
+		
+	}
+	
+	public void doBinElevator(){
 		
 	}
 	
 	public void collectData(){
-			if(ticks % 20 == 0)
+			if(ticks % 100 == 0)
 			{
 				pdpChannel0Current.add(pdp.getCurrent(0));
 				pdpChannel1Current.add(pdp.getCurrent(1));
@@ -215,22 +231,41 @@ public class Robot extends IterativeRobot {
 				pdpTotalPower.add(pdp.getTotalPower());
 				pdpTotalEnergy.add(pdp.getTotalEnergy());
 				
-				numDataPoints++;
+				time.add(d.toString());
 			}
-	}
-	
-	public void updateBinElevatorPID(double p, double i, double d)
-	{
-		binElevatorPIDP = p;
-		binElevatorPIDI = i;
-		binElevatorPIDD = d;
 	}
 	
 	public void updateValuesFromSmartDashboard()
 	{
-		binElevatorPIDP = SmartDashboard.getNumber("Bin Elevator PID P");
-		binElevatorPIDI = SmartDashboard.getNumber("Bin Elevator PID I");
-		binElevatorPIDD = SmartDashboard.getNumber("Bin Elevator PID D");
+		if(ticks % 100 == 0)
+		{
+			binElevatorPIDP = SmartDashboard.getNumber("Bin Elevator PID P");
+			binElevatorPIDI = SmartDashboard.getNumber("Bin Elevator PID I");
+			binElevatorPIDD = SmartDashboard.getNumber("Bin Elevator PID D");
+			binElevatorPID.setPID(binElevatorPIDP, binElevatorPIDI, binElevatorPIDD);
+			
+			SmartDashboard.putNumber("Left Encoder", encDriveLeft.get());
+			SmartDashboard.putNumber("Right Encoder", encDriveRight.get());
+			SmartDashboard.putNumber("Bin Elevator", encBinElevator.get());
+			
+			SmartDashboard.putString("PDP Channel 0", "Current: " + pdp.getCurrent(0));
+			SmartDashboard.putString("PDP Channel 1", "Current: " + pdp.getCurrent(1));
+			SmartDashboard.putString("PDP Channel 2", "Current: " + pdp.getCurrent(2));
+			SmartDashboard.putString("PDP Channel 3", "Current: " + pdp.getCurrent(3));
+			SmartDashboard.putString("PDP Channel 4", "Current: " + pdp.getCurrent(4));
+			SmartDashboard.putString("PDP Channel 5", "Current: " + pdp.getCurrent(5));
+			SmartDashboard.putString("PDP Channel 6", "Current: " + pdp.getCurrent(6));
+			
+			SmartDashboard.putString("PDP Temp", "Temp: " + pdp.getTemperature());
+			SmartDashboard.putString("PDP Total Current", "Current: " + pdp.getTotalCurrent());
+			SmartDashboard.putString("PDP Voltage", "Voltage: " + pdp.getVoltage());
+			SmartDashboard.putString("PDP Total Power", "Power: " + pdp.getTotalPower() + " watts");
+			SmartDashboard.putString("PDP Total Energy: ", "Energy: " + pdp.getTotalEnergy());
+			
+			SmartDashboard.putNumber("Bin Elevator PID P", binElevatorPIDP);
+			SmartDashboard.putNumber("Bin Elevator PID I", binElevatorPIDI);
+			SmartDashboard.putNumber("Bin Elevator PID D", binElevatorPIDD);
+		}
 	}
 
 	private void initializeSmartDashboard() {
