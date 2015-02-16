@@ -1,0 +1,15 @@
+What it does,Control Flight stick,Control XBOX,,Operator Controls,Flight stick,XBOX
+open pinch claw,R4,LB,,open pinch,4,X
+close pinch claw,R5,RB,,close pinch,5,B
+,,,,tote elevator up,,
+,,,,tote elevator down,,
+drop tote stack,R2,LT,,drop tote stack,1,LT
+Control flip,L6,A,,Manual elevator,X axis,Left X-axis
+elevator up,R3,Left,,Elevator up,3,Y
+elevator down,R2,RIght,,elevator down,2,A
+,,,,gyro reset,,
+Roller in,L2,,,,,
+roller out,L3,,,,,
+Tote intake,L4,,,,,
+drive left,left stick,,,,,
+drive right,right stick,,,,,
