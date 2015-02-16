@@ -165,21 +165,14 @@ public class Robot extends IterativeRobot {
 			try{
 			Date d = new Date();
 		    String currentTime = d.toString();
-			File f = new File(currentTime + ".csv");
-			FileWriter fw = new FileWriter(f);
-			BufferedWriter bw = new BufferedWriter(fw);
-			
 			//Writing headers
-			bw.write("Channel 0 Current, Channel 1 Current, Channel 2 Current, Channel 3 Current, Channel 4 Current, Channel 5 Current, Channel 6 Current, Channel 7 Current, Channel 8 Current, Channel 9 Current, Temperature, Total Current, Voltage, Total Power, Total Energy");
-			bw.newLine();
+		    System.out.println(currentTime);
+		    System.out.println("=============================================================");
+			System.out.println("Channel 0 Current, Channel 1 Current, Channel 2 Current, Channel 3 Current, Channel 4 Current, Channel 5 Current, Channel 6 Current, Channel 7 Current, Channel 8 Current, Channel 9 Current, Temperature, Total Current, Voltage, Total Power, Total Energy");
 			for(int i = 0; i < numDataPoints; i++)
 			{
-				bw.write(pdpChannel0Current.pop() + "," + pdpChannel1Current.pop() + "," + pdpChannel2Current.pop() + "," + pdpChannel3Current.pop() + "," + pdpChannel4Current.pop() + "," + pdpChannel5Current.pop() + "," + pdpChannel6Current.pop() + "," + pdpChannel7Current.pop() + "," + pdpChannel8Current.pop() + "," + pdpChannel9Current.pop() + "," + pdpTemp.pop() + "," + pdpTotalCurrent.pop() + "," + pdpVoltage.pop() + "," + pdpTotalPower.pop() + "," + pdpTotalEnergy.pop());
-				bw.newLine();
+				System.out.println(pdpChannel0Current.get(i) + "," + pdpChannel1Current.get(i) + "," + pdpChannel2Current.get(i) + "," + pdpChannel3Current.get(i) + "," + pdpChannel4Current.get(i) + "," + pdpChannel5Current.get(i) + "," + pdpChannel6Current.get(i) + "," + pdpChannel7Current.get(i) + "," + pdpChannel8Current.get(i) + "," + pdpChannel9Current.get(i) + "," + pdpTemp.get(i) + "," + pdpTotalCurrent.get(i) + "," + pdpVoltage.get(i) + "," + pdpTotalPower.get(i) + "," + pdpTotalEnergy.get(i));
 			}
-			
-			bw.close();
-			fw.close();
 			
 			}catch(Exception e){
 				e.printStackTrace();
