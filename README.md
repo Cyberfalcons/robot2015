@@ -2,7 +2,7 @@
 2015 robot code.
 
 ## TODO
-- [ ] Complete Architecture Design
+- [x] Complete Architecture Design
 - [x] Complete Pseudo Code
 - [ ] Complete Actual Robot Code
 	- [ ] Autonomous Robot Code
@@ -10,6 +10,8 @@
 - [ ] Layout Swag Lights
 - [x] Figure out how to use gyro to stabilize horizontal sway
 - [ ] Actually implement the gyro to stabalize horizontal sway
+- [ ] Encoder Fault Detection
+- [ ] Elevator Calibration code
 
 ## Project Ideas
 * Correct for drift in the omni wheels
