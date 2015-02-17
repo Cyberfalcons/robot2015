@@ -26,6 +26,7 @@ public class Robot extends IterativeRobot {
 	Victor pinchClawVictor, binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor, toteElevatorVictor;
 	Solenoid toteElevatorLockSolenoid;
 	DigitalInput toteElevatorTop, toteElevatorBottom, binElevatorTop, binElevatorBottom;
+	AnalogInput binElevatorHeightPot;
 	PIDController binElevatorPID;
 
 	// SmartDashboard Objects
@@ -78,6 +79,7 @@ public class Robot extends IterativeRobot {
 		encBinElevator = new Encoder(VariableMap.DIO_BIN_ELEVATOR_ENC_A,VariableMap.DIO_BIN_ELEVATOR_ENC_B, false,Encoder.EncodingType.k4X);
         binElevatorTop = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_TOP);
         binElevatorBottom = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_BOTTOM);
+        AnalogInput binElevatorHeightPot = new AnalogInput(VariableMap.AIN_BIN_HEIGHT_POT);
         binElevatorPID = new PIDController(binElevatorPIDP, binElevatorPIDI, binElevatorPIDD, encBinElevator, binElevatorVictor);
 
 		// Roller Claw
@@ -93,7 +95,7 @@ public class Robot extends IterativeRobot {
 		// Systems
 		drive = new Drive(driveLeftTalonA, driveLeftTalonB, driveRightTalonA, driveRightTalonB, encDriveLeft,encDriveRight);
 		claw = new PinchClaw(pinchClawVictor);
-		binElevator = new BinElevator(binElevatorVictor, encBinElevator, binElevatorTop, binElevatorBottom, binElevatorPID);
+		binElevator = new BinElevator(binElevatorVictor, encBinElevator, binElevatorTop, binElevatorBottom, binElevatorPID, binElevatorHeightPot);
 		canBurglar = new CanBurglar();
 		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
 		toteElevator = new ToteElevator(toteElevatorVictor,toteElevatorLockSolenoid, toteElevatorBottom,toteElevatorTop);

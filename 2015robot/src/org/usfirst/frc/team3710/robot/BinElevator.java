@@ -8,13 +8,15 @@ public class BinElevator {
 	DigitalInput top;
 	DigitalInput bottom;
 	PIDController pid;
+	AnalogInput heightPot;
 
-	public BinElevator(Victor v, Encoder e, DigitalInput to, DigitalInput b, PIDController p) {
+	public BinElevator(Victor v, Encoder e, DigitalInput to, DigitalInput b, PIDController p, AnalogInput pot) {
 		binElevator = v;
 		encChain = e;
 		top = to;
 		bottom = b;
 		pid = p;
+		heightPot = pot;
 
 		encChain.setMaxPeriod(.1);
 		encChain.setMinRate(10);
@@ -47,5 +49,9 @@ public class BinElevator {
 
 	public void resetEncoder() {
 		encChain.reset();
+	}
+	
+	public double getPotHeight() {
+		return heightPot.getValue();
 	}
 }

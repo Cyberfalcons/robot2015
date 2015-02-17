@@ -53,6 +53,18 @@ public class VariableMap {
 	public static final int DIO_TOTE_ELEVATOR_BOTTOM = 8;
 	public static final int DIO_TOTE_ELEVATOR_TOP = 9;
 
+	
+	/*
+	 * Analog Pins
+	 * 
+	 * Port 0 - Bin Elevator height pot
+	 * Port 1 - 
+	 * Port 2 - 
+	 * Port 3 - 
+	 */
+	public static final int AIN_BIN_HEIGHT_POT = 0;
+	
+	
 	/*
 	 * Solenoid Ports 
 	 * Port 0 - Can Burglar Retractor 
