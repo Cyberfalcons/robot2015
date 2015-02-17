@@ -18,6 +18,10 @@ public class PinchClaw {
 	public void closeClaw() {
 		claw.set(-VariableMap.PINCH_CLAW_SPEED);
 	}
+	
+	public void stopClaw() {
+		claw.set(0);
+	}
 
 	public boolean getIfClawOpen() {
 		return isClawOpen;

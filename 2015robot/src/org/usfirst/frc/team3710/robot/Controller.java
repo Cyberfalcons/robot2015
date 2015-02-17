@@ -15,21 +15,11 @@ public class Controller {
 	}
 	
 	public boolean openPinchClaw() {
-		if (!pinchLock && (getRightButton4() || getBtnLB())) {
-			pinchLock = true;
-			return true;
-		}
-		else
-			return false;
+		return getRightButton4() || getBtnLB();
 	}
 	
 	public boolean closePinchClaw() {
-		if (!pinchLock && (getRightButton5() || getBtnRB())) {
-			pinchLock = true;
-			return true;
-		}
-		else
-			return false;
+		return getRightButton5() || getBtnRB();
 	}
 	
 	public boolean dropToteStack() {
@@ -67,7 +57,7 @@ public class Controller {
 	
 	public boolean elevatorUp() {
 		if (!elevatorLock && (getRightButton3() || getDpadLEFT())) {
-			elevatorLock = true;
+			//elevatorLock = true;
 			return true;
 		}
 		else
@@ -76,7 +66,7 @@ public class Controller {
 	
 	public boolean elevatorDown() {
 		if (!elevatorLock && (getRightButton2() || getDpadRIGHT())) {
-			elevatorLock = true;
+			//elevatorLock = true;
 			return true;
 		}
 		else
@@ -85,7 +75,7 @@ public class Controller {
 	
 	public boolean rollerIn() {
 		if (!rollerLock && (getLeftButton2() || false/*TODO: XBox control*/)) {
-			rollerLock = true;
+			//rollerLock = true;
 			return true;
 		}
 		else
@@ -94,7 +84,7 @@ public class Controller {
 	
 	public boolean rollerOut() {
 		if (!rollerLock && (getLeftButton3() || false/*TODO: XBox control*/)) {
-			rollerLock = true;
+			//rollerLock = true;
 			return true;
 		}
 		else
@@ -103,7 +93,7 @@ public class Controller {
 	
 	public boolean toteIntake() {
 		if (!rollerLock && (getLeftButton4() || false/*TODO: XBox control*/)) {
-			rollerLock = true;
+			//rollerLock = true;
 			return true;
 		}
 		else
@@ -112,7 +102,7 @@ public class Controller {
 	
 	public boolean oOpenPinchClaw() {
 		if (!pinchLock && (getRightButton4() || getBtnX())) {
-			pinchLock = true;
+			//pinchLock = true;
 			return true;
 		}
 		else
@@ -121,7 +111,7 @@ public class Controller {
 	
 	public boolean oClosePinchClaw() {
 		if (!pinchLock && (getRightButton5() || getBtnB())) {
-			pinchLock = true;
+			//pinchLock = true;
 			return true;
 		}
 		else
@@ -130,7 +120,7 @@ public class Controller {
 	
 	public boolean oDropToteStack() {
 		if (!toteLock && (getRightButton1() || getLeftTrigger())) {
-			pinchLock = true;
+			//pinchLock = true;
 			return true;
 		}
 		else
@@ -139,7 +129,7 @@ public class Controller {
 	
 	public boolean oElevatorUp() {
 		if (!elevatorLock && (getRightButton3() || getBtnY())) {
-			elevatorLock = true;
+			//elevatorLock = true;
 			return true;
 		}
 		else
@@ -148,7 +138,7 @@ public class Controller {
 	
 	public boolean oElevatorDown() {
 		if (!elevatorLock && (getRightButton2() || getBtnA())) {
-			elevatorLock = true;
+			//elevatorLock = true;
 			return true;
 		}
 		else

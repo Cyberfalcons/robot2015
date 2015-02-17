@@ -25,11 +25,11 @@ public class RollerClaw {
 	}
 
 	private void leftRollerIn() {
-		leftRoller.set(VariableMap.CLAW_ROLLER_SPEED);
+		leftRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
 	}
 
 	private void leftRollerOut() {
-		leftRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
+		leftRoller.set(VariableMap.CLAW_ROLLER_SPEED);
 	}
 
 	private void leftRollerStop() {

@@ -81,7 +81,7 @@ public class VariableMap {
 	public static final int SOL_TOTE_ELEVATOR_LOCK = 0;
 
 	/* Misc useful constants */
-	public static final double BIN_ELEVATOR_CHAIN_SPEED = 1.0;
+	public static final double BIN_ELEVATOR_CHAIN_SPEED = 0.5;
 	public static final double TOTE_ELEVATOR_CHAIN_SPEED = 1.0;
 	public static final double CLAW_ROLLER_SPEED = 1.0;
 	public static final double PINCH_CLAW_SPEED = 1.0;

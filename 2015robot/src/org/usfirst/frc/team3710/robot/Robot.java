@@ -4,10 +4,6 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.io.*;
-import java.util.Date;
-import java.util.LinkedList;
-
 public class Robot extends IterativeRobot {
 	
 	//Systems
@@ -33,33 +29,11 @@ public class Robot extends IterativeRobot {
 	private int autonomousMode = 0;
 	private SendableChooser autoChooser;
 	
-	//Data Collection
-	LinkedList<Double> pdpChannel0Current;
-	LinkedList<Double> pdpChannel1Current;
-	LinkedList<Double> pdpChannel2Current;
-	LinkedList<Double> pdpChannel3Current;
-	LinkedList<Double> pdpChannel4Current;
-	LinkedList<Double> pdpChannel5Current;
-	LinkedList<Double> pdpChannel6Current;
-	LinkedList<Double> pdpChannel7Current;
-	LinkedList<Double> pdpChannel8Current;
-	LinkedList<Double> pdpChannel9Current;
-	
-	LinkedList<Double> pdpTemp;
-	LinkedList<Double> pdpTotalCurrent;
-	LinkedList<Double> pdpVoltage;
-	LinkedList<Double> pdpTotalPower;
-	LinkedList<Double> pdpTotalEnergy;
-	
-	LinkedList<String> time;
-	
 	//Misc
 	int ticks = 0;
-	boolean dataToWrite = false;
 	double binElevatorPIDP = VariableMap.BIN_ELEVATOR_PID_P;
 	double binElevatorPIDI = VariableMap.BIN_ELEVATOR_PID_I;
 	double binElevatorPIDD = VariableMap.BIN_ELEVATOR_PID_D;
-	Date d;
 	
 	
 	public void robotInit() {
@@ -103,36 +77,12 @@ public class Robot extends IterativeRobot {
 		operatorControl = new XBoxControllerWrapper(2);
 		pdp = new PowerDistributionPanel();
 		
-		//Data Collection
-		pdpChannel0Current = new LinkedList<Double>();
-		pdpChannel1Current = new LinkedList<Double>();
-		pdpChannel2Current = new LinkedList<Double>();
-		pdpChannel3Current = new LinkedList<Double>();
-		pdpChannel4Current = new LinkedList<Double>();
-		pdpChannel5Current = new LinkedList<Double>();
-		pdpChannel6Current = new LinkedList<Double>();
-		pdpChannel7Current = new LinkedList<Double>();
-		pdpChannel8Current = new LinkedList<Double>();
-		pdpChannel9Current = new LinkedList<Double>();
-		
-		pdpTemp = new LinkedList<Double>();
-		pdpTotalCurrent = new LinkedList<Double>();
-		pdpVoltage = new LinkedList<Double>();
-		pdpTotalPower = new LinkedList<Double>();
-		pdpTotalEnergy = new LinkedList<Double>();
-		
-		time = new LinkedList<String>();
-		
 		// SmartDashboard
 		initializeSmartDashboard();
-		
-		//Misc
-		d = new Date();
 	}
 
 	public void autonomousInit() {
 		autonomousMode = (int) autoChooser.getSelected();
-		dataToWrite = true;
 	}
 
 	public void autonomousPeriodic() {
@@ -145,20 +95,20 @@ public class Robot extends IterativeRobot {
 		case 1:
 			break;
 		}
-		collectData();
 	}
 
 	public void teleopInit() {
 		ticks = 0;
-		dataToWrite = true;
 	}
 
 	public void teleopPeriodic() {
 		ticks++;
 		doDrive();
+		doPinchClaw();
+		doBinElevator();
+		doRollerClaw();
 		
 		updateValuesFromSmartDashboard();
-		collectData();
 	}
 
 	public void testPeriodic() {
@@ -166,23 +116,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void disabledPeriodic(){
-		if (dataToWrite == true)
-		{
-			try{
-			//Writing headers
-		    System.out.println("=============================================================");
-			System.out.println("Time, Channel 0 Current, Channel 1 Current, Channel 2 Current, Channel 3 Current, Channel 4 Current, Channel 5 Current, Channel 6 Current, Channel 7 Current, Channel 8 Current, Channel 9 Current, Temperature, Total Current, Voltage, Total Power, Total Energy");
-			for(int i = 0; i < pdpChannel0Current.size(); i++)
-			{
-				System.out.println(time.get(i) + "," + pdpChannel0Current.get(i) + "," + pdpChannel1Current.get(i) + "," + pdpChannel2Current.get(i) + "," + pdpChannel3Current.get(i) + "," + pdpChannel4Current.get(i) + "," + pdpChannel5Current.get(i) + "," + pdpChannel6Current.get(i) + "," + pdpChannel7Current.get(i) + "," + pdpChannel8Current.get(i) + "," + pdpChannel9Current.get(i) + "," + pdpTemp.get(i) + "," + pdpTotalCurrent.get(i) + "," + pdpVoltage.get(i) + "," + pdpTotalPower.get(i) + "," + pdpTotalEnergy.get(i));
-			}
-			System.out.println("=============================================================");
-			
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		dataToWrite = false;
+		
 	}
 
 	public void doDrive() {
@@ -192,11 +126,26 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void doPinchClaw(){
-		
+		if(driverControl.openPinchClaw() || operatorControl.oOpenPinchClaw())
+			claw.openClaw();
+		else if(driverControl.closePinchClaw() || operatorControl.oOpenPinchClaw())
+			claw.closeClaw();
+		else
+			claw.stopClaw();
 	}
 	
 	public void doRollerClaw(){
-		
+		if(driverControl.rollerIn())
+		{
+			rollerClaw.binIn();
+		}
+		else if(driverControl.rollerOut()){
+			rollerClaw.binOut();
+		}
+		else
+		{
+			rollerClaw.stop();
+		}
 	}
 	
 	public void doCanBurglar(){
@@ -208,37 +157,16 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void doBinElevator(){
-		
-	}
-	
-	public void collectData(){
-			if(ticks % 100 == 0)
-			{
-				pdpChannel0Current.add(pdp.getCurrent(0));
-				pdpChannel1Current.add(pdp.getCurrent(1));
-				pdpChannel2Current.add(pdp.getCurrent(2));
-				pdpChannel3Current.add(pdp.getCurrent(3));
-				pdpChannel4Current.add(pdp.getCurrent(4));
-				pdpChannel5Current.add(pdp.getCurrent(5));
-				pdpChannel6Current.add(pdp.getCurrent(6));
-				pdpChannel7Current.add(pdp.getCurrent(7));
-				pdpChannel8Current.add(pdp.getCurrent(8));
-				pdpChannel9Current.add(pdp.getCurrent(9));
-				
-				pdpTemp.add(pdp.getTemperature());
-				pdpTotalCurrent.add(pdp.getTotalCurrent());
-				pdpVoltage.add(pdp.getVoltage());
-				pdpTotalPower.add(pdp.getTotalPower());
-				pdpTotalEnergy.add(pdp.getTotalEnergy());
-				
-				time.add(d.toString());
-			}
+		if(driverControl.elevatorUp() || operatorControl.oElevatorUp())
+			binElevator.setChainUp();
+		else if(driverControl.elevatorDown() || operatorControl.oElevatorDown())
+			binElevator.setChainDown();
+		else
+			binElevator.setChainStopped();
 	}
 	
 	public void updateValuesFromSmartDashboard()
 	{
-		if(ticks % 100 == 0)
-		{
 			binElevatorPIDP = SmartDashboard.getNumber("Bin Elevator PID P");
 			binElevatorPIDI = SmartDashboard.getNumber("Bin Elevator PID I");
 			binElevatorPIDD = SmartDashboard.getNumber("Bin Elevator PID D");
@@ -265,7 +193,6 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Bin Elevator PID P", binElevatorPIDP);
 			SmartDashboard.putNumber("Bin Elevator PID I", binElevatorPIDI);
 			SmartDashboard.putNumber("Bin Elevator PID D", binElevatorPIDD);
-		}
 	}
 
 	private void initializeSmartDashboard() {

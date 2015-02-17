@@ -25,22 +25,32 @@ public class BinElevator {
 		encChain.setSamplesToAverage(7);
 	}
 
-	public void raiseBin(int distance) {
-		if (getEncoderEnc() != distance) {
-			setChainUp();
+	public void setChainUp() {
+		binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+		if(getTop() == false)
+		{
+			//binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+		}
+		else
+		{
+			//setChainStopped();
 		}
 	}
 
-	public void lowerBin() {
-		setChainDown();
-	}
-
-	private void setChainUp() {
-		binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
-	}
-
-	private void setChainDown() {
+	public void setChainDown() {
 		binElevator.set(-VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+		if(getBottom() == false)
+		{
+			//binElevator.set(-VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+		}
+		else
+		{
+			//setChainStopped();
+		}
+	}
+	
+	public void setChainStopped() {
+		binElevator.set(0);
 	}
 
 	public int getEncoderEnc() {
@@ -53,5 +63,14 @@ public class BinElevator {
 	
 	public double getPotHeight() {
 		return heightPot.getValue();
+	}
+	
+	public boolean getTop(){
+		return top.get();
+	}
+	
+	public boolean getBottom()
+	{
+		return bottom.get();
 	}
 }
