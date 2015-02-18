@@ -3,7 +3,7 @@ package org.usfirst.frc.team3710.robot;
 public class XBoxControllerWrapper extends Controller {
 
 	private XBoxController pad;
-	
+
 	public XBoxControllerWrapper(int usb) {
 		pad = new XBoxController(usb);
 	}
@@ -99,5 +99,5 @@ public class XBoxControllerWrapper extends Controller {
 		else
 			return false;
 	}
-	
+
 }

@@ -11,14 +11,14 @@ public class PinchClaw {
 		claw = c;
 	}
 
-	public void openClaw(){
+	public void openClaw() {
 		claw.set(VariableMap.PINCH_CLAW_SPEED);
 	}
 
 	public void closeClaw() {
 		claw.set(-VariableMap.PINCH_CLAW_SPEED);
 	}
-	
+
 	public void stopClaw() {
 		claw.set(0);
 	}

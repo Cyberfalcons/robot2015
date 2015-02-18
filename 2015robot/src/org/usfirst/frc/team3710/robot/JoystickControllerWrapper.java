@@ -10,7 +10,7 @@ public class JoystickControllerWrapper extends Controller {
 		left = new Joystick(usbL);
 		right = new Joystick(usbR);
 	}
-	
+
 	/*
 	 * Initialize for operator (one joystick)
 	 */
@@ -27,7 +27,7 @@ public class JoystickControllerWrapper extends Controller {
 	public double getRightY() {
 		return right.getY();
 	}
-	
+
 	@Override
 	public double getRightZ() {
 		return right.getRawAxis(2);
@@ -42,7 +42,7 @@ public class JoystickControllerWrapper extends Controller {
 	public double getLeftY() {
 		return left.getY();
 	}
-	
+
 	@Override
 	public double getLeftZ() {
 		return left.getRawAxis(2);

@@ -27,28 +27,22 @@ public class BinElevator {
 
 	public void setChainUp() {
 		binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
-		if(getTop() == false)
-		{
-			//binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
-		}
-		else
-		{
-			//setChainStopped();
+		if (getTop() == false) {
+			// binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+		} else {
+			// setChainStopped();
 		}
 	}
 
 	public void setChainDown() {
 		binElevator.set(-VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
-		if(getBottom() == false)
-		{
-			//binElevator.set(-VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
-		}
-		else
-		{
-			//setChainStopped();
+		if (getBottom() == false) {
+			// binElevator.set(-VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+		} else {
+			// setChainStopped();
 		}
 	}
-	
+
 	public void setChainStopped() {
 		binElevator.set(0);
 	}
@@ -60,17 +54,16 @@ public class BinElevator {
 	public void resetEncoder() {
 		encChain.reset();
 	}
-	
+
 	public double getPotHeight() {
 		return heightPot.getValue();
 	}
-	
-	public boolean getTop(){
+
+	public boolean getTop() {
 		return top.get();
 	}
-	
-	public boolean getBottom()
-	{
+
+	public boolean getBottom() {
 		return bottom.get();
 	}
 }
