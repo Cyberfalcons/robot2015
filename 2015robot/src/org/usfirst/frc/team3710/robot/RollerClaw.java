@@ -5,19 +5,27 @@ import edu.wpi.first.wpilibj.*;
 public class RollerClaw {
 	Victor leftRoller;
 	Victor rightRoller;
+	PowerDistributionPanel pdp;
+	double leftCurrent = 0.0;
+	double rightCurrent = 0.0;
+	double currentCutOff = 0.0;
 
 	public RollerClaw(Victor l, Victor r) {
 		leftRoller = l;
 		rightRoller = r;
+		pdp = new PowerDistributionPanel();
 	}
 
-	// TODO: check directions
 	private void rightRollerIn() {
-		rightRoller.set(VariableMap.CLAW_ROLLER_SPEED);
+		if (rightCurrent < currentCutOff) {
+			rightRoller.set(VariableMap.CLAW_ROLLER_SPEED);
+		}
 	}
 
 	private void rightRollerOut() {
-		rightRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
+		if (rightCurrent < currentCutOff) {
+			rightRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
+		}
 	}
 
 	private void rightRollerStop() {
@@ -25,11 +33,15 @@ public class RollerClaw {
 	}
 
 	private void leftRollerIn() {
-		leftRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
+		if (leftCurrent < currentCutOff) {
+			leftRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
+		}
 	}
 
 	private void leftRollerOut() {
-		leftRoller.set(VariableMap.CLAW_ROLLER_SPEED);
+		if (leftCurrent < currentCutOff) {
+			leftRoller.set(VariableMap.CLAW_ROLLER_SPEED);
+		}
 	}
 
 	private void leftRollerStop() {
@@ -39,26 +51,35 @@ public class RollerClaw {
 	public void binIn() {
 		leftRollerIn();
 		rightRollerIn();
+		updateCurrents();
 	}
 
 	public void binOut() {
 		rightRollerOut();
 		leftRollerOut();
+		updateCurrents();
 	}
 
 	public void binClockWise() {
 		rightRollerIn();
 		leftRollerOut();
+		updateCurrents();
 	}
 
 	public void binCounterClockWise() {
 		rightRollerOut();
 		leftRollerIn();
+		updateCurrents();
 	}
 
 	public void stop() {
 		rightRollerStop();
 		leftRollerStop();
+		updateCurrents();
 	}
 
+	private void updateCurrents() {
+		leftCurrent = pdp.getCurrent(9);
+		rightCurrent = pdp.getCurrent(10);
+	}
 }

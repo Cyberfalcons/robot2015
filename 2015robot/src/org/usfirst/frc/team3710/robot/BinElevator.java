@@ -26,20 +26,18 @@ public class BinElevator {
 	}
 
 	public void setChainUp() {
-		binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
 		if (getTop() == false) {
-			// binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+			binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
 		} else {
-			// setChainStopped();
+			setChainStopped();
 		}
 	}
 
 	public void setChainDown() {
-		binElevator.set(-VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
 		if (getBottom() == false) {
-			// binElevator.set(-VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+			binElevator.set(-VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
 		} else {
-			// setChainStopped();
+			setChainStopped();
 		}
 	}
 

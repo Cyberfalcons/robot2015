@@ -72,5 +72,26 @@ public class VariableMap {
 	public static final double BIN_ELEVATOR_PID_P = 0.1;
 	public static final double BIN_ELEVATOR_PID_I = 0.1;
 	public static final double BIN_ELEVATOR_PID_D = 0.1;
+	
+	
+	/* Power Channels
+	 * 
+	 * Port 0 - 
+	 * Port 1 - 
+	 * Port 2 - 
+	 * Port 3 - 
+	 * Port 4 -
+	 * Port 5 - 
+	 * Port 6 -
+	 * Port 7 -
+	 * Port 8 -
+	 * Port 9 - Roller Claw Left
+	 * Port 10 - Roller Claw Right
+	 * Port 11 -
+	 * Port 12 -
+	 * Port 13 -
+	 * Port 14 -
+	 * Port 15 - 
+	 */
 
 }

@@ -83,6 +83,7 @@ public class Robot extends IterativeRobot {
 		switch (autonomousMode) {
 		// Default Mode
 		case 0:
+			
 			break;
 		// Custom 1
 		case 1:
@@ -100,8 +101,18 @@ public class Robot extends IterativeRobot {
 		doPinchClaw();
 		doBinElevator();
 		doRollerClaw();
+		printPDPValues();
 
 		updateValuesFromSmartDashboard();
+		
+	}
+	
+	public void printPDPValues(){
+		if(ticks % 20 == 0)
+		{
+			System.out.println("Channel 9: " + pdp.getCurrent(9));
+			System.out.println("Channel 10: " + pdp.getCurrent(10));
+		}
 	}
 
 	public void testPeriodic() {
@@ -146,8 +157,7 @@ public class Robot extends IterativeRobot {
 	public void doBinElevator() {
 		if (driverControl.elevatorUp() || operatorControl.oElevatorUp()) {
 			binElevator.setChainUp();
-		} else if (driverControl.elevatorDown()
-				|| operatorControl.oElevatorDown()) {
+		} else if (driverControl.elevatorDown()|| operatorControl.oElevatorDown()) {
 			binElevator.setChainDown();
 		} else {
 			binElevator.setChainStopped();
@@ -172,6 +182,11 @@ public class Robot extends IterativeRobot {
 		autoChooser = new SendableChooser();
 		autoChooser.addDefault("Default", 0);
 		autoChooser.addObject("Custom 1", 1);
+		autoChooser.addObject("Custom 2", 2);
+		autoChooser.addObject("Custom 3", 3);
+		autoChooser.addObject("Custom 4", 4);
+		autoChooser.addObject("Custom 5", 5);
+		
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 
 		SmartDashboard.putNumber("Left Encoder", encDriveLeft.get());
