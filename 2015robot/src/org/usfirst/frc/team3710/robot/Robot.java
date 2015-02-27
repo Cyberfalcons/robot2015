@@ -101,22 +101,19 @@ public class Robot extends IterativeRobot {
 		doPinchClaw();
 		doBinElevator();
 		doRollerClaw();
-		printPDPValues();
-
+		
+		System.out.println("TOP: " + binElevator.getTop());
+		System.out.println("BOTTOM: " + binElevator.getBottom());
 		updateValuesFromSmartDashboard();
 		
-	}
-	
-	public void printPDPValues(){
-		if(ticks % 20 == 0)
-		{
-			System.out.println("Channel 9: " + pdp.getCurrent(9));
-			System.out.println("Channel 10: " + pdp.getCurrent(10));
-		}
 	}
 
 	public void testPeriodic() {
 
+	}
+	
+	public void disabledInit(){
+		
 	}
 
 	public void disabledPeriodic() {
