@@ -9,6 +9,8 @@ public class BinElevator {
 	DigitalInput bottom;
 	PIDController pid;
 	AnalogInput heightPot;
+	
+	int potHeight = 0;
 
 	public BinElevator(Victor v, Encoder e, DigitalInput to, DigitalInput b, PIDController p, AnalogInput pot) {
 		binElevator = v;
@@ -26,7 +28,10 @@ public class BinElevator {
 	}
 
 	public void setChainUp() {
+		updatePot();
 		if (getTop() == false) {
+			//pid.enable();
+			//binElevator.set(pid.getSetpoint());
 			binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
 		} else {
 			setChainStopped();
@@ -34,14 +39,19 @@ public class BinElevator {
 	}
 
 	public void setChainDown() {
+		updatePot();
 		if (getBottom() == false) {
+			//pid.enable();
+			//binElevator.set(-pid.getSetpoint());
 			binElevator.set(-VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
 		} else {
+			potHeight = 0;
 			setChainStopped();
 		}
 	}
 
 	public void setChainStopped() {
+		pid.disable();
 		binElevator.set(0);
 	}
 
@@ -54,7 +64,7 @@ public class BinElevator {
 	}
 
 	public double getPotHeight() {
-		return heightPot.getValue();
+		return potHeight;
 	}
 
 	public boolean getTop() {
@@ -63,5 +73,10 @@ public class BinElevator {
 
 	public boolean getBottom() {
 		return bottom.get();
+	}
+	
+	private void updatePot()
+	{
+		potHeight = heightPot.getValue();
 	}
 }

@@ -8,7 +8,7 @@ public class RollerClaw {
 	PowerDistributionPanel pdp;
 	double leftCurrent = 0.0;
 	double rightCurrent = 0.0;
-	double currentCutOff = 0.0;
+	double currentCutOff = 5.0;
 
 	public RollerClaw(Victor l, Victor r) {
 		leftRoller = l;
@@ -18,13 +18,13 @@ public class RollerClaw {
 
 	private void rightRollerIn() {
 		if (rightCurrent < currentCutOff) {
-			rightRoller.set(VariableMap.CLAW_ROLLER_SPEED);
+			rightRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
 		}
 	}
 
 	private void rightRollerOut() {
 		if (rightCurrent < currentCutOff) {
-			rightRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
+			rightRoller.set(VariableMap.CLAW_ROLLER_SPEED);
 		}
 	}
 
@@ -34,13 +34,13 @@ public class RollerClaw {
 
 	private void leftRollerIn() {
 		if (leftCurrent < currentCutOff) {
-			leftRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
+			leftRoller.set(VariableMap.CLAW_ROLLER_SPEED);
 		}
 	}
 
 	private void leftRollerOut() {
 		if (leftCurrent < currentCutOff) {
-			leftRoller.set(VariableMap.CLAW_ROLLER_SPEED);
+			leftRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
 		}
 	}
 

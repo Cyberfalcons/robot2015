@@ -105,6 +105,8 @@ public class Robot extends IterativeRobot {
 		doRollerClaw();
 		doCanBurglar();
 		
+		System.out.println(binElevator.getPotHeight());
+		
 		updateValuesFromSmartDashboard();
 	}
 
@@ -159,8 +161,10 @@ public class Robot extends IterativeRobot {
 
 	public void doBinElevator() {
 		if (driverControl.elevatorUp() || operatorControl.oElevatorUp()) {
+			//binElevatorPID.setSetpoint(1.0);
 			binElevator.setChainUp();
 		} else if (driverControl.elevatorDown()|| operatorControl.oElevatorDown()) {
+			//binElevatorPID.setSetpoint(-1.0);
 			binElevator.setChainDown();
 		} else {
 			binElevator.setChainStopped();
@@ -176,10 +180,14 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
 		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());
+		SmartDashboard.putDouble("Jypsy Tap Measure", binElevator.getPotHeight());
 
 		SmartDashboard.putDouble("Bin Elevator PID P", binElevatorPIDP);
 		SmartDashboard.putDouble("Bin Elevator PID I", binElevatorPIDI);
 		SmartDashboard.putDouble("Bin Elevator PID D", binElevatorPIDD);
+		
+		SmartDashboard.putBoolean("Bin Elevator Top", binElevator.getTop());
+		SmartDashboard.putBoolean("Bin Elevator Bottom", binElevator.getBottom());
 	}
 
 	@SuppressWarnings("deprecation")
@@ -192,9 +200,13 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
 		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());
+		SmartDashboard.putDouble("Jypsy Tap Measure", binElevator.getPotHeight());
 
 		SmartDashboard.putDouble("Bin Elevator PID P", binElevatorPIDP);
 		SmartDashboard.putDouble("Bin Elevator PID I", binElevatorPIDI);
 		SmartDashboard.putDouble("Bin Elevator PID D", binElevatorPIDD);
+		
+		SmartDashboard.putBoolean("Bin Elevator Top", binElevator.getTop());
+		SmartDashboard.putBoolean("Bin Elevator Bottom", binElevator.getBottom());
 	}
 }
