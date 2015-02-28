@@ -59,7 +59,6 @@ public class BinElevator {
 
 	public boolean getTop() {
 		return top.get();
-
 	}
 
 	public boolean getBottom() {

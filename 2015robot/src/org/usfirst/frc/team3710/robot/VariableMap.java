@@ -11,9 +11,9 @@ public class VariableMap {
 	 * Port 2 - Left Roller 
 	 * Port 3 - Right Roller 
 	 * Port 4 - Bin Elevator Main Chain 
-	 * Port 5 - Can Burglar
+	 * Port 5 - Can Burglar Victor
 	 * Port 6 - Pinch Claw
-	 * Port 7 - 
+	 * Port 7 - Can Burglar Servo Release 1
 	 * Port 8 - 
 	 * Port 9 - 
 	 */
@@ -22,8 +22,9 @@ public class VariableMap {
 	public static final int PWM_ROLLER_LEFT = 2;
 	public static final int PWM_ROLLER_RIGHT = 3;
 	public static final int PWM_BIN_ELEVATOR = 4;
-	public static final int PWM_CAN_BURGLAR = 5;
+	public static final int PWM_CAN_BURGLAR_VICTOR = 5;
 	public static final int PWM_PINCH_CLAW = 6;
+	public static final int PWN_CAN_BURGLAR_SERVO_RELEASE_1 = 7;
 	public static final int PWM_DRIVE_LEFT_B = 8;
 	public static final int PWM_DRIVE_RIGHT_B = 9;
 	
