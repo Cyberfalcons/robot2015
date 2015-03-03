@@ -83,12 +83,17 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousPeriodic() {
 		switch (autonomousMode) {
-		// Default Mode
+		// Bins and Drive
 		case 0:
 			
 			break;
-		// Custom 1
+		// Just Drive
 		case 1:
+			
+			break;
+		//Do Nothing
+		case 2:
+			
 			break;
 		}
 	}
@@ -104,7 +109,7 @@ public class Robot extends IterativeRobot {
 		doBinElevator();
 		doRollerClaw();
 		doCanBurglar();
-		
+
 		System.out.println(binElevator.getPotHeight());
 		
 		updateValuesFromSmartDashboard();
@@ -151,11 +156,15 @@ public class Robot extends IterativeRobot {
 
 	public void doCanBurglar() {
 		if(driverControl.getRightButton10()){
-			canBurglar.servoTo1();
-		}else if(driverControl.getRightButton11()){
-			canBurglar.servoToMinus1();
+			canBurglar.retract();
 		}else{
-			canBurglar.servoTo0();
+			canBurglar.stop();
+		}
+		
+		if(driverControl.getRightButton6()){
+			canBurglar.servoTo1();
+		}else if(driverControl.getRightButton7()){
+			canBurglar.servoToMinus1();
 		}
 	}
 
@@ -180,7 +189,7 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
 		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());
-		SmartDashboard.putDouble("Jypsy Tap Measure", binElevator.getPotHeight());
+		SmartDashboard.putDouble("Jypsy Tape Measure", binElevator.getPotHeight());
 
 		SmartDashboard.putDouble("Bin Elevator PID P", binElevatorPIDP);
 		SmartDashboard.putDouble("Bin Elevator PID I", binElevatorPIDI);
@@ -193,14 +202,16 @@ public class Robot extends IterativeRobot {
 	@SuppressWarnings("deprecation")
 	private void initializeSmartDashboard() {
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Default", 0);
-		autoChooser.addObject("Custom 1", 1);
+		autoChooser.addDefault("Get Bins and Drive", 0);
+		autoChooser.addObject("Just drive", 1);
+		autoChooser.addObject("Do Nothing", 2);
+		
 		
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
 
 		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
 		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());
-		SmartDashboard.putDouble("Jypsy Tap Measure", binElevator.getPotHeight());
+		SmartDashboard.putDouble("Jypsy Tape Measure", binElevator.getPotHeight());
 
 		SmartDashboard.putDouble("Bin Elevator PID P", binElevatorPIDP);
 		SmartDashboard.putDouble("Bin Elevator PID I", binElevatorPIDI);
@@ -208,5 +219,9 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putBoolean("Bin Elevator Top", binElevator.getTop());
 		SmartDashboard.putBoolean("Bin Elevator Bottom", binElevator.getBottom());
+	}
+	
+	public long getCurrentTime(){
+		return System.currentTimeMillis();
 	}
 }

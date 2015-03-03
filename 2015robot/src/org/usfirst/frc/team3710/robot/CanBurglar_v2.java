@@ -14,9 +14,9 @@ public class CanBurglar_v2 {
 	}
 
 	public void retract() {
-		if (getLimitSwitch() != true) {
+//		if (getLimitSwitch() != true) {
 			retractString();
-		}
+//		}
 	}
 
 	public void extend() {
@@ -25,8 +25,8 @@ public class CanBurglar_v2 {
 		}
 	}
 
-	private void retractString() {
-
+	void retractString() {
+		canBurglarVictor.set(0.75);
 	}
 
 	private void extendString() {
