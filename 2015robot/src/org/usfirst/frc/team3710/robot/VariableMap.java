@@ -67,6 +67,7 @@ public class VariableMap {
 
 	/* Misc useful constants */
 	public static final double BIN_ELEVATOR_CHAIN_SPEED = 1.00;
+	public static final double BIN_ELEVATOR_CONSTANT_FORCE = 0.10;
 	public static final double CLAW_ROLLER_SPEED = 1.0;
 	public static final double PINCH_CLAW_SPEED = 1.0;
 	public static final double CAN_BURGLAR_SPEED = 1.0;

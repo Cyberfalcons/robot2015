@@ -78,10 +78,12 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
+		ticks = 0;
 		autonomousMode = (int) autoChooser.getSelected();
 	}
 
 	public void autonomousPeriodic() {
+		ticks++;
 		switch (autonomousMode) {
 		// Bins and Drive
 		case 0:
@@ -109,8 +111,6 @@ public class Robot extends IterativeRobot {
 		doBinElevator();
 		doRollerClaw();
 		doCanBurglar();
-
-		System.out.println(binElevator.getPotHeight());
 		
 		updateValuesFromSmartDashboard();
 	}
@@ -120,7 +120,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void disabledInit(){
-		canBurglar.servoTo0();
+		
 	}
 
 	public void disabledPeriodic() {
@@ -170,13 +170,13 @@ public class Robot extends IterativeRobot {
 
 	public void doBinElevator() {
 		if (driverControl.elevatorUp() || operatorControl.oElevatorUp()) {
-			//binElevatorPID.setSetpoint(1.0);
 			binElevator.setChainUp();
 		} else if (driverControl.elevatorDown()|| operatorControl.oElevatorDown()) {
-			//binElevatorPID.setSetpoint(-1.0);
 			binElevator.setChainDown();
-		} else {
-			binElevator.setChainStopped();
+		}else if(driverControl.getRightTrigger()){
+			binElevator.stopChain();
+		}else {
+			binElevator.setConstantForce();
 		}
 	}
 
@@ -219,9 +219,5 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putBoolean("Bin Elevator Top", binElevator.getTop());
 		SmartDashboard.putBoolean("Bin Elevator Bottom", binElevator.getBottom());
-	}
-	
-	public long getCurrentTime(){
-		return System.currentTimeMillis();
 	}
 }
