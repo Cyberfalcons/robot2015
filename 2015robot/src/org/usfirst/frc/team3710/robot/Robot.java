@@ -25,14 +25,18 @@ public class Robot extends IterativeRobot {
 	Servo canBurglarRelease1;
 
 	// SmartDashboard Objects
-	private int autonomousMode = 0;
-	private SendableChooser autoChooser;
+	int autonomousMode = 0;
+	int sensorMode = 0;
+	SendableChooser autoChooser, autoSensorMode;
 
 	// Misc
 	int ticks = 0;
 	double binElevatorPIDP = VariableMap.BIN_ELEVATOR_PID_P;
 	double binElevatorPIDI = VariableMap.BIN_ELEVATOR_PID_I;
 	double binElevatorPIDD = VariableMap.BIN_ELEVATOR_PID_D;
+	
+	// Autonomous Variables
+	boolean servoMoved = false;
 
 	public void robotInit() {
 		// Drive
@@ -80,19 +84,92 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		ticks = 0;
 		autonomousMode = (int) autoChooser.getSelected();
+		sensorMode = (int) autoSensorMode.getSelected();
 	}
 
 	public void autonomousPeriodic() {
 		ticks++;
 		switch (autonomousMode) {
-		// Bins and Drive
+		// Can Burgle and Drive
 		case 0:
+			//Ticks
+			if(sensorMode == 0){
+				if(servoMoved == false){
+					canBurglar.setServoPosition(1.0);
+					servoMoved = true;
+				}
+				
+				if(ticks < 2000){
+					drive.setDriveLeft(-1.00);
+					drive.setDriveRight(-1.00);
+				}
+				else if(ticks > 2000){
+					drive.setDriveLeft(0.00);
+					drive.setDriveRight(0.00);
+				}
+				
+				if((ticks > 3000) && (canBurglar.getLimitSwitch() == false)){
+					canBurglar.retract();
+				}else if(canBurglar.getLimitSwitch() == true){
+					canBurglar.stop();
+				}
+				
+				if((ticks > 5000) && (canBurglar.getLimitSwitch() == true))
+				{
+					canBurglar.setServoPosition(-1.0);
+				}
+			//Encoders
+			}else if(sensorMode == 1){
+				if(servoMoved == false){
+					canBurglar.setServoPosition(1.0);
+					servoMoved = true;
+				}
+				
+				if((drive.getEncoderLeft() < 5000)&&(drive.getEncoderRight() < 5000)){
+					drive.setDriveLeft(-1.00);
+					drive.setDriveRight(-1.00);
+				}else if((drive.getEncoderLeft() > 5000)&&(drive.getEncoderRight() > 5000)){
+					drive.setDriveRight(0.0);
+					drive.setDriveLeft(0.0);
+				}
+				
+				if((ticks > 3000) && (canBurglar.getLimitSwitch() == false)){
+					canBurglar.retract();
+				}else if(canBurglar.getLimitSwitch() == true){
+					canBurglar.stop();
+				}
+				
+				if((ticks > 5000) && (canBurglar.getLimitSwitch() == true))
+				{
+					canBurglar.setServoPosition(-1.0);
+				}
+			}
 			
 			break;
+			
 		// Just Drive
 		case 1:
-			
+			//Ticks
+			if(sensorMode == 0){
+				if(ticks <= 5000){
+					drive.setDriveLeft(1.00);
+					drive.setDriveRight(1.00);
+				}else if(ticks> 5000){
+					drive.setDriveLeft(0.0);
+					drive.setDriveRight(0.0);
+				}
+		    //Encoders
+			}else if(sensorMode == 1){
+				if((drive.getEncoderLeft() < 5000) && (drive.getEncoderRight() < 5000)){
+					drive.setDriveLeft(1.00);
+					drive.setDriveRight(1.00);
+				}else if((drive.getEncoderLeft() > 5000) && (drive.getEncoderRight() > 5000)){
+					drive.setDriveLeft(0.00);
+					drive.setDriveRight(0.00);
+				}
+			}
 			break;
+			
 		//Do Nothing
 		case 2:
 			
@@ -162,9 +239,9 @@ public class Robot extends IterativeRobot {
 		}
 		
 		if(driverControl.getRightButton6()){
-			canBurglar.servoTo1();
+			canBurglar.setServoPosition(1.0);
 		}else if(driverControl.getRightButton7()){
-			canBurglar.servoToMinus1();
+			canBurglar.setServoPosition(-1.0);
 		}
 	}
 
@@ -205,6 +282,10 @@ public class Robot extends IterativeRobot {
 		autoChooser.addDefault("Get Bins and Drive", 0);
 		autoChooser.addObject("Just drive", 1);
 		autoChooser.addObject("Do Nothing", 2);
+		
+		autoSensorMode = new SendableChooser();
+		autoSensorMode.addDefault("Ticks", 0);
+		autoSensorMode.addObject("Encoders", 1);
 		
 		
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
