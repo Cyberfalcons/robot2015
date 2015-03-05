@@ -74,6 +74,7 @@ public class VariableMap {
 	public static final double BIN_ELEVATOR_PID_P = 0.1;
 	public static final double BIN_ELEVATOR_PID_I = 0.1;
 	public static final double BIN_ELEVATOR_PID_D = 0.1;
+	public static boolean SLOW_MODE = false;
 	
 	
 	/* Power Channels

@@ -38,8 +38,14 @@ public class Drive {
 	 *            : power to run the motor at
 	 */
 	public void setDriveRight(double power) {
-		rightA.set(power);
-		rightB.set(power);
+		if(VariableMap.SLOW_MODE == true){
+			rightA.set(power/2);
+			rightB.set(power/2);
+		}
+		else{
+			rightA.set(power);
+			rightB.set(power);
+		}
 	}
 
 	/**
@@ -49,8 +55,14 @@ public class Drive {
 	 *            : power to run the motor at
 	 */
 	public void setDriveLeft(double power) {
-		leftA.set(power);
-		leftB.set(power);
+		if(VariableMap.SLOW_MODE == true){
+			leftA.set(power/2);
+			leftB.set(power/2);
+		}
+		else{
+			leftA.set(power);
+			leftB.set(power);
+		}
 	}
 
 	/**

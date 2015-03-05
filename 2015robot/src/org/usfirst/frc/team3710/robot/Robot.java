@@ -114,8 +114,7 @@ public class Robot extends IterativeRobot {
 					canBurglar.stop();
 				}
 				
-				if((ticks > 5000) && (canBurglar.getLimitSwitch() == true))
-				{
+				if((ticks > 5000) && (canBurglar.getLimitSwitch() == true)){
 					canBurglar.setServoPosition(-1.0);
 				}
 			//Encoders
@@ -139,8 +138,7 @@ public class Robot extends IterativeRobot {
 					canBurglar.stop();
 				}
 				
-				if((ticks > 5000) && (canBurglar.getLimitSwitch() == true))
-				{
+				if((ticks > 5000) && (canBurglar.getLimitSwitch() == true)){
 					canBurglar.setServoPosition(-1.0);
 				}
 			}
@@ -208,6 +206,15 @@ public class Robot extends IterativeRobot {
 		driverControl.checkFlip();
 		drive.setDriveRight(driverControl.driveRight());
 		drive.setDriveLeft(driverControl.driveLeft());
+		
+		if(operatorControl.getBtnA())
+		{
+			if(VariableMap.SLOW_MODE == false){
+				VariableMap.SLOW_MODE = true;
+			}else if(VariableMap.SLOW_MODE == true){
+				VariableMap.SLOW_MODE = false;
+			}
+		}
 	}
 
 	public void doPinchClaw() {
@@ -226,9 +233,14 @@ public class Robot extends IterativeRobot {
 			rollerClaw.binIn();
 		} else if (driverControl.rollerOut()) {
 			rollerClaw.binOut();
-		} else {
+		} else  if(operatorControl.getBtnB()){
+			rollerClaw.binClockWise();
+		} else  if(operatorControl.getBtnX()){
+			rollerClaw.binCounterClockWise();
+		}else {
 			rollerClaw.stop();
 		}
+		
 	}
 
 	public void doCanBurglar() {
@@ -287,8 +299,8 @@ public class Robot extends IterativeRobot {
 		autoSensorMode.addDefault("Ticks", 0);
 		autoSensorMode.addObject("Encoders", 1);
 		
-		
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
+		SmartDashboard.putData("Auto Sensor Chooser", autoSensorMode);
 
 		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
 		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());
