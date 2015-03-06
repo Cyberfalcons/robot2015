@@ -278,7 +278,7 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
 		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());
-		SmartDashboard.putDouble("Jypsy Tape Measure", binElevator.getPotHeight());
+		SmartDashboard.putDouble("Elevator Encoder", binElevator.getEncoderEnc());
 
 		SmartDashboard.putDouble("Bin Elevator PID P", binElevatorPIDP);
 		SmartDashboard.putDouble("Bin Elevator PID I", binElevatorPIDI);
@@ -304,7 +304,7 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
 		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());
-		SmartDashboard.putDouble("Jypsy Tape Measure", binElevator.getPotHeight());
+		SmartDashboard.putDouble("Elevator Encoder", binElevator.getEncoderEnc());
 
 		SmartDashboard.putDouble("Bin Elevator PID P", binElevatorPIDP);
 		SmartDashboard.putDouble("Bin Elevator PID I", binElevatorPIDI);

@@ -32,11 +32,13 @@ public class BinElevator {
 
 	public void setChainUp() {
 		updatePot();
+		pid.enable();
 		goingDown = false;
 		goingUp = true;
 
 		if (getTop() == false) {
-			binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+			//binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+			pid.setSetpoint(1500);
 		} else {
 			stopChain();
 		}
@@ -44,11 +46,13 @@ public class BinElevator {
 
 	public void setChainDown() {
 		updatePot();
+		pid.enable();
 		goingDown = true;
 		goingUp = false;
 
 		if (getBottom() == false) {
-			binElevator.set(-VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+			//binElevator.set(-VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
+			pid.setSetpoint(0);
 		} else {
 			potHeight = 0;
 			stopChain();
@@ -57,14 +61,15 @@ public class BinElevator {
 
 	public void setConstantForce() {
 		if (goingUp) {
-			binElevator.set(VariableMap.BIN_ELEVATOR_CONSTANT_FORCE);
+			//binElevator.set(VariableMap.BIN_ELEVATOR_CONSTANT_FORCE);
 		} else if (goingDown) {
-			binElevator.set(-VariableMap.BIN_ELEVATOR_CONSTANT_FORCE);
+			//binElevator.set(-VariableMap.BIN_ELEVATOR_CONSTANT_FORCE);
 		}
 	}
 
 	public void stopChain() {
-		binElevator.set(0);
+		//binElevator.set(0);
+		pid.disable();
 		goingUp = false;
 		goingDown = false;
 	}
