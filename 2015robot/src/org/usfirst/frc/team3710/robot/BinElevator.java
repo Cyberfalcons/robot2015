@@ -42,12 +42,13 @@ public class BinElevator {
 		if (getBottom() == false) {
 			if (position - 10 > 0) {
 				position = position - 10;
-			} else {
+			} else{
 				position = 15;
 			}
 			pid.setSetpoint(position);
 		} else {
 			stopChain();
+			resetEncoder();
 		}
 	}
 
