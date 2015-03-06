@@ -20,7 +20,6 @@ public class Robot extends IterativeRobot {
 	Encoder encDriveLeft, encDriveRight, encBinElevator;
 	Victor pinchClawVictor, binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor, canBurglarVictor;
 	DigitalInput binElevatorTop, binElevatorBottom, canBurglarLimitSwitch;
-	AnalogInput binElevatorHeightPot;
 	PIDController binElevatorPID;
 	Servo canBurglarRelease1;
 
@@ -55,7 +54,6 @@ public class Robot extends IterativeRobot {
 		encBinElevator = new Encoder(VariableMap.DIO_BIN_ELEVATOR_ENC_A, VariableMap.DIO_BIN_ELEVATOR_ENC_B, false, Encoder.EncodingType.k4X);
 		binElevatorTop = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_TOP);
 		binElevatorBottom = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_BOTTOM);
-		binElevatorHeightPot = new AnalogInput(VariableMap.AIN_BIN_HEIGHT_POT);
 		binElevatorPID = new PIDController(binElevatorPIDP, binElevatorPIDI, binElevatorPIDD, encBinElevator, binElevatorVictor);
 
 		// Roller Claw
@@ -70,7 +68,7 @@ public class Robot extends IterativeRobot {
 		// Systems
 		drive = new Drive(driveLeftTalonA, driveLeftTalonB, driveRightTalonA, driveRightTalonB, encDriveLeft, encDriveRight);
 		claw = new PinchClaw(pinchClawVictor);
-		binElevator = new BinElevator(binElevatorVictor, encBinElevator, binElevatorTop, binElevatorBottom, binElevatorPID, binElevatorHeightPot);
+		binElevator = new BinElevator(binElevatorVictor, encBinElevator, binElevatorTop, binElevatorBottom, binElevatorPID);
 		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
 		driverControl = new JoystickControllerWrapper(0, 1);
 		operatorControl = new XBoxControllerWrapper(2);
@@ -240,7 +238,6 @@ public class Robot extends IterativeRobot {
 		}else {
 			rollerClaw.stop();
 		}
-		
 	}
 
 	public void doCanBurglar() {
@@ -258,14 +255,12 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void doBinElevator() {
-		if (driverControl.elevatorUp() || operatorControl.oElevatorUp()) {
-			binElevator.setChainUp();
-		} else if (driverControl.elevatorDown()|| operatorControl.oElevatorDown()) {
-			binElevator.setChainDown();
-		}else if(driverControl.getRightTrigger()){
+		if (driverControl.elevatorUp()) {
+			binElevator.setPositionUp();
+		} else if (driverControl.elevatorDown()) {
+			binElevator.setPositionDown();
+		}else{
 			binElevator.stopChain();
-		}else {
-			binElevator.setConstantForce();
 		}
 	}
 
@@ -278,7 +273,7 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
 		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());
-		SmartDashboard.putDouble("Elevator Encoder", binElevator.getEncoderEnc());
+		SmartDashboard.putDouble("Elevator Encoder", binElevator.getEncoder());
 
 		SmartDashboard.putDouble("Bin Elevator PID P", binElevatorPIDP);
 		SmartDashboard.putDouble("Bin Elevator PID I", binElevatorPIDI);
@@ -304,7 +299,7 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
 		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());
-		SmartDashboard.putDouble("Elevator Encoder", binElevator.getEncoderEnc());
+		SmartDashboard.putDouble("Elevator Encoder", binElevator.getEncoder());
 
 		SmartDashboard.putDouble("Bin Elevator PID P", binElevatorPIDP);
 		SmartDashboard.putDouble("Bin Elevator PID I", binElevatorPIDI);

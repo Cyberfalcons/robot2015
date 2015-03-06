@@ -8,20 +8,15 @@ public class BinElevator {
 	DigitalInput top;
 	DigitalInput bottom;
 	PIDController pid;
-	AnalogInput heightPot;
+	int position = 0;
 
-	int potHeight = 0;
-
-	boolean goingUp = false;
-	boolean goingDown = false;
-
-	public BinElevator(Victor v, Encoder e, DigitalInput to, DigitalInput b, PIDController p, AnalogInput pot) {
+	public BinElevator(Victor v, Encoder e, DigitalInput to, DigitalInput b,
+			PIDController p) {
 		binElevator = v;
 		encChain = e;
 		top = to;
 		bottom = b;
 		pid = p;
-		heightPot = pot;
 
 		encChain.setMaxPeriod(.1);
 		encChain.setMinRate(10);
@@ -30,60 +25,42 @@ public class BinElevator {
 		encChain.setSamplesToAverage(7);
 	}
 
-	public void setChainUp() {
-		updatePot();
+	public void setPositionUp() {
 		pid.enable();
-		goingDown = false;
-		goingUp = true;
 
 		if (getTop() == false) {
-			//binElevator.set(VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
-			pid.setSetpoint(1500);
+			position = position + 10;
+			pid.setSetpoint(position);
 		} else {
 			stopChain();
 		}
 	}
 
-	public void setChainDown() {
-		updatePot();
+	public void setPositionDown() {
 		pid.enable();
-		goingDown = true;
-		goingUp = false;
 
 		if (getBottom() == false) {
-			//binElevator.set(-VariableMap.BIN_ELEVATOR_CHAIN_SPEED);
-			pid.setSetpoint(0);
+			if (position - 10 > 0) {
+				position = position - 10;
+			} else {
+				position = 15;
+			}
+			pid.setSetpoint(position);
 		} else {
-			potHeight = 0;
 			stopChain();
-		}
-	}
-
-	public void setConstantForce() {
-		if (goingUp) {
-			//binElevator.set(VariableMap.BIN_ELEVATOR_CONSTANT_FORCE);
-		} else if (goingDown) {
-			//binElevator.set(-VariableMap.BIN_ELEVATOR_CONSTANT_FORCE);
 		}
 	}
 
 	public void stopChain() {
-		//binElevator.set(0);
 		pid.disable();
-		goingUp = false;
-		goingDown = false;
 	}
 
-	public int getEncoderEnc() {
+	public int getEncoder() {
 		return encChain.get();
 	}
 
 	public void resetEncoder() {
 		encChain.reset();
-	}
-
-	public double getPotHeight() {
-		return potHeight;
 	}
 
 	public boolean getTop() {
@@ -92,9 +69,5 @@ public class BinElevator {
 
 	public boolean getBottom() {
 		return bottom.get();
-	}
-
-	private void updatePot() {
-		potHeight = heightPot.getValue();
 	}
 }
