@@ -193,7 +193,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void disabledInit(){
-		
+		binElevator.setSetPoint(0);
 	}
 
 	public void disabledPeriodic() {
@@ -259,9 +259,11 @@ public class Robot extends IterativeRobot {
 			binElevator.setPositionUp();
 		} else if (driverControl.elevatorDown()) {
 			binElevator.setPositionDown();
-		}else{
-			binElevator.stopChain();
+		}else if(driverControl.getRightButton11()){
+			binElevator.setSetPoint(0);
 		}
+		
+		System.out.println(binElevator.getEncoder());
 	}
 
 	@SuppressWarnings("deprecation")

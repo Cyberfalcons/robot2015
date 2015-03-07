@@ -10,8 +10,7 @@ public class BinElevator {
 	PIDController pid;
 	int position = 0;
 
-	public BinElevator(Victor v, Encoder e, DigitalInput to, DigitalInput b,
-			PIDController p) {
+	public BinElevator(Victor v, Encoder e, DigitalInput to, DigitalInput b, PIDController p) {
 		binElevator = v;
 		encChain = e;
 		top = to;
@@ -27,37 +26,35 @@ public class BinElevator {
 
 	public void setPositionUp() {
 		pid.enable();
-
 		if (getTop() == false) {
-			position = position + 10;
+			position = position + 40;
 			pid.setSetpoint(position);
-		} else {
-			stopChain();
 		}
 	}
 
 	public void setPositionDown() {
 		pid.enable();
-
 		if (getBottom() == false) {
-			if (position - 10 > 0) {
-				position = position - 10;
-			} else{
-				position = 15;
-			}
+			position = position - 40;
 			pid.setSetpoint(position);
 		} else {
-			stopChain();
 			resetEncoder();
+			stopChain();
+			position = 0;
 		}
 	}
 
 	public void stopChain() {
+		pid.setSetpoint(0);
 		pid.disable();
 	}
 
 	public int getEncoder() {
 		return encChain.get();
+	}
+	
+	public void setSetPoint(int point){
+		pid.setSetpoint(point);
 	}
 
 	public void resetEncoder() {

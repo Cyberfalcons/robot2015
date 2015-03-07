@@ -43,6 +43,7 @@ public class VariableMap {
 	 * Port 8 - Can Burglar Limit Switch
 	 * Port 9 - 
 	 */
+	
 	public static final int DIO_DRIVE_ENC_LEFT_A = 0;
 	public static final int DIO_DRIVE_ENC_LEFT_B = 1;
 	public static final int DIO_DRIVE_ENC_RIGHT_A = 2;
