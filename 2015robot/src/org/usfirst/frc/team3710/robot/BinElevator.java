@@ -60,6 +60,14 @@ public class BinElevator {
 	public int getEncoder() {
 		return encChain.get();
 	}
+	
+	public int getPIDPosition(){
+		return position;
+	}
+	
+	public int getTopLocation(){
+		return topLocation;
+	}
 
 	public void setSetPoint(int point) {
 		pid.setSetpoint(point);
