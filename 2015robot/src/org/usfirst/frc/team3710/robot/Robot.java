@@ -12,8 +12,8 @@ public class Robot extends IterativeRobot {
 	PinchClaw claw;
 	BinElevator binElevator;
 	RollerClaw rollerClaw;
-	PowerDistributionPanel pdp;
 	CanBurglar_v2 canBurglar;
+	PowerDistributionPanel pdp;
 
 	// Controller and Sensor
 	Talon driveRightTalonA, driveLeftTalonA, driveRightTalonB, driveLeftTalonB;
@@ -186,6 +186,12 @@ public class Robot extends IterativeRobot {
 		doCanBurglar();
 		
 		updateValuesFromSmartDashboard();
+		
+		if(VariableMap.VERBOSE_CONSOLE){
+			System.out.println("Elevator Encoder: " +  binElevator.getEncoder());
+			System.out.println("Elevator Top: " + binElevator.getTop());
+			System.out.println("Elevator Bottom: " + binElevator.getBottom());
+		}
 	}
 
 	public void testPeriodic() {

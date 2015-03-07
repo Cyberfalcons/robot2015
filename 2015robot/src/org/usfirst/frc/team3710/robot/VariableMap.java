@@ -64,7 +64,7 @@ public class VariableMap {
 	 */
 	
 
-	/* Misc useful constants */
+	/* Misc useful variables */
 	public static final double BIN_ELEVATOR_CHAIN_SPEED = 1.00;
 	public static final double BIN_ELEVATOR_CONSTANT_FORCE = 0.10;
 	public static final double CLAW_ROLLER_SPEED = 1.0;
@@ -74,7 +74,7 @@ public class VariableMap {
 	public static final double BIN_ELEVATOR_PID_I = 0.0;
 	public static final double BIN_ELEVATOR_PID_D = 0.006;
 	public static boolean SLOW_MODE = false;
-	
+	public static boolean VERBOSE_CONSOLE = false;
 	
 	/* Power Channels
 	 * 

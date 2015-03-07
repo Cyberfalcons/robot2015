@@ -34,6 +34,10 @@ public class BinElevator {
 			topLocation = getEncoder();
 			position = position - 2;
 			pid.setSetpoint(position);
+
+			if (VariableMap.VERBOSE_CONSOLE) {
+				System.out.println("ELEVATOR UP DISABLED BY LIMIT SWITCH!");
+			}
 		}
 	}
 
@@ -46,6 +50,10 @@ public class BinElevator {
 			resetEncoder();
 			position = position + 2;
 			pid.setSetpoint(position);
+
+			if (VariableMap.VERBOSE_CONSOLE) {
+				System.out.println("ELEVATOR DOWN DISABLED BY LIMIT SWITCH");
+			}
 		}
 	}
 
