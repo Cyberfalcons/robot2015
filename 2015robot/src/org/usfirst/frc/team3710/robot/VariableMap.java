@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3710.robot;
 
 public class VariableMap {
-	// A file for constants used in the robot code
 
 	/*
 	 * PWM Ports (motor outputs)
@@ -58,12 +57,11 @@ public class VariableMap {
 	/*
 	 * Analog Pins
 	 * 
-	 * Port 0 - Bin Elevator height pot
+	 * Port 0 - 
 	 * Port 1 - 
 	 * Port 2 - 
 	 * Port 3 - 
 	 */
-	public static final int AIN_BIN_HEIGHT_POT = 0;
 	
 
 	/* Misc useful constants */

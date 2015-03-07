@@ -17,7 +17,7 @@ public class Robot extends IterativeRobot {
 
 	// Controller and Sensor
 	Talon driveRightTalonA, driveLeftTalonA, driveRightTalonB, driveLeftTalonB;
-	Encoder encDriveLeft, encDriveRight, encBinElevator;
+	Encoder encDriveLeft, encDriveRight, binElevatorEncoder;
 	Victor pinchClawVictor, binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor, canBurglarVictor;
 	DigitalInput binElevatorTop, binElevatorBottom, canBurglarLimitSwitch;
 	PIDController binElevatorPID;
@@ -51,10 +51,10 @@ public class Robot extends IterativeRobot {
 
 		// Bin Elevator
 		binElevatorVictor = new Victor(VariableMap.PWM_BIN_ELEVATOR);
-		encBinElevator = new Encoder(VariableMap.DIO_BIN_ELEVATOR_ENC_A, VariableMap.DIO_BIN_ELEVATOR_ENC_B, false, Encoder.EncodingType.k4X);
+		binElevatorEncoder = new Encoder(VariableMap.DIO_BIN_ELEVATOR_ENC_A, VariableMap.DIO_BIN_ELEVATOR_ENC_B, false, Encoder.EncodingType.k4X);
 		binElevatorTop = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_TOP);
 		binElevatorBottom = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_BOTTOM);
-		binElevatorPID = new PIDController(binElevatorPIDP, binElevatorPIDI, binElevatorPIDD, encBinElevator, binElevatorVictor);
+		binElevatorPID = new PIDController(binElevatorPIDP, binElevatorPIDI, binElevatorPIDD, binElevatorEncoder, binElevatorVictor);
 
 		// Roller Claw
 		rollerClawRightVictor = new Victor(VariableMap.PWM_ROLLER_RIGHT);
@@ -68,7 +68,7 @@ public class Robot extends IterativeRobot {
 		// Systems
 		drive = new Drive(driveLeftTalonA, driveLeftTalonB, driveRightTalonA, driveRightTalonB, encDriveLeft, encDriveRight);
 		claw = new PinchClaw(pinchClawVictor);
-		binElevator = new BinElevator(binElevatorVictor, encBinElevator, binElevatorTop, binElevatorBottom, binElevatorPID);
+		binElevator = new BinElevator(binElevatorVictor, binElevatorEncoder, binElevatorTop, binElevatorBottom, binElevatorPID);
 		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
 		driverControl = new JoystickControllerWrapper(0, 1);
 		operatorControl = new XBoxControllerWrapper(2);
@@ -193,7 +193,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void disabledInit(){
-		binElevator.setSetPoint(0);
+		
 	}
 
 	public void disabledPeriodic() {
@@ -216,10 +216,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void doPinchClaw() {
-		if (driverControl.openPinchClaw() || operatorControl.oOpenPinchClaw()) {
+		if (driverControl.openPinchClaw()) {
 			claw.openClaw();
-		} else if (driverControl.closePinchClaw()
-				|| operatorControl.oOpenPinchClaw()) {
+		} else if (driverControl.closePinchClaw()) {
 			claw.closeClaw();
 		} else {
 			claw.stopClaw();
@@ -262,8 +261,6 @@ public class Robot extends IterativeRobot {
 		}else if(driverControl.getRightButton11()){
 			binElevator.setSetPoint(0);
 		}
-		
-		System.out.println(binElevator.getEncoder());
 	}
 
 	@SuppressWarnings("deprecation")
