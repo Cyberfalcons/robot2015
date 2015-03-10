@@ -20,7 +20,7 @@ public class Robot extends IterativeRobot {
 	Encoder encDriveLeft, encDriveRight, binElevatorEncoder;
 	Victor pinchClawVictor, binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor, canBurglarVictor;
 	DigitalInput binElevatorTop, binElevatorBottom, canBurglarLimitSwitch;
-	PIDController binElevatorPID;
+	PIDController binElevatorPID, driveLeftPID, driveRightPID;
 	Servo canBurglarRelease1;
 
 	// SmartDashboard Objects
@@ -45,7 +45,9 @@ public class Robot extends IterativeRobot {
 		driveRightTalonB = new Talon(VariableMap.PWM_DRIVE_RIGHT_B);
 		encDriveLeft = new Encoder(VariableMap.DIO_DRIVE_ENC_LEFT_A, VariableMap.DIO_DRIVE_ENC_LEFT_B, false, Encoder.EncodingType.k4X);
 		encDriveRight = new Encoder(VariableMap.DIO_DRIVE_ENC_RIGHT_A, VariableMap.DIO_DRIVE_ENC_RIGHT_B, false, Encoder.EncodingType.k4X);
-
+		driveLeftPID = new PIDController(VariableMap.DRIVE_PID_P, VariableMap.DRIVE_PID_I, VariableMap.DRIVE_PID_D,encDriveLeft, driveLeftTalonA);
+		driveRightPID = new PIDController(VariableMap.DRIVE_PID_P, VariableMap.DRIVE_PID_I, VariableMap.DRIVE_PID_D, encDriveRight, driveRightTalonA);;
+		
 		// Pinch Claw
 		pinchClawVictor = new Victor(VariableMap.PWM_PINCH_CLAW);
 
@@ -66,7 +68,7 @@ public class Robot extends IterativeRobot {
 		canBurglarRelease1 = new Servo(VariableMap.PWN_CAN_BURGLAR_SERVO_RELEASE_1);
 
 		// Systems
-		drive = new Drive(driveLeftTalonA, driveLeftTalonB, driveRightTalonA, driveRightTalonB, encDriveLeft, encDriveRight);
+		drive = new Drive(driveLeftTalonA,driveLeftTalonB, driveRightTalonA, driveRightTalonB, encDriveLeft, encDriveRight, driveLeftPID, driveRightPID);
 		claw = new PinchClaw(pinchClawVictor);
 		binElevator = new BinElevator(binElevatorVictor, binElevatorEncoder, binElevatorTop, binElevatorBottom, binElevatorPID);
 		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
@@ -83,6 +85,7 @@ public class Robot extends IterativeRobot {
 		ticks = 0;
 		autonomousMode = (int) autoChooser.getSelected();
 		sensorMode = (int) autoSensorMode.getSelected();
+		VariableMap.SLOW_MODE_DRIVE = false;
 	}
 
 	public void autonomousPeriodic() {
@@ -175,6 +178,8 @@ public class Robot extends IterativeRobot {
 
 	public void teleopInit() {
 		ticks = 0;
+		drive.disableLeftPIDControl();
+		drive.disableRightPIDControl();
 	}
 
 	public void teleopPeriodic() {
@@ -213,10 +218,10 @@ public class Robot extends IterativeRobot {
 		
 		if(operatorControl.getBtnA())
 		{
-			if(VariableMap.SLOW_MODE == false){
-				VariableMap.SLOW_MODE = true;
-			}else if(VariableMap.SLOW_MODE == true){
-				VariableMap.SLOW_MODE = false;
+			if(VariableMap.SLOW_MODE_DRIVE == false){
+				VariableMap.SLOW_MODE_DRIVE = true;
+			}else if(VariableMap.SLOW_MODE_DRIVE == true){
+				VariableMap.SLOW_MODE_DRIVE = false;
 			}
 		}
 	}

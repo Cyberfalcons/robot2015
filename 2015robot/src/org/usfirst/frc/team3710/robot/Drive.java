@@ -9,11 +9,13 @@ public class Drive {
 	Talon rightB;
 	Encoder encRight;
 	Encoder encLeft;
+	PIDController pidLeft;
+	PIDController pidRight;
 
-	public Drive(Talon la, Talon lb, Talon ra, Talon rb, Encoder el, Encoder er) {
+	public Drive(Talon la, Talon lb, Talon ra, Talon rb, Encoder el, Encoder er, PIDController lpid, PIDController rpid) {
 		leftA = la;
-		rightA = ra;
 		leftB = lb;
+		rightA = ra;
 		rightB = rb;
 
 		encLeft = el;
@@ -29,16 +31,13 @@ public class Drive {
 		encRight.setDistancePerPulse(5);
 		encRight.setReverseDirection(false);
 		encRight.setSamplesToAverage(7);
+		
+		pidLeft = lpid;
+		pidRight = rpid;
 	}
 
-	/**
-	 * drives the right side motor at a specified power
-	 * 
-	 * @param power
-	 *            : power to run the motor at
-	 */
 	public void setDriveRight(double power) {
-		if(VariableMap.SLOW_MODE == true){
+		if(VariableMap.SLOW_MODE_DRIVE == true){
 			rightA.set(power/2);
 			rightB.set(power/2);
 		}
@@ -48,14 +47,8 @@ public class Drive {
 		}
 	}
 
-	/**
-	 * drives the left side motor at a specified power
-	 * 
-	 * @param power
-	 *            : power to run the motor at
-	 */
 	public void setDriveLeft(double power) {
-		if(VariableMap.SLOW_MODE == true){
+		if(VariableMap.SLOW_MODE_DRIVE == true){
 			leftA.set(power/2);
 			leftB.set(power/2);
 		}
@@ -64,21 +57,45 @@ public class Drive {
 			leftB.set(power);
 		}
 	}
+	
+	public void setPIDDriveLeft(int position){
+		pidLeft.enable();
+		pidLeft.setSetpoint(position);
+		double output = pidLeft.get();
+		setDriveLeft(output);
+		
+		if(encLeft.get() == position){
+			disableLeftPIDControl();
+		}
+	}
+	
+	public void setPIDDriveRight(int position){
+		pidRight.enable();
+		pidRight.setSetpoint(position);
+		double output = pidRight.get();
+		setDriveRight(output);
+		
+		if(encRight.get() == position){
+			disableRightPIDControl();
+		}
+	}
+	
+	public void disableLeftPIDControl(){
+		pidLeft.disable();
+		leftA.set(0.0);
+		leftB.set(0.0);
+	}
+	
+	public void disableRightPIDControl(){
+		pidRight.disable();
+		rightA.set(0.0);
+		rightB.set(0.0);
+	}
 
-	/**
-	 * get how far the encoder has turned
-	 * 
-	 * @return
-	 */
 	public int getEncoderRight() {
 		return encRight.get();
 	}
 
-	/**
-	 * get how far the encoder has turned
-	 * 
-	 * @return
-	 */
 	public int getEncoderLeft() {
 		return encLeft.get();
 	}
