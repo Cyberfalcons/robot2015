@@ -100,7 +100,7 @@ public class Robot extends IterativeRobot {
 					servoMoved = true;
 				}
 				
-				if(ticks < 2000){
+				if(ticks < VariableMap.CAN_BURGLAR_WAIT){
 					drive.setDriveLeft(-1.00);
 					drive.setDriveRight(-1.00);
 				}
@@ -169,8 +169,16 @@ public class Robot extends IterativeRobot {
 			}
 			break;
 			
-		//Do Nothing
+		//Drive Forward, Can Burgle, Drive Backwards
 		case 2:
+			
+			break;
+	    //Intake then drive to autozone
+		case 3:
+			
+			break;
+	    //Do nothing
+		case 4:
 			
 			break;
 		}
@@ -298,9 +306,11 @@ public class Robot extends IterativeRobot {
 	@SuppressWarnings("deprecation")
 	private void initializeSmartDashboard() {
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Get Bins and Drive", 0);
-		autoChooser.addObject("Just drive", 1);
-		autoChooser.addObject("Do Nothing", 2);
+		autoChooser.addDefault("Can Burgle, Drive Backwards", 0);
+		autoChooser.addObject("Drive to Autozone", 1);
+		autoChooser.addObject("Drive Forward, Can Burgle, Drive Backwards", 2);
+		autoChooser.addObject("Intake Can, Drive to Autozone", 3);
+		autoChooser.addObject("Do Nothing", 4);
 		
 		autoSensorMode = new SendableChooser();
 		autoSensorMode.addDefault("Ticks", 0);

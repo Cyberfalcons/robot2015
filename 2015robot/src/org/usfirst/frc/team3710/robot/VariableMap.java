@@ -76,6 +76,7 @@ public class VariableMap {
 	public static final double DRIVE_PID_P = 0.000;
 	public static final double DRIVE_PID_I = 0.000;
 	public static final double DRIVE_PID_D = 0.000;
+	public static final int CAN_BURGLAR_WAIT = 1500;
 	public static boolean SLOW_MODE_DRIVE = false;
 	public static boolean SLOW_MODE_ROLLER = false;
 	public static boolean VERBOSE_CONSOLE = false;

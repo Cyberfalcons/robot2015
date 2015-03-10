@@ -38,12 +38,12 @@ public class Drive {
 
 	public void setDriveRight(double power) {
 		if(VariableMap.SLOW_MODE_DRIVE == true){
-			rightA.set(power/2);
-			rightB.set(power/2);
+			rightA.set((power/2) * -1);
+			rightB.set((power/2) * -1);
 		}
 		else{
-			rightA.set(power);
-			rightB.set(power);
+			rightA.set((power) * -1);
+			rightB.set((power) * -1);
 		}
 	}
 

@@ -37,16 +37,16 @@ public class Controller {
 
 	public double driveLeft() {
 		if (controlFlip)
-			return getLeftY() * (0.5 + (getLeftZ() * 0.5)) * -1;
-		else
 			return getLeftY() * (0.5 + (getLeftZ() * 0.5));
+		else
+			return getLeftY() * (0.5 + (getLeftZ() * 0.5)) * -1;
 	}
 
 	public double driveRight() {
 		if (controlFlip)
-			return getRightY() * (0.5 + (getRightZ() * 0.5));
-		else
 			return getRightY() * (0.5 + (getRightZ() * 0.5)) * -1;
+		else
+			return getRightY() * (0.5 + (getRightZ() * 0.5));
 	}
 
 	public boolean elevatorUp() {
