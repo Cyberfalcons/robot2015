@@ -107,4 +107,12 @@ public class Drive {
 	public void resetRightEncoder() {
 		encRight.reset();
 	}
+	
+	public void flipSlowMode(){
+		if(VariableMap.SLOW_MODE_DRIVE == false){
+			VariableMap.SLOW_MODE_DRIVE = true;
+		}else if(VariableMap.SLOW_MODE_DRIVE == true){
+			VariableMap.SLOW_MODE_DRIVE = false;
+		}
+	}
 }

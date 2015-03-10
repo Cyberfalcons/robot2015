@@ -213,17 +213,14 @@ public class Robot extends IterativeRobot {
 
 	public void doDrive() {
 		driverControl.checkFlip();
-		drive.setDriveRight(driverControl.driveRight());
-		drive.setDriveLeft(driverControl.driveLeft());
 		
 		if(operatorControl.getBtnA())
 		{
-			if(VariableMap.SLOW_MODE_DRIVE == false){
-				VariableMap.SLOW_MODE_DRIVE = true;
-			}else if(VariableMap.SLOW_MODE_DRIVE == true){
-				VariableMap.SLOW_MODE_DRIVE = false;
-			}
+			drive.flipSlowMode();
 		}
+		
+		drive.setDriveRight(driverControl.driveRight());
+		drive.setDriveLeft(driverControl.driveLeft());
 	}
 
 	public void doPinchClaw() {
@@ -237,6 +234,11 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void doRollerClaw() {
+		
+		if(operatorControl.getBtnB()){
+			rollerClaw.flipSlowMode();
+		}
+		
 		if (driverControl.rollerIn()) {
 			rollerClaw.binIn();
 		} else if (driverControl.rollerOut()) {

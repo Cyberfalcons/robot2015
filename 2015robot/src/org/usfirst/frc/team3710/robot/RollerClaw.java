@@ -18,13 +18,23 @@ public class RollerClaw {
 
 	private void rightRollerIn() {
 		if (rightCurrent < currentCutOff) {
-			rightRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
+			if(VariableMap.SLOW_MODE_ROLLER){
+				rightRoller.set(-VariableMap.CLAW_ROLLER_SPEED / 2); 
+			}
+			else{
+				rightRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
+			}
 		}
 	}
 
 	private void rightRollerOut() {
 		if (rightCurrent < currentCutOff) {
-			rightRoller.set(VariableMap.CLAW_ROLLER_SPEED);
+			if(VariableMap.SLOW_MODE_ROLLER){
+				rightRoller.set(VariableMap.CLAW_ROLLER_SPEED / 2);
+			}
+			else{
+				rightRoller.set(VariableMap.CLAW_ROLLER_SPEED);
+			}
 		}
 	}
 
@@ -34,13 +44,22 @@ public class RollerClaw {
 
 	private void leftRollerIn() {
 		if (leftCurrent < currentCutOff) {
-			leftRoller.set(VariableMap.CLAW_ROLLER_SPEED);
+			if(VariableMap.SLOW_MODE_ROLLER){
+				leftRoller.set(VariableMap.CLAW_ROLLER_SPEED / 2);
+			}else{
+				leftRoller.set(VariableMap.CLAW_ROLLER_SPEED);
+			}
 		}
 	}
 
 	private void leftRollerOut() {
 		if (leftCurrent < currentCutOff) {
-			leftRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
+			if(VariableMap.SLOW_MODE_ROLLER){
+				leftRoller.set(-VariableMap.CLAW_ROLLER_SPEED / 2);
+			}
+			else{
+				leftRoller.set(-VariableMap.CLAW_ROLLER_SPEED);
+			}
 		}
 	}
 
@@ -76,6 +95,14 @@ public class RollerClaw {
 		rightRollerStop();
 		leftRollerStop();
 		updateCurrents();
+	}
+	
+	public void flipSlowMode(){
+		if(VariableMap.SLOW_MODE_ROLLER == false){
+			VariableMap.SLOW_MODE_ROLLER = true;
+		}else if(VariableMap.SLOW_MODE_ROLLER == true){
+			VariableMap.SLOW_MODE_ROLLER = false;
+		}
 	}
 
 	private void updateCurrents() {
