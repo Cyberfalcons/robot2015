@@ -4,19 +4,15 @@ import edu.wpi.first.wpilibj.*;
 
 public class Drive {
 	Talon leftA;
-	Talon leftB;
 	Talon rightA;
-	Talon rightB;
 	Encoder encRight;
 	Encoder encLeft;
 	PIDController pidLeft;
 	PIDController pidRight;
 
-	public Drive(Talon la, Talon lb, Talon ra, Talon rb, Encoder el, Encoder er, PIDController lpid, PIDController rpid) {
+	public Drive(Talon la, Talon ra, Encoder el, Encoder er, PIDController lpid, PIDController rpid) {
 		leftA = la;
-		leftB = lb;
 		rightA = ra;
-		rightB = rb;
 
 		encLeft = el;
 		encLeft.setMaxPeriod(.1);
@@ -39,22 +35,18 @@ public class Drive {
 	public void setDriveRight(double power) {
 		if(VariableMap.SLOW_MODE_DRIVE == true){
 			rightA.set((power/2) * -1);
-			rightB.set((power/2) * -1);
 		}
 		else{
 			rightA.set((power) * -1);
-			rightB.set((power) * -1);
 		}
 	}
 
 	public void setDriveLeft(double power) {
 		if(VariableMap.SLOW_MODE_DRIVE == true){
 			leftA.set(power/2);
-			leftB.set(power/2);
 		}
 		else{
 			leftA.set(power);
-			leftB.set(power);
 		}
 	}
 	
@@ -83,13 +75,11 @@ public class Drive {
 	public void disableLeftPIDControl(){
 		pidLeft.disable();
 		leftA.set(0.0);
-		leftB.set(0.0);
 	}
 	
 	public void disableRightPIDControl(){
 		pidRight.disable();
 		rightA.set(0.0);
-		rightB.set(0.0);
 	}
 
 	public int getEncoderRight() {

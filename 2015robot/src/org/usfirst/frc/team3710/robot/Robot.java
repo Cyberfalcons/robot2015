@@ -16,7 +16,7 @@ public class Robot extends IterativeRobot {
 	PowerDistributionPanel pdp;
 
 	// Controller and Sensor
-	Talon driveRightTalonA, driveLeftTalonA, driveRightTalonB, driveLeftTalonB;
+	Talon driveRightTalonA, driveLeftTalonA;
 	Encoder encDriveLeft, encDriveRight, binElevatorEncoder;
 	Victor pinchClawVictor, binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor, canBurglarVictor;
 	DigitalInput binElevatorTop, binElevatorBottom, canBurglarLimitSwitch;
@@ -40,9 +40,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		// Drive
 		driveLeftTalonA = new Talon(VariableMap.PWM_DRIVE_LEFT_A);
-		driveLeftTalonB = new Talon(VariableMap.PWM_DRIVE_LEFT_B);
 		driveRightTalonA = new Talon(VariableMap.PWM_DRIVE_RIGHT_A);
-		driveRightTalonB = new Talon(VariableMap.PWM_DRIVE_RIGHT_B);
 		encDriveLeft = new Encoder(VariableMap.DIO_DRIVE_ENC_LEFT_A, VariableMap.DIO_DRIVE_ENC_LEFT_B, false, Encoder.EncodingType.k4X);
 		encDriveRight = new Encoder(VariableMap.DIO_DRIVE_ENC_RIGHT_A, VariableMap.DIO_DRIVE_ENC_RIGHT_B, false, Encoder.EncodingType.k4X);
 		driveLeftPID = new PIDController(VariableMap.DRIVE_PID_P, VariableMap.DRIVE_PID_I, VariableMap.DRIVE_PID_D,encDriveLeft, driveLeftTalonA);
@@ -68,7 +66,7 @@ public class Robot extends IterativeRobot {
 		canBurglarRelease1 = new Servo(VariableMap.PWN_CAN_BURGLAR_SERVO_RELEASE_1);
 
 		// Systems
-		drive = new Drive(driveLeftTalonA,driveLeftTalonB, driveRightTalonA, driveRightTalonB, encDriveLeft, encDriveRight, driveLeftPID, driveRightPID);
+		drive = new Drive(driveLeftTalonA, driveRightTalonA, encDriveLeft, encDriveRight, driveLeftPID, driveRightPID);
 		claw = new PinchClaw(pinchClawVictor);
 		binElevator = new BinElevator(binElevatorVictor, binElevatorEncoder, binElevatorTop, binElevatorBottom, binElevatorPID);
 		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
