@@ -5,12 +5,14 @@ import edu.wpi.first.wpilibj.*;
 public class CanBurglar_v2 {
 	Victor canBurglarVictor;
 	DigitalInput retractedSwitch;
-	Servo releaseServo;
+	Servo servo1, servo2;
+	boolean servosMoved;
 
-	public CanBurglar_v2(Victor v, DigitalInput l, Servo r1) {
+	public CanBurglar_v2(Victor v, DigitalInput l, Servo r1, Servo r2) {
 		canBurglarVictor = v;
 		retractedSwitch = l;
-		releaseServo = r1;
+		servo1 = r1;
+		servo2 = r2;
 	}
 
 	public void retract() {
@@ -29,8 +31,23 @@ public class CanBurglar_v2 {
 	public boolean getLimitSwitch() {
 		return retractedSwitch.get();
 	}
+	
+	public boolean getServosMoved(){
+		return servosMoved;
+	}
+	
+	public void setServosMoved(boolean b){
+		servosMoved = b;
+	}
 
-	public void setServoPosition(double position) {
-		releaseServo.set(position);
+	public void toggleServos() {
+		if(servosMoved == true){
+			servo1.set(1.0);
+			servo2.set(-1.0);
+		}
+		else{
+			servo1.set(-1.0);
+			servo2.set(1.0);
+		}
 	}
 }

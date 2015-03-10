@@ -7,25 +7,24 @@ public class VariableMap {
 	 * 
 	 * Port 0 - Drive Left A
 	 * Port 1 - Drive Right A
-	 * Port 2 - Drive Left B
-	 * Port 3 - Drive Right B
-	 * Port 4 - Left Roller 
-	 * Port 5 - Right Roller 
-	 * Port 6 - Bin Elevator Main Chain 
-	 * Port 7 - Can Burglar Victor
-	 * Port 8 - Pinch Claw
-	 * Port 9 - Can Burglar Servo Release 1
+	 * Port 2 - Left Roller 
+	 * Port 3 - Right Roller 
+	 * Port 4 - Bin Elevator Main Chain 
+	 * Port 5 - Can Burglar Victor
+	 * Port 6 - Pinch Claw
+	 * Port 7 - Can Burglar Servo Release 1
+	 * Port 8 - 
+	 * Port 9 - 
 	 */
 	public static final int PWM_DRIVE_LEFT_A = 0;
 	public static final int PWM_DRIVE_RIGHT_A = 1;
-	public static final int PWM_DRIVE_LEFT_B = 2;
-	public static final int PWM_DRIVE_RIGHT_B = 3;
-	public static final int PWM_ROLLER_LEFT = 4;
-	public static final int PWM_ROLLER_RIGHT = 5;
-	public static final int PWM_BIN_ELEVATOR = 6;
-	public static final int PWM_CAN_BURGLAR_VICTOR = 7;
-	public static final int PWM_PINCH_CLAW = 8;
-	public static final int PWN_CAN_BURGLAR_SERVO_RELEASE_1 = 9;
+	public static final int PWM_ROLLER_LEFT = 2;
+	public static final int PWM_ROLLER_RIGHT = 3;
+	public static final int PWM_BIN_ELEVATOR = 4;
+	public static final int PWM_CAN_BURGLAR_VICTOR = 5;
+	public static final int PWM_PINCH_CLAW = 6;
+	public static final int PWM_CAN_BURGLAR_SERVO_RELEASE_1 = 7;
+	public static final int PWM_CAN_BURGLAR_SERVO_RELEASE_2 = 8;
 	
 
 	/*

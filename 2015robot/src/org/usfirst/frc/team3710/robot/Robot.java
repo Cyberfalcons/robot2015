@@ -21,7 +21,7 @@ public class Robot extends IterativeRobot {
 	Victor pinchClawVictor, binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor, canBurglarVictor;
 	DigitalInput binElevatorTop, binElevatorBottom, canBurglarLimitSwitch;
 	PIDController binElevatorPID, driveLeftPID, driveRightPID;
-	Servo canBurglarRelease1;
+	Servo canBurglarRelease1, canBurglarRelease2;
 
 	// SmartDashboard Objects
 	int autonomousMode = 0;
@@ -35,7 +35,6 @@ public class Robot extends IterativeRobot {
 	double binElevatorPIDD = VariableMap.BIN_ELEVATOR_PID_D;
 	
 	// Autonomous Variables
-	boolean servoMoved = false;
 
 	public void robotInit() {
 		// Drive
@@ -63,7 +62,7 @@ public class Robot extends IterativeRobot {
 		// Can Burglar
 		canBurglarVictor = new Victor(VariableMap.PWM_CAN_BURGLAR_VICTOR);
 		canBurglarLimitSwitch = new DigitalInput(VariableMap.DIO_CAN_BURGLAR_LIMIT_SWITCH);
-		canBurglarRelease1 = new Servo(VariableMap.PWN_CAN_BURGLAR_SERVO_RELEASE_1);
+		canBurglarRelease1 = new Servo(VariableMap.PWM_CAN_BURGLAR_SERVO_RELEASE_1);
 
 		// Systems
 		drive = new Drive(driveLeftTalonA, driveRightTalonA, encDriveLeft, encDriveRight, driveLeftPID, driveRightPID);
@@ -72,7 +71,7 @@ public class Robot extends IterativeRobot {
 		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
 		driverControl = new JoystickControllerWrapper(0, 1);
 		operatorControl = new XBoxControllerWrapper(2);
-		canBurglar = new CanBurglar_v2(canBurglarVictor, canBurglarLimitSwitch, canBurglarRelease1);
+		canBurglar = new CanBurglar_v2(canBurglarVictor, canBurglarLimitSwitch, canBurglarRelease1, canBurglarRelease2);
 		pdp = new PowerDistributionPanel();
 
 		// SmartDashboard
@@ -93,9 +92,9 @@ public class Robot extends IterativeRobot {
 		case 0:
 			//Ticks
 			if(sensorMode == 0){
-				if(servoMoved == false){
-					canBurglar.setServoPosition(1.0);
-					servoMoved = true;
+				if(canBurglar.getServosMoved() == false){
+					canBurglar.toggleServos();
+					canBurglar.setServosMoved(true);
 				}
 				
 				if(ticks < VariableMap.CAN_BURGLAR_WAIT){
@@ -114,13 +113,13 @@ public class Robot extends IterativeRobot {
 				}
 				
 				if((ticks > 5000) && (canBurglar.getLimitSwitch() == true)){
-					canBurglar.setServoPosition(-1.0);
+					canBurglar.toggleServos();
 				}
 			//Encoders
 			}else if(sensorMode == 1){
-				if(servoMoved == false){
-					canBurglar.setServoPosition(1.0);
-					servoMoved = true;
+				if(canBurglar.getServosMoved() == false){
+					canBurglar.toggleServos();
+					canBurglar.setServosMoved(true);
 				}
 				
 				if((drive.getEncoderLeft() < 5000)&&(drive.getEncoderRight() < 5000)){
@@ -138,7 +137,7 @@ public class Robot extends IterativeRobot {
 				}
 				
 				if((ticks > 5000) && (canBurglar.getLimitSwitch() == true)){
-					canBurglar.setServoPosition(-1.0);
+					canBurglar.toggleServos();
 				}
 			}
 			
@@ -263,12 +262,6 @@ public class Robot extends IterativeRobot {
 			canBurglar.retract();
 		}else{
 			canBurglar.stop();
-		}
-		
-		if(driverControl.getRightButton6()){
-			canBurglar.setServoPosition(1.0);
-		}else if(driverControl.getRightButton7()){
-			canBurglar.setServoPosition(-1.0);
 		}
 	}
 
