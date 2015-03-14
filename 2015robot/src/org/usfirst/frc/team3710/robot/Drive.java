@@ -17,14 +17,14 @@ public class Drive {
 		encLeft = el;
 		encLeft.setMaxPeriod(.1);
 		encLeft.setMinRate(10);
-		encLeft.setDistancePerPulse(5);
+		encLeft.setDistancePerPulse(1);
 		encLeft.setReverseDirection(false);
 		encLeft.setSamplesToAverage(7);
 
 		encRight = er;
 		encRight.setMaxPeriod(.1);
 		encRight.setMinRate(10);
-		encRight.setDistancePerPulse(5);
+		encRight.setDistancePerPulse(1);
 		encRight.setReverseDirection(false);
 		encRight.setSamplesToAverage(7);
 		
@@ -34,42 +34,30 @@ public class Drive {
 
 	public void setDriveRight(double power) {
 		if(VariableMap.SLOW_MODE_DRIVE == true){
-			rightA.set((power/2) * -1);
+			rightA.set((power/2));
 		}
 		else{
-			rightA.set((power) * -1);
+			rightA.set((power / 0.85));
 		}
 	}
 
 	public void setDriveLeft(double power) {
 		if(VariableMap.SLOW_MODE_DRIVE == true){
-			leftA.set(power/2);
+			leftA.set((power/2));
 		}
 		else{
-			leftA.set(power);
+			leftA.set((power / 0.85));
 		}
 	}
 	
 	public void setPIDDriveLeft(int position){
 		pidLeft.enable();
 		pidLeft.setSetpoint(position);
-		double output = pidLeft.get();
-		setDriveLeft(output);
-		
-		if(encLeft.get() == position){
-			disableLeftPIDControl();
-		}
 	}
 	
 	public void setPIDDriveRight(int position){
 		pidRight.enable();
 		pidRight.setSetpoint(position);
-		double output = pidRight.get();
-		setDriveRight(output);
-		
-		if(encRight.get() == position){
-			disableRightPIDControl();
-		}
 	}
 	
 	public void disableLeftPIDControl(){

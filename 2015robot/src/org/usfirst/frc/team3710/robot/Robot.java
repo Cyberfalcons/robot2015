@@ -22,6 +22,7 @@ public class Robot extends IterativeRobot {
 	DigitalInput binElevatorTop, binElevatorBottom, canBurglarLimitSwitch;
 	PIDController binElevatorPID, driveLeftPID, driveRightPID;
 	Servo canBurglarRelease1, canBurglarRelease2;
+	Timer timer;
 
 	// SmartDashboard Objects
 	int autonomousMode = 0;
@@ -29,12 +30,9 @@ public class Robot extends IterativeRobot {
 	SendableChooser autoChooser, autoSensorMode;
 
 	// Misc
-	int ticks = 0;
 	double binElevatorPIDP = VariableMap.BIN_ELEVATOR_PID_P;
 	double binElevatorPIDI = VariableMap.BIN_ELEVATOR_PID_I;
 	double binElevatorPIDD = VariableMap.BIN_ELEVATOR_PID_D;
-	
-	// Autonomous Variables
 
 	public void robotInit() {
 		// Drive
@@ -63,6 +61,7 @@ public class Robot extends IterativeRobot {
 		canBurglarVictor = new Victor(VariableMap.PWM_CAN_BURGLAR_VICTOR);
 		canBurglarLimitSwitch = new DigitalInput(VariableMap.DIO_CAN_BURGLAR_LIMIT_SWITCH);
 		canBurglarRelease1 = new Servo(VariableMap.PWM_CAN_BURGLAR_SERVO_RELEASE_1);
+		canBurglarRelease2 = new Servo(VariableMap.PWM_CAN_BURGLAR_SERVO_RELEASE_2);
 
 		// Systems
 		drive = new Drive(driveLeftTalonA, driveRightTalonA, encDriveLeft, encDriveRight, driveLeftPID, driveRightPID);
@@ -73,122 +72,51 @@ public class Robot extends IterativeRobot {
 		operatorControl = new XBoxControllerWrapper(2);
 		canBurglar = new CanBurglar_v2(canBurglarVictor, canBurglarLimitSwitch, canBurglarRelease1, canBurglarRelease2);
 		pdp = new PowerDistributionPanel();
+		timer = new Timer();
 
 		// SmartDashboard
 		initializeSmartDashboard();
 	}
 
 	public void autonomousInit() {
-		ticks = 0;
-		autonomousMode = (int) autoChooser.getSelected();
+		//autonomousMode = (int) autoChooser.getSelected();
+		autonomousMode = 0;
 		sensorMode = (int) autoSensorMode.getSelected();
 		VariableMap.SLOW_MODE_DRIVE = false;
+		drive.resetLeftEncoder();
+		drive.resetRightEncoder();
+		canBurglar.setServosMoved(false);
+		timer.start();
 	}
 
+	int canBurglarWait = 275;
+	int driveDistance = 1000;
+	int justDriveDistance = 500;
 	public void autonomousPeriodic() {
-		ticks++;
-		switch (autonomousMode) {
-		// Can Burgle and Drive
-		case 0:
-			//Ticks
-			if(sensorMode == 0){
-				if(canBurglar.getServosMoved() == false){
-					canBurglar.toggleServos();
-					canBurglar.setServosMoved(true);
-				}
-				
-				if(ticks < VariableMap.CAN_BURGLAR_WAIT){
-					drive.setDriveLeft(-1.00);
-					drive.setDriveRight(-1.00);
-				}
-				else if(ticks > 2000){
-					drive.setDriveLeft(0.00);
-					drive.setDriveRight(0.00);
-				}
-				
-				if((ticks > 3000) && (canBurglar.getLimitSwitch() == false)){
-					canBurglar.retract();
-				}else if(canBurglar.getLimitSwitch() == true){
-					canBurglar.stop();
-				}
-				
-				if((ticks > 5000) && (canBurglar.getLimitSwitch() == true)){
-					canBurglar.toggleServos();
-				}
-			//Encoders
-			}else if(sensorMode == 1){
-				if(canBurglar.getServosMoved() == false){
-					canBurglar.toggleServos();
-					canBurglar.setServosMoved(true);
-				}
-				
-				if((drive.getEncoderLeft() < 5000)&&(drive.getEncoderRight() < 5000)){
-					drive.setDriveLeft(-1.00);
-					drive.setDriveRight(-1.00);
-				}else if((drive.getEncoderLeft() > 5000)&&(drive.getEncoderRight() > 5000)){
-					drive.setDriveRight(0.0);
-					drive.setDriveLeft(0.0);
-				}
-				
-				if((ticks > 3000) && (canBurglar.getLimitSwitch() == false)){
-					canBurglar.retract();
-				}else if(canBurglar.getLimitSwitch() == true){
-					canBurglar.stop();
-				}
-				
-				if((ticks > 5000) && (canBurglar.getLimitSwitch() == true)){
-					canBurglar.toggleServos();
-				}
-			}
-			
-			break;
-			
-		// Just Drive
-		case 1:
-			//Ticks
-			if(sensorMode == 0){
-				if(ticks <= 5000){
-					drive.setDriveLeft(1.00);
-					drive.setDriveRight(1.00);
-				}else if(ticks> 5000){
-					drive.setDriveLeft(0.0);
-					drive.setDriveRight(0.0);
-				}
-		    //Encoders
-			}else if(sensorMode == 1){
-				if((drive.getEncoderLeft() < 5000) && (drive.getEncoderRight() < 5000)){
-					drive.setDriveLeft(1.00);
-					drive.setDriveRight(1.00);
-				}else if((drive.getEncoderLeft() > 5000) && (drive.getEncoderRight() > 5000)){
-					drive.setDriveLeft(0.00);
-					drive.setDriveRight(0.00);
-				}
-			}
-			break;
-			
-		//Drive Forward, Can Burgle, Drive Backwards
-		case 2:
-			
-			break;
-	    //Intake then drive to autozone
-		case 3:
-			
-			break;
-	    //Do nothing
-		case 4:
-			
-			break;
+		
+		System.out.println("DRIVE LEFT: " + drive.getEncoderLeft());
+		System.out.println("DRIVE RIGHT: " +  drive.getEncoderRight());
+		
+		if(canBurglar.getServosMoved() == false){
+			canBurglar.toggleServos();
 		}
+		
+		//if(timer.get() > 2.75){
+		//	drive.setPIDDriveLeft(400);
+		//	drive.setPIDDriveRight(-400);
+		//}
+		
 	}
 
 	public void teleopInit() {
-		ticks = 0;
 		drive.disableLeftPIDControl();
 		drive.disableRightPIDControl();
+		binElevator.resetEncoder();
+		binElevator.disablePID();
+		binElevator.resetPosition();
 	}
 
 	public void teleopPeriodic() {
-		ticks++;
 		doDrive();
 		doPinchClaw();
 		doBinElevator();
@@ -197,10 +125,14 @@ public class Robot extends IterativeRobot {
 		
 		updateValuesFromSmartDashboard();
 		
+		//System.out.println("BIN ELEVATOR:" + binElevator.getEncoder());
+		
 		if(VariableMap.VERBOSE_CONSOLE){
 			System.out.println("Elevator Encoder: " +  binElevator.getEncoder());
 			System.out.println("Elevator Top: " + binElevator.getTop());
 			System.out.println("Elevator Bottom: " + binElevator.getBottom());
+			System.out.println("DRIVE LEFT: " + drive.getEncoderLeft());
+			System.out.println("DRIVE RIGHT: " + drive.getEncoderRight());
 		}
 	}
 
@@ -250,8 +182,6 @@ public class Robot extends IterativeRobot {
 			rollerClaw.binOut();
 		} else  if(operatorControl.getBtnB()){
 			rollerClaw.binClockWise();
-		} else  if(operatorControl.getBtnX()){
-			rollerClaw.binCounterClockWise();
 		}else {
 			rollerClaw.stop();
 		}
@@ -263,15 +193,42 @@ public class Robot extends IterativeRobot {
 		}else{
 			canBurglar.stop();
 		}
+		
+		if(operatorControl.getBtnY()){
+			canBurglar.retract();
+		}
+		
+		if(driverControl.getRightButton6()){
+			canBurglar.toggleServos();
+		}
 	}
 
 	public void doBinElevator() {
-		if (driverControl.elevatorUp()) {
-			binElevator.setPositionUp();
-		} else if (driverControl.elevatorDown()) {
-			binElevator.setPositionDown();
-		}else if(driverControl.getRightButton11()){
-			binElevator.setSetPoint(0);
+		if(binElevator.getSensorsDisabled() == false){
+			if (driverControl.elevatorUp()) {
+				binElevator.setPositionUp();
+			} else if (driverControl.elevatorDown()) {
+				binElevator.setPositionDown();
+			}else if(driverControl.getRightButton11()){
+				binElevator.setSetPoint(0);
+			}
+		}else if(binElevator.getSensorsDisabled() == true){
+			if(driverControl.elevatorUp()){
+				binElevator.setPositionUp();
+			}else if(driverControl.elevatorDown()){
+				binElevator.setPositionDown();
+			}else{
+				binElevator.stopElevator();
+			}
+		}
+		
+		if(driverControl.getRightTrigger()){
+			if(binElevator.getSensorsDisabled() == true){
+				binElevator.setSensorsDisabled(false);
+			}
+			else if (binElevator.getSensorsDisabled() == false){
+				binElevator.setSensorsDisabled(true);
+			}
 		}
 	}
 

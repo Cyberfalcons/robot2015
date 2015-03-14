@@ -3,13 +3,14 @@ package org.usfirst.frc.team3710.robot;
 import edu.wpi.first.wpilibj.*;
 
 public class BinElevator {
-	Victor binElevator;
+	Victor binElevator;	
 	Encoder encChain;
 	DigitalInput top;
 	DigitalInput bottom;
 	PIDController pid;
 	int position = 0;
 	int topLocation = 0;
+	boolean sensorsDisabled = false;
 
 	public BinElevator(Victor v, Encoder e, DigitalInput to, DigitalInput b, PIDController p) {
 		binElevator = v;
@@ -26,35 +27,46 @@ public class BinElevator {
 	}
 
 	public void setPositionUp() {
-		pid.enable();
-		if (getTop() == false) {
-			position = position + 40;
-			pid.setSetpoint(position);
-		} else if (getTop() == true) {
-			topLocation = getEncoder();
-			position = position - 2;
-			pid.setSetpoint(position);
+		if(sensorsDisabled != true){
+			pid.enable();
+			if (getTop() == false) {
+				position = position + 40;
+				pid.setSetpoint(position);
+			} else if (getTop() == true) {
+				topLocation = getEncoder();
+				position = position - 20;
+				pid.setSetpoint(position);
 
-			if (VariableMap.VERBOSE_CONSOLE) {
-				System.out.println("ELEVATOR UP DISABLED BY LIMIT SWITCH!");
+				if (VariableMap.VERBOSE_CONSOLE) {
+					System.out.println("ELEVATOR UP DISABLED BY LIMIT SWITCH!");
+				}
 			}
+		}else if(sensorsDisabled){
+			pid.disable();
+			binElevator.set(0.5);
 		}
 	}
 
 	public void setPositionDown() {
-		pid.enable();
-		if (getBottom() == false) {
-			position = position - 40;
-			pid.setSetpoint(position);
-		} else if (getBottom() == true) {
-			resetEncoder();
-			position = position + 2;
-			pid.setSetpoint(position);
-
-			if (VariableMap.VERBOSE_CONSOLE) {
-				System.out.println("ELEVATOR DOWN DISABLED BY LIMIT SWITCH");
+		if(sensorsDisabled != true){
+			pid.enable();
+			if (getBottom() == false) {
+				position = position - 40;
+				pid.setSetpoint(position);
+			} else if (getBottom() == true) {
+				resetEncoder();
+				if (VariableMap.VERBOSE_CONSOLE) {
+					System.out.println("ELEVATOR DOWN DISABLED BY LIMIT SWITCH");
+				}
 			}
+		}else if(sensorsDisabled){
+			pid.disable();
+			binElevator.set(-0.5);
 		}
+	}
+	
+	public void stopElevator(){
+		binElevator.set(0.0);
 	}
 
 	public int getEncoder() {
@@ -83,5 +95,25 @@ public class BinElevator {
 
 	public boolean getBottom() {
 		return bottom.get();
+	}
+	
+	public void setSensorsDisabled(boolean b){
+		sensorsDisabled = b;
+		if(sensorsDisabled == true){
+			pid.disable();
+			position = 0;
+		}
+	}
+	
+	public boolean getSensorsDisabled(){
+		return sensorsDisabled;
+	}
+	
+	public void disablePID(){
+		pid.disable();
+	}
+	
+	public void resetPosition(){
+		position = 0;
 	}
 }

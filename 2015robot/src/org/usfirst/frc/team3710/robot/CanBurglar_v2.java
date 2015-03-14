@@ -6,7 +6,7 @@ public class CanBurglar_v2 {
 	Victor canBurglarVictor;
 	DigitalInput retractedSwitch;
 	Servo servo1, servo2;
-	boolean servosMoved;
+	boolean servosToggled;
 
 	public CanBurglar_v2(Victor v, DigitalInput l, Servo r1, Servo r2) {
 		canBurglarVictor = v;
@@ -33,21 +33,23 @@ public class CanBurglar_v2 {
 	}
 	
 	public boolean getServosMoved(){
-		return servosMoved;
+		return servosToggled;
 	}
 	
 	public void setServosMoved(boolean b){
-		servosMoved = b;
+		servosToggled = b;
 	}
 
 	public void toggleServos() {
-		if(servosMoved == true){
+		if(servosToggled != true){
 			servo1.set(1.0);
 			servo2.set(-1.0);
+			servosToggled = true;
 		}
-		else{
+		else if(servosToggled == true){
 			servo1.set(-1.0);
 			servo2.set(1.0);
+			servosToggled = false;
 		}
 	}
 }

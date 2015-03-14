@@ -72,9 +72,9 @@ public class VariableMap {
 	public static final double BIN_ELEVATOR_PID_P = 0.006;
 	public static final double BIN_ELEVATOR_PID_I = 0.0;
 	public static final double BIN_ELEVATOR_PID_D = 0.006;
-	public static final double DRIVE_PID_P = 0.000;
+	public static final double DRIVE_PID_P = 0.006;
 	public static final double DRIVE_PID_I = 0.000;
-	public static final double DRIVE_PID_D = 0.000;
+	public static final double DRIVE_PID_D = 0.001;
 	public static final int CAN_BURGLAR_WAIT = 1500;
 	public static boolean SLOW_MODE_DRIVE = false;
 	public static boolean SLOW_MODE_ROLLER = false;
