@@ -33,6 +33,7 @@ public class Robot extends IterativeRobot {
 	double binElevatorPIDP = VariableMap.BIN_ELEVATOR_PID_P;
 	double binElevatorPIDI = VariableMap.BIN_ELEVATOR_PID_I;
 	double binElevatorPIDD = VariableMap.BIN_ELEVATOR_PID_D;
+	boolean autoOn = false;
 
 	public void robotInit() {
 		// Drive
@@ -87,25 +88,41 @@ public class Robot extends IterativeRobot {
 		drive.resetRightEncoder();
 		canBurglar.setServosMoved(false);
 		timer.start();
+		binElevatorPID.setPID(0.018, 0.0, 0.006);
 	}
 
 	int canBurglarWait = 275;
 	int driveDistance = 1000;
 	int justDriveDistance = 500;
 	public void autonomousPeriodic() {
-		
-		System.out.println("DRIVE LEFT: " + drive.getEncoderLeft());
-		System.out.println("DRIVE RIGHT: " +  drive.getEncoderRight());
-		
-		if(canBurglar.getServosMoved() == false){
-			canBurglar.toggleServos();
+		if(autoOn == true){
+			System.out.println("DRIVE LEFT: " + drive.getEncoderLeft());
+			System.out.println("DRIVE RIGHT: " +  drive.getEncoderRight());
+			
+			if(canBurglar.getServosMoved() == false){
+				canBurglar.toggleServos();
+			}
+			
+			if((timer.get() > 0.25) && (timer.get() < 0.5)){
+				binElevator.setPositionUp();
+			}else if((timer.get() < 0.75) && (timer.get() > 0.5)){
+				binElevator.setPositionDown();
+			}else if((timer.get() > 1.25)){
+				binElevator.disablePID();
+			}
+			
+		    //m_ds.
+			
+			
+			
+			if((timer.get() > 2.90) && (timer.get() < 5.00)){
+				drive.setPIDDriveLeft(-70);
+				drive.setPIDDriveRight(70);
+			}else if((timer.get() > 5.1)){
+				drive.setPIDDriveLeft(390);
+				drive.setPIDDriveRight(-390);
+			}
 		}
-		
-		//if(timer.get() > 2.75){
-		//	drive.setPIDDriveLeft(400);
-		//	drive.setPIDDriveRight(-400);
-		//}
-		
 	}
 
 	public void teleopInit() {
@@ -114,6 +131,7 @@ public class Robot extends IterativeRobot {
 		binElevator.resetEncoder();
 		binElevator.disablePID();
 		binElevator.resetPosition();
+		binElevatorPID.setPID(VariableMap.BIN_ELEVATOR_PID_P, VariableMap.BIN_ELEVATOR_PID_I, VariableMap.BIN_ELEVATOR_PID_D);
 	}
 
 	public void teleopPeriodic() {
@@ -126,6 +144,8 @@ public class Robot extends IterativeRobot {
 		updateValuesFromSmartDashboard();
 		
 		//System.out.println("BIN ELEVATOR:" + binElevator.getEncoder());
+		System.out.println("DRIVE LEFT: " + drive.getEncoderLeft());
+		System.out.println("DRIVE RIGHT: " + drive.getEncoderRight());
 		
 		if(VariableMap.VERBOSE_CONSOLE){
 			System.out.println("Elevator Encoder: " +  binElevator.getEncoder());
