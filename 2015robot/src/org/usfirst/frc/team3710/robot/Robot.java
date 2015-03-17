@@ -11,6 +11,7 @@ public class Robot extends IterativeRobot {
 	Drive drive;
 	BinElevator binElevator;
 	RollerClaw rollerClaw;
+	CanBurglar_v3 canBurglar;
 	PowerDistributionPanel pdp;
 
 	// Controller and Sensor
@@ -19,12 +20,12 @@ public class Robot extends IterativeRobot {
 	Victor binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor;
 	DigitalInput binElevatorTop, binElevatorBottom;
 	PIDController binElevatorPID, driveLeftPID, driveRightPID;
+	DoubleSolenoid canBurglarSolenoid;
 	Timer timer;
 
 	// SmartDashboard Objects
 	int autonomousMode = 0;
-	int sensorMode = 0;
-	SendableChooser autoChooser, autoSensorMode;
+	SendableChooser autoChooser;
 
 	// Misc
 	double binElevatorPIDP = VariableMap.BIN_ELEVATOR_PID_P;
@@ -51,11 +52,15 @@ public class Robot extends IterativeRobot {
 		// Roller Claw
 		rollerClawRightVictor = new Victor(VariableMap.PWM_ROLLER_RIGHT);
 		rollerClawLeftVictor = new Victor(VariableMap.PWM_ROLLER_LEFT);
+		
+		// Can Burglar
+		canBurglarSolenoid = new DoubleSolenoid(VariableMap.PCM_CAN_BURGLAR_SOLE_1, VariableMap.PCM_CAN_BURGLAR_SOLE_2);
 
 		// Systems
 		drive = new Drive(driveLeftTalonA, driveRightTalonA, encDriveLeft, encDriveRight, driveLeftPID, driveRightPID);
 		binElevator = new BinElevator(binElevatorVictor, binElevatorEncoder, binElevatorTop, binElevatorBottom, binElevatorPID);
 		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
+		canBurglar = new CanBurglar_v3(canBurglarSolenoid);
 		driverControl = new JoystickControllerWrapper(0, 1);
 		operatorControl = new XBoxControllerWrapper(2);
 		pdp = new PowerDistributionPanel();
@@ -66,9 +71,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
-		//autonomousMode = (int) autoChooser.getSelected();
-		autonomousMode = 0;
-		sensorMode = (int) autoSensorMode.getSelected();
+		autonomousMode = (int) autoChooser.getSelected();
 		VariableMap.SLOW_MODE_DRIVE = false;
 		drive.resetLeftEncoder();
 		drive.resetRightEncoder();
@@ -221,18 +224,9 @@ public class Robot extends IterativeRobot {
 	@SuppressWarnings("deprecation")
 	private void initializeSmartDashboard() {
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Can Burgle, Drive Backwards", 0);
-		autoChooser.addObject("Drive to Autozone", 1);
-		autoChooser.addObject("Drive Forward, Can Burgle, Drive Backwards", 2);
-		autoChooser.addObject("Intake Can, Drive to Autozone", 3);
-		autoChooser.addObject("Do Nothing", 4);
-		
-		autoSensorMode = new SendableChooser();
-		autoSensorMode.addDefault("Ticks", 0);
-		autoSensorMode.addObject("Encoders", 1);
+		autoChooser.addDefault("Release CanBurglar, Drive Forwards, Drive Backwards", 0);
 		
 		SmartDashboard.putData("Autonomous Chooser", autoChooser);
-		SmartDashboard.putData("Auto Sensor Chooser", autoSensorMode);
 
 		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
 		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());

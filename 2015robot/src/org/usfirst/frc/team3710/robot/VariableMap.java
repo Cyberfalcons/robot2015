@@ -22,6 +22,20 @@ public class VariableMap {
 	public static final int PWM_ROLLER_RIGHT = 3;
 	public static final int PWM_BIN_ELEVATOR = 4;
 	
+	/*
+	 * PCM Modules
+	 * Port 0 - CanBurglar Double Solenoid 1
+	 * Port 1 - CanBurglar Double Solenoid 2
+	 * Port 2 -
+	 * Port 3 -
+	 * Port 4 -
+	 * Port 5 -
+	 * Port 6 -
+	 * Port 7 -
+	 */
+	public static final int PCM_CAN_BURGLAR_SOLE_1 = 0;
+	public static final int PCM_CAN_BURGLAR_SOLE_2 = 1;
+	
 
 	/*
 	 * Digital IO Pins
