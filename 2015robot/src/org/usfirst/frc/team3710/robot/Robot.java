@@ -9,19 +9,16 @@ public class Robot extends IterativeRobot {
 	// Systems
 	Controller driverControl, operatorControl;
 	Drive drive;
-	PinchClaw claw;
 	BinElevator binElevator;
 	RollerClaw rollerClaw;
-	CanBurglar_v2 canBurglar;
 	PowerDistributionPanel pdp;
 
 	// Controller and Sensor
 	Talon driveRightTalonA, driveLeftTalonA;
 	Encoder encDriveLeft, encDriveRight, binElevatorEncoder;
-	Victor pinchClawVictor, binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor, canBurglarVictor;
-	DigitalInput binElevatorTop, binElevatorBottom, canBurglarLimitSwitch;
+	Victor binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor;
+	DigitalInput binElevatorTop, binElevatorBottom;
 	PIDController binElevatorPID, driveLeftPID, driveRightPID;
-	Servo canBurglarRelease1, canBurglarRelease2;
 	Timer timer;
 
 	// SmartDashboard Objects
@@ -43,9 +40,6 @@ public class Robot extends IterativeRobot {
 		encDriveRight = new Encoder(VariableMap.DIO_DRIVE_ENC_RIGHT_A, VariableMap.DIO_DRIVE_ENC_RIGHT_B, false, Encoder.EncodingType.k4X);
 		driveLeftPID = new PIDController(VariableMap.DRIVE_PID_P, VariableMap.DRIVE_PID_I, VariableMap.DRIVE_PID_D,encDriveLeft, driveLeftTalonA);
 		driveRightPID = new PIDController(VariableMap.DRIVE_PID_P, VariableMap.DRIVE_PID_I, VariableMap.DRIVE_PID_D, encDriveRight, driveRightTalonA);;
-		
-		// Pinch Claw
-		pinchClawVictor = new Victor(VariableMap.PWM_PINCH_CLAW);
 
 		// Bin Elevator
 		binElevatorVictor = new Victor(VariableMap.PWM_BIN_ELEVATOR);
@@ -58,20 +52,12 @@ public class Robot extends IterativeRobot {
 		rollerClawRightVictor = new Victor(VariableMap.PWM_ROLLER_RIGHT);
 		rollerClawLeftVictor = new Victor(VariableMap.PWM_ROLLER_LEFT);
 
-		// Can Burglar
-		canBurglarVictor = new Victor(VariableMap.PWM_CAN_BURGLAR_VICTOR);
-		canBurglarLimitSwitch = new DigitalInput(VariableMap.DIO_CAN_BURGLAR_LIMIT_SWITCH);
-		canBurglarRelease1 = new Servo(VariableMap.PWM_CAN_BURGLAR_SERVO_RELEASE_1);
-		canBurglarRelease2 = new Servo(VariableMap.PWM_CAN_BURGLAR_SERVO_RELEASE_2);
-
 		// Systems
 		drive = new Drive(driveLeftTalonA, driveRightTalonA, encDriveLeft, encDriveRight, driveLeftPID, driveRightPID);
-		claw = new PinchClaw(pinchClawVictor);
 		binElevator = new BinElevator(binElevatorVictor, binElevatorEncoder, binElevatorTop, binElevatorBottom, binElevatorPID);
 		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
 		driverControl = new JoystickControllerWrapper(0, 1);
 		operatorControl = new XBoxControllerWrapper(2);
-		canBurglar = new CanBurglar_v2(canBurglarVictor, canBurglarLimitSwitch, canBurglarRelease1, canBurglarRelease2);
 		pdp = new PowerDistributionPanel();
 		timer = new Timer();
 
@@ -86,22 +72,14 @@ public class Robot extends IterativeRobot {
 		VariableMap.SLOW_MODE_DRIVE = false;
 		drive.resetLeftEncoder();
 		drive.resetRightEncoder();
-		canBurglar.setServosMoved(false);
 		timer.start();
 		binElevatorPID.setPID(0.018, 0.0, 0.006);
 	}
-
-	int canBurglarWait = 275;
-	int driveDistance = 1000;
-	int justDriveDistance = 500;
+	
 	public void autonomousPeriodic() {
 		if(autoOn == true){
 			System.out.println("DRIVE LEFT: " + drive.getEncoderLeft());
 			System.out.println("DRIVE RIGHT: " +  drive.getEncoderRight());
-			
-			if(canBurglar.getServosMoved() == false){
-				canBurglar.toggleServos();
-			}
 			
 			if((timer.get() > 0.25) && (timer.get() < 0.5)){
 				binElevator.setPositionUp();
@@ -110,10 +88,6 @@ public class Robot extends IterativeRobot {
 			}else if((timer.get() > 1.25)){
 				binElevator.disablePID();
 			}
-			
-		    //m_ds.
-			
-			
 			
 			if((timer.get() > 2.90) && (timer.get() < 5.00)){
 				drive.setPIDDriveLeft(-70);
@@ -136,16 +110,11 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 		doDrive();
-		doPinchClaw();
 		doBinElevator();
 		doRollerClaw();
 		doCanBurglar();
 		
 		updateValuesFromSmartDashboard();
-		
-		//System.out.println("BIN ELEVATOR:" + binElevator.getEncoder());
-		System.out.println("DRIVE LEFT: " + drive.getEncoderLeft());
-		System.out.println("DRIVE RIGHT: " + drive.getEncoderRight());
 		
 		if(VariableMap.VERBOSE_CONSOLE){
 			System.out.println("Elevator Encoder: " +  binElevator.getEncoder());
@@ -180,16 +149,6 @@ public class Robot extends IterativeRobot {
 		drive.setDriveLeft(driverControl.driveLeft());
 	}
 
-	public void doPinchClaw() {
-		if (driverControl.openPinchClaw()) {
-			claw.openClaw();
-		} else if (driverControl.closePinchClaw()) {
-			claw.closeClaw();
-		} else {
-			claw.stopClaw();
-		}
-	}
-
 	public void doRollerClaw() {
 		
 		if(operatorControl.getBtnB()){
@@ -198,7 +157,7 @@ public class Robot extends IterativeRobot {
 		
 		if (driverControl.rollerIn()) {
 			rollerClaw.binIn();
-		} else if (driverControl.rollerOut()) {
+		}else if(driverControl.rollerOut()) {
 			rollerClaw.binOut();
 		} else  if(operatorControl.getBtnB()){
 			rollerClaw.binClockWise();
@@ -208,19 +167,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void doCanBurglar() {
-		if(driverControl.getRightButton10()){
-			canBurglar.retract();
-		}else{
-			canBurglar.stop();
-		}
 		
-		if(operatorControl.getBtnY()){
-			canBurglar.retract();
-		}
-		
-		if(driverControl.getRightButton6()){
-			canBurglar.toggleServos();
-		}
 	}
 
 	public void doBinElevator() {
