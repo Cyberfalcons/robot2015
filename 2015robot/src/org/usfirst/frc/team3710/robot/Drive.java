@@ -60,6 +60,23 @@ public class Drive {
 		pidRight.setSetpoint(position);
 	}
 	
+	public void driveRightSetDistance(int feet, int inches){
+		int ticks = 0;
+		ticks = feet * 65;
+		ticks = ticks + (inches * (65/12));
+		pidRight.enable();
+		pidRight.setSetpoint(ticks);
+	}
+	
+	public void driveLeftSetDistance(int feet, int inches){
+		int ticks = 0;
+		ticks = feet * 65;
+		ticks = ticks + (inches * (65/12));
+		ticks = ticks * -1;
+		pidLeft.enable();
+		pidLeft.setSetpoint(ticks);
+	}
+	
 	public void disableLeftPIDControl(){
 		pidLeft.disable();
 		leftA.set(0.0);

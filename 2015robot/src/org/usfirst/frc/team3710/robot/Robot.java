@@ -1,8 +1,6 @@
 package org.usfirst.frc.team3710.robot;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
@@ -23,16 +21,14 @@ public class Robot extends IterativeRobot {
 	DigitalInput binElevatorTop, binElevatorBottom;
 	PIDController binElevatorPID, driveLeftPID, driveRightPID;
 	DoubleSolenoid canBurglarSolenoid;
+	ConfigParser config;
 	Timer timer;
-
-	// SmartDashboard Objects
-	int autonomousMode = 0;
-	SendableChooser autoChooser;
 
 	// Misc
 	double binElevatorPIDP = VariableMap.BIN_ELEVATOR_PID_P;
 	double binElevatorPIDI = VariableMap.BIN_ELEVATOR_PID_I;
 	double binElevatorPIDD = VariableMap.BIN_ELEVATOR_PID_D;
+	
 	boolean autoOn = false;
 
 	public void robotInit() {
@@ -41,8 +37,7 @@ public class Robot extends IterativeRobot {
 		driveRightTalonA = new Talon(VariableMap.PWM_DRIVE_RIGHT_A);
 		encDriveLeft = new Encoder(VariableMap.DIO_DRIVE_ENC_LEFT_A,VariableMap.DIO_DRIVE_ENC_LEFT_B, false,Encoder.EncodingType.k4X);
 		encDriveRight = new Encoder(VariableMap.DIO_DRIVE_ENC_RIGHT_A,VariableMap.DIO_DRIVE_ENC_RIGHT_B, false,Encoder.EncodingType.k4X);
-		driveLeftPID = new PIDController(VariableMap.DRIVE_PID_P,VariableMap.DRIVE_PID_I, VariableMap.DRIVE_PID_D, encDriveLeft,
-				driveLeftTalonA);
+		driveLeftPID = new PIDController(VariableMap.DRIVE_PID_P,VariableMap.DRIVE_PID_I, VariableMap.DRIVE_PID_D, encDriveLeft,driveLeftTalonA);
 		driveRightPID = new PIDController(VariableMap.DRIVE_PID_P,VariableMap.DRIVE_PID_I, VariableMap.DRIVE_PID_D,encDriveRight, driveRightTalonA);
 
 		// Bin Elevator
@@ -69,14 +64,11 @@ public class Robot extends IterativeRobot {
 		driverControl = new JoystickControllerWrapper(0, 1);
 		operatorControl = new XBoxControllerWrapper(2);
 		pdp = new PowerDistributionPanel();
+		config = new ConfigParser();
 		timer = new Timer();
-
-		// SmartDashboard
-		initializeSmartDashboard();
 	}
 
 	public void autonomousInit() {
-		autonomousMode = (int) autoChooser.getSelected();
 		VariableMap.SLOW_MODE_DRIVE = false;
 		drive.resetLeftEncoder();
 		drive.resetRightEncoder();
@@ -120,8 +112,6 @@ public class Robot extends IterativeRobot {
 		doBinElevator();
 		doRollerClaw();
 		doCanBurglar();
-
-		updateValuesFromSmartDashboard();
 
 		if (VariableMap.VERBOSE_CONSOLE) {
 			System.out.println("Elevator Encoder: " + binElevator.getEncoder());
@@ -184,43 +174,5 @@ public class Robot extends IterativeRobot {
 		} else if (driverControl.getRightButton11()) {
 			binElevator.setSetPoint(0);
 		}
-	}
-
-	@SuppressWarnings("deprecation")
-	public void updateValuesFromSmartDashboard() {
-		binElevatorPIDP = SmartDashboard.getNumber("Bin Elevator PID P");
-		binElevatorPIDI = SmartDashboard.getNumber("Bin Elevator PID I");
-		binElevatorPIDD = SmartDashboard.getNumber("Bin Elevator PID D");
-		binElevatorPID.setPID(binElevatorPIDP, binElevatorPIDI, binElevatorPIDD);
-
-		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
-		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());
-		SmartDashboard.putDouble("Elevator Encoder", binElevator.getEncoder());
-
-		SmartDashboard.putDouble("Bin Elevator PID P", binElevatorPIDP);
-		SmartDashboard.putDouble("Bin Elevator PID I", binElevatorPIDI);
-		SmartDashboard.putDouble("Bin Elevator PID D", binElevatorPIDD);
-
-		SmartDashboard.putBoolean("Bin Elevator Top", binElevator.getTop());
-		SmartDashboard.putBoolean("Bin Elevator Bottom",binElevator.getBottom());
-	}
-
-	@SuppressWarnings("deprecation")
-	private void initializeSmartDashboard() {
-		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Release CanBurglar, Drive Forwards, Drive Backwards", 0);
-
-		SmartDashboard.putData("Autonomous Chooser", autoChooser);
-
-		SmartDashboard.putDouble("Left Encoder", encDriveLeft.get());
-		SmartDashboard.putDouble("Right Encoder", encDriveRight.get());
-		SmartDashboard.putDouble("Elevator Encoder", binElevator.getEncoder());
-
-		SmartDashboard.putDouble("Bin Elevator PID P", binElevatorPIDP);
-		SmartDashboard.putDouble("Bin Elevator PID I", binElevatorPIDI);
-		SmartDashboard.putDouble("Bin Elevator PID D", binElevatorPIDD);
-
-		SmartDashboard.putBoolean("Bin Elevator Top", binElevator.getTop());
-		SmartDashboard.putBoolean("Bin Elevator Bottom",binElevator.getBottom());
 	}
 }
