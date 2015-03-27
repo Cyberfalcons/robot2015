@@ -7,8 +7,7 @@ public class Robot extends IterativeRobot {
 	// Systems
 	Controller driverControl, operatorControl;
 	Drive drive;
-	BinElevator binElevator;
-	RollerClaw rollerClaw;
+	ToteElevator toteElevator;
 	CanBurglar_v3 canBurglar;
 	PowerDistributionPanel pdp;
 	Lamp lamp;
@@ -16,19 +15,15 @@ public class Robot extends IterativeRobot {
 
 	// Controller and Sensor
 	Talon driveRightTalonA, driveLeftTalonA;
-	Encoder encDriveLeft, encDriveRight, binElevatorEncoder;
-	Victor binElevatorVictor, rollerClawRightVictor, rollerClawLeftVictor;
-	DigitalInput binElevatorTop, binElevatorBottom;
-	PIDController binElevatorPID, driveLeftPID, driveRightPID;
+	Encoder encDriveLeft, encDriveRight, toteElevatorEncoder;
+	Victor toteElevatorVictor;
+	DigitalInput toteElevatorTop, toteElevatorBottom;
+	PIDController toteElevatorPID, driveLeftPID, driveRightPID;
 	DoubleSolenoid canBurglarSolenoid;
 	ConfigParser config;
 	Timer timer;
 
 	// Misc
-	double binElevatorPIDP = VariableMap.BIN_ELEVATOR_PID_P;
-	double binElevatorPIDI = VariableMap.BIN_ELEVATOR_PID_I;
-	double binElevatorPIDD = VariableMap.BIN_ELEVATOR_PID_D;
-	
 	boolean autoOn = false;
 
 	public void robotInit() {
@@ -40,24 +35,19 @@ public class Robot extends IterativeRobot {
 		driveLeftPID = new PIDController(VariableMap.DRIVE_PID_P,VariableMap.DRIVE_PID_I, VariableMap.DRIVE_PID_D, encDriveLeft,driveLeftTalonA);
 		driveRightPID = new PIDController(VariableMap.DRIVE_PID_P,VariableMap.DRIVE_PID_I, VariableMap.DRIVE_PID_D,encDriveRight, driveRightTalonA);
 
-		// Bin Elevator
-		binElevatorVictor = new Victor(VariableMap.PWM_BIN_ELEVATOR);
-		binElevatorEncoder = new Encoder(VariableMap.DIO_BIN_ELEVATOR_ENC_A,VariableMap.DIO_BIN_ELEVATOR_ENC_B, false,Encoder.EncodingType.k4X);
-		binElevatorTop = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_TOP);
-		binElevatorBottom = new DigitalInput(VariableMap.DIO_BIN_ELEVATOR_BOTTOM);
-		binElevatorPID = new PIDController(binElevatorPIDP, binElevatorPIDI,binElevatorPIDD, binElevatorEncoder, binElevatorVictor);
-
-		// Roller Claw
-		rollerClawRightVictor = new Victor(VariableMap.PWM_ROLLER_RIGHT);
-		rollerClawLeftVictor = new Victor(VariableMap.PWM_ROLLER_LEFT);
+		// Tote Elevator
+		toteElevatorVictor = new Victor(VariableMap.PWM_TOTE_ELEVATOR);
+		toteElevatorEncoder = new Encoder(VariableMap.DIO_TOTE_ELEVATOR_ENC_A,VariableMap.DIO_TOTE_ELEVATOR_ENC_B, false,Encoder.EncodingType.k4X);
+		toteElevatorTop = new DigitalInput(VariableMap.DIO_TOTE_ELEVATOR_TOP);
+	    toteElevatorBottom = new DigitalInput(VariableMap.DIO_TOTE_ELEVATOR_BOTTOM);
+		toteElevatorPID = new PIDController(VariableMap.TOTE_ELEVATOR_PID_P, VariableMap.TOTE_ELEVATOR_PID_I,VariableMap.TOTE_ELEVATOR_PID_D, toteElevatorEncoder, toteElevatorVictor);
 
 		// Can Burglar
 		canBurglarSolenoid = new DoubleSolenoid(VariableMap.PCM_CAN_BURGLAR_SOLE_1,VariableMap.PCM_CAN_BURGLAR_SOLE_2);
 
 		// Systems
 		drive = new Drive(driveLeftTalonA, driveRightTalonA, encDriveLeft,encDriveRight, driveLeftPID, driveRightPID);
-		binElevator = new BinElevator(binElevatorVictor, binElevatorEncoder,binElevatorTop, binElevatorBottom, binElevatorPID);
-		rollerClaw = new RollerClaw(rollerClawLeftVictor, rollerClawRightVictor);
+		toteElevator = new ToteElevator(toteElevatorVictor, toteElevatorEncoder,toteElevatorTop, toteElevatorBottom, toteElevatorPID);
 		canBurglar = new CanBurglar_v3(canBurglarSolenoid);
 		lamp = new Lamp();
 		ramp = new Ramp();
@@ -73,7 +63,7 @@ public class Robot extends IterativeRobot {
 		drive.resetLeftEncoder();
 		drive.resetRightEncoder();
 		timer.start();
-		binElevatorPID.setPID(0.018, 0.0, 0.006);
+		toteElevatorPID.setPID(0.018, 0.0, 0.006);
 	}
 
 	public void autonomousPeriodic() {
@@ -82,11 +72,11 @@ public class Robot extends IterativeRobot {
 			System.out.println("DRIVE RIGHT: " + drive.getEncoderRight());
 
 			if ((timer.get() > 0.25) && (timer.get() < 0.5)) {
-				binElevator.setPIDPositionUp();
+				toteElevator.setPIDPositionUp();
 			} else if ((timer.get() < 0.75) && (timer.get() > 0.5)) {
-				binElevator.setPIDPositionDown();
+				toteElevator.setPIDPositionDown();
 			} else if ((timer.get() > 1.25)) {
-				binElevator.disablePID();
+				toteElevator.disablePID();
 			}
 
 			if ((timer.get() > 2.90) && (timer.get() < 5.00)) {
@@ -102,21 +92,20 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		drive.disableLeftPIDControl();
 		drive.disableRightPIDControl();
-		binElevator.resetEncoder();
-		binElevator.disablePID();
-		binElevatorPID.setPID(VariableMap.BIN_ELEVATOR_PID_P,VariableMap.BIN_ELEVATOR_PID_I, VariableMap.BIN_ELEVATOR_PID_D);
+		toteElevator.resetEncoder();
+		toteElevator.disablePID();
+		toteElevatorPID.setPID(VariableMap.TOTE_ELEVATOR_PID_P,VariableMap.TOTE_ELEVATOR_PID_I, VariableMap.TOTE_ELEVATOR_PID_D);
 	}
 
 	public void teleopPeriodic() {
 		doDrive();
-		doBinElevator();
-		doRollerClaw();
+		doToteElevator();
 		doCanBurglar();
 
 		if (VariableMap.VERBOSE_CONSOLE) {
-			System.out.println("Elevator Encoder: " + binElevator.getEncoder());
-			System.out.println("Elevator Top: " + binElevator.getTop());
-			System.out.println("Elevator Bottom: " + binElevator.getBottom());
+			System.out.println("Elevator Encoder: " + toteElevator.getEncoder());
+			System.out.println("Elevator Top: " + toteElevator.getTop());
+			System.out.println("Elevator Bottom: " + toteElevator.getBottom());
 			System.out.println("DRIVE LEFT: " + drive.getEncoderLeft());
 			System.out.println("DRIVE RIGHT: " + drive.getEncoderRight());
 		}
@@ -145,34 +134,17 @@ public class Robot extends IterativeRobot {
 		drive.setDriveLeft(driverControl.driveLeft());
 	}
 
-	public void doRollerClaw() {
-
-		if (operatorControl.getBtnB()) {
-			rollerClaw.flipSlowMode();
-		}
-
-		if (driverControl.rollerIn()) {
-			rollerClaw.binIn();
-		} else if (driverControl.rollerOut()) {
-			rollerClaw.binOut();
-		} else if (operatorControl.getBtnB()) {
-			rollerClaw.binClockWise();
-		} else {
-			rollerClaw.stop();
-		}
-	}
-
 	public void doCanBurglar() {
 
 	}
 
-	public void doBinElevator() {
+	public void doToteElevator() {
 		if (driverControl.elevatorUp()) {
-			binElevator.setPIDPositionUp();
+			toteElevator.setPIDPositionUp();
 		} else if (driverControl.elevatorDown()) {
-			binElevator.setPIDPositionDown();
+		    toteElevator.setPIDPositionDown();
 		} else if (driverControl.getRightButton11()) {
-			binElevator.setSetPoint(0);
+			toteElevator.setSetPoint(0);
 		}
 	}
 }
