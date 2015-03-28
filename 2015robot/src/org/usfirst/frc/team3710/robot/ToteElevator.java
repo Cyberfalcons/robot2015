@@ -26,32 +26,38 @@ public class ToteElevator {
 	}
 
 	public void setPIDPositionUp() {
-		pid.enable();
-		if (getTop() == false) {
-			position = position + 40;
-			pid.setSetpoint(position);
-		} else if (getTop() == true) {
-			topLocation = getEncoder();
-			position = position - 20;
-			pid.setSetpoint(position);
+		toteElevator.set(0.5);
+		//pid.enable();
+		//if (getTop() == false) {
+		//if ((position + 40) < topLocation) {
+			//position = position + 40;
+			//pid.setSetpoint(position);
+		//} else if (getTop() == true) {
+		//}else{
+			//topLocation = getEncoder();
+			//position = position - 20;
+			//pid.setSetpoint(position);
 
 			if (VariableMap.VERBOSE_CONSOLE) {
 				System.out.println("ELEVATOR UP DISABLED BY LIMIT SWITCH!");
 			}
-		}
+		//}
 	}
 
 	public void setPIDPositionDown() {
-		pid.enable();
-		if (getBottom() == false) {
-			position = position - 40;
-			pid.setSetpoint(position);
-		} else if (getBottom() == true) {
-			resetEncoder();
+		toteElevator.set(-0.5);
+		//pid.enable();
+		//if (getBottom() == false) {
+		//if((position - 40) > 0){
+			//position = position - 40;
+			//pid.setSetpoint(position);
+		//} else if (getBottom() == true) {
+		//}else{
+			//resetEncoder();
 			if (VariableMap.VERBOSE_CONSOLE) {
 				System.out.println("ELEVATOR DOWN DISABLED BY LIMIT SWITCH");
 			}
-		}
+		//}
 	}
 	
 	public void setPIDPositionZero(){

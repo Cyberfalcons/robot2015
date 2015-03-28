@@ -13,12 +13,14 @@ public class CanBurglar_v3 {
 	public void retract() {
 		if(retracted == false){
 			solenoid.set(DoubleSolenoid.Value.kForward);
+			retracted = true;
 		}
 	}
 
 	public void deploy() {
 		if(retracted == true){
 			solenoid.set(DoubleSolenoid.Value.kReverse);
+			retracted = false;
 		}
 	}
 	

@@ -24,7 +24,7 @@ public class Robot extends IterativeRobot {
 	Timer timer;
 
 	// Misc
-	boolean autoOn = false;
+	boolean autoOn = true;
 
 	public void robotInit() {
 		// Drive
@@ -63,26 +63,21 @@ public class Robot extends IterativeRobot {
 		drive.resetLeftEncoder();
 		drive.resetRightEncoder();
 		timer.start();
-		toteElevatorPID.setPID(0.018, 0.0, 0.006);
 	}
 
 	public void autonomousPeriodic() {
 		if (autoOn == true) {
 			System.out.println("DRIVE LEFT: " + drive.getEncoderLeft());
 			System.out.println("DRIVE RIGHT: " + drive.getEncoderRight());
-
-			if ((timer.get() > 0.25) && (timer.get() < 0.5)) {
-				toteElevator.setPIDPositionUp();
-			} else if ((timer.get() < 0.75) && (timer.get() > 0.5)) {
-				toteElevator.setPIDPositionDown();
-			} else if ((timer.get() > 1.25)) {
-				toteElevator.disablePID();
-			}
+			
+			canBurglar.deploy();
 
 			if ((timer.get() > 2.90) && (timer.get() < 5.00)) {
-				drive.setPIDDriveLeft(-70);
-				drive.setPIDDriveRight(70);
+				//One foot forward
+				//drive.setPIDDriveLeft(-70);
+				//drive.setPIDDriveRight(70);
 			} else if ((timer.get() > 5.1)) {
+				//Six Feet backwards
 				drive.setPIDDriveLeft(390);
 				drive.setPIDDriveRight(-390);
 			}
@@ -90,6 +85,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
+		timer.stop();
 		drive.disableLeftPIDControl();
 		drive.disableRightPIDControl();
 		toteElevator.resetEncoder();
@@ -109,6 +105,8 @@ public class Robot extends IterativeRobot {
 			System.out.println("DRIVE LEFT: " + drive.getEncoderLeft());
 			System.out.println("DRIVE RIGHT: " + drive.getEncoderRight());
 		}
+		
+		System.out.println("Elevator Encoder: " + toteElevator.getEncoder());
 	}
 
 	public void testPeriodic() {
@@ -135,7 +133,15 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void doCanBurglar() {
-
+		if(driverControl.getRightButton6()){
+			canBurglar.deploy();
+		}
+		else if(driverControl.getRightButton7()){
+			canBurglar.retract();
+		}
+		else if(driverControl.getRightTrigger()){
+			canBurglar.stop();
+		}
 	}
 
 	public void doToteElevator() {
@@ -145,6 +151,8 @@ public class Robot extends IterativeRobot {
 		    toteElevator.setPIDPositionDown();
 		} else if (driverControl.getRightButton11()) {
 			toteElevator.setSetPoint(0);
+		} else{
+			toteElevator.stopElevator();
 		}
 	}
 }
