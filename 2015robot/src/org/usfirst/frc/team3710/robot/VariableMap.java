@@ -24,17 +24,19 @@ public class VariableMap {
 	
 	/*
 	 * PCM Modules
-	 * Port 0 - CanBurglar Double Solenoid 1
-	 * Port 1 - CanBurglar Double Solenoid 2
-	 * Port 2 -
-	 * Port 3 -
+	 * Port 0 - CanBurglar Double Solenoid 1 A
+	 * Port 1 - CanBurglar Double Solenoid 1 B
+	 * Port 2 - CanBurglar Double Solenoid 2 A
+	 * Port 3 - CanBurglar Double Solenoid 2 B
 	 * Port 4 -
 	 * Port 5 -
 	 * Port 6 -
 	 * Port 7 -
 	 */
-	public static final int PCM_CAN_BURGLAR_SOLE_1 = 0;
-	public static final int PCM_CAN_BURGLAR_SOLE_2 = 1;
+	public static final int PCM_CAN_BURGLAR_SOLE_1_A = 0;
+	public static final int PCM_CAN_BURGLAR_SOLE_1_B = 1;
+	public static final int PCM_CAN_BURGLAR_SOLE_2_A = 2;
+	public static final int PCM_CAN_BURGLAR_SOLE_2_B = 3;
 	
 
 	/*
@@ -78,7 +80,7 @@ public class VariableMap {
 	public static final double TOTE_ELEVATOR_PID_P = 0.006;
 	public static final double TOTE_ELEVATOR_PID_I = 0.0;
 	public static final double TOTE_ELEVATOR_PID_D = 0.006;
-	public static final double DRIVE_PID_P = 0.008;
+	public static final double DRIVE_PID_P = 0.006;
 	public static final double DRIVE_PID_I = 0.000;
 	public static final double DRIVE_PID_D = 0.002;
 	public static boolean SLOW_MODE_DRIVE = false;
@@ -96,8 +98,8 @@ public class VariableMap {
 	 * Port 6 -
 	 * Port 7 -
 	 * Port 8 -
-	 * Port 9 - Roller Claw Left
-	 * Port 10 - Roller Claw Right
+	 * Port 9 - 
+	 * Port 10 - 
 	 * Port 11 -
 	 * Port 12 -
 	 * Port 13 -

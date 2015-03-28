@@ -26,12 +26,12 @@ public class ToteElevator {
 	}
 
 	public void setPIDPositionUp() {
-		toteElevator.set(0.5);
-		//pid.enable();
+		//toteElevator.set(0.5);
+	    pid.enable();
 		//if (getTop() == false) {
 		//if ((position + 40) < topLocation) {
-			//position = position + 40;
-			//pid.setSetpoint(position);
+			position = position + 40;
+			pid.setSetpoint(position);
 		//} else if (getTop() == true) {
 		//}else{
 			//topLocation = getEncoder();
@@ -45,12 +45,13 @@ public class ToteElevator {
 	}
 
 	public void setPIDPositionDown() {
-		toteElevator.set(-0.5);
-		//pid.enable();
+		//toteElevator.set(-0.5);
+		pid.enable();
 		//if (getBottom() == false) {
-		//if((position - 40) > 0){
-			//position = position - 40;
-			//pid.setSetpoint(position);
+		//if((position - 40) < 0){
+			position = position - 40;
+			pid.setSetpoint(position);
+		//}
 		//} else if (getBottom() == true) {
 		//}else{
 			//resetEncoder();

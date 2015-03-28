@@ -19,7 +19,7 @@ public class Robot extends IterativeRobot {
 	Victor toteElevatorVictor;
 	DigitalInput toteElevatorTop, toteElevatorBottom;
 	PIDController toteElevatorPID, driveLeftPID, driveRightPID;
-	DoubleSolenoid canBurglarSolenoid;
+	DoubleSolenoid canBurglarSolenoid1, canBurglarSolenoid2;
 	ConfigParser config;
 	Timer timer;
 
@@ -43,12 +43,13 @@ public class Robot extends IterativeRobot {
 		toteElevatorPID = new PIDController(VariableMap.TOTE_ELEVATOR_PID_P, VariableMap.TOTE_ELEVATOR_PID_I,VariableMap.TOTE_ELEVATOR_PID_D, toteElevatorEncoder, toteElevatorVictor);
 
 		// Can Burglar
-		canBurglarSolenoid = new DoubleSolenoid(VariableMap.PCM_CAN_BURGLAR_SOLE_1,VariableMap.PCM_CAN_BURGLAR_SOLE_2);
-
+		canBurglarSolenoid1 = new DoubleSolenoid(VariableMap.PCM_CAN_BURGLAR_SOLE_1_A,VariableMap.PCM_CAN_BURGLAR_SOLE_1_B);
+		canBurglarSolenoid2 = new DoubleSolenoid(VariableMap.PCM_CAN_BURGLAR_SOLE_2_A,VariableMap.PCM_CAN_BURGLAR_SOLE_2_B);
+		
 		// Systems
 		drive = new Drive(driveLeftTalonA, driveRightTalonA, encDriveLeft,encDriveRight, driveLeftPID, driveRightPID);
 		toteElevator = new ToteElevator(toteElevatorVictor, toteElevatorEncoder,toteElevatorTop, toteElevatorBottom, toteElevatorPID);
-		canBurglar = new CanBurglar_v3(canBurglarSolenoid);
+		canBurglar = new CanBurglar_v3(canBurglarSolenoid1, canBurglarSolenoid2);
 		lamp = new Lamp();
 		ramp = new Ramp();
 		driverControl = new JoystickControllerWrapper(0, 1);
@@ -70,16 +71,38 @@ public class Robot extends IterativeRobot {
 			System.out.println("DRIVE LEFT: " + drive.getEncoderLeft());
 			System.out.println("DRIVE RIGHT: " + drive.getEncoderRight());
 			
-			canBurglar.deploy();
+			canBurglar.deploy1();
+			canBurglar.deploy2();
 
-			if ((timer.get() > 2.90) && (timer.get() < 5.00)) {
-				//One foot forward
-				//drive.setPIDDriveLeft(-70);
-				//drive.setPIDDriveRight(70);
-			} else if ((timer.get() > 5.1)) {
-				//Six Feet backwards
-				drive.setPIDDriveLeft(390);
-				drive.setPIDDriveRight(-390);
+			if ((timer.get() > 0.0) && (timer.get() < 2.30)) {
+				if((timer.get() > 0.75)&&(timer.get() < 1.0)){
+					//Forward
+					driveLeftPID.setPID(VariableMap.DRIVE_PID_P,VariableMap.DRIVE_PID_I,VariableMap.DRIVE_PID_D);
+					driveRightPID.setPID(VariableMap.DRIVE_PID_P,VariableMap.DRIVE_PID_I,VariableMap.DRIVE_PID_D);
+					drive.setPIDDriveLeft(-18);
+					drive.setPIDDriveRight(18);
+				}else if((timer.get() > 1.0)&&(timer.get() < 2.0)){
+					driveLeftPID.setPID(0.040, 0.000, 0.002);
+					driveRightPID.setPID(0.040, 0.000, 0.002);
+					//drive.setPIDDriveLeft(drive.getEncoderLeft() + 3);
+					//drive.setPIDDriveRight(drive.getEncoderRight() + 3);
+				}else if((timer.get() > 2.0) && (timer.get() < 3.0)){
+					driveLeftPID.setPID(0.030, 0.000, 0.002);
+					driveRightPID.setPID(0.030, 0.000, 0.002);
+					//drive.setPIDDriveLeft(drive.getEncoderLeft() - 6);
+					//drive.setPIDDriveRight(drive.getEncoderRight() - 6);
+				}else if((timer.get() > 3.0)&&(timer.get() < 4.0)){
+					driveLeftPID.setPID(0.040, 0.000, 0.002);
+					driveRightPID.setPID(0.040, 0.000, 0.002);
+					//drive.setPIDDriveLeft(drive.getEncoderLeft() + 3);
+					//drive.setPIDDriveRight(drive.getEncoderRight() + 3);
+				}
+			} else if ((timer.get() > 2.3)) {
+				//Backwards
+				driveLeftPID.setPID(VariableMap.DRIVE_PID_P,VariableMap.DRIVE_PID_I,VariableMap.DRIVE_PID_D);
+				driveRightPID.setPID(VariableMap.DRIVE_PID_P,VariableMap.DRIVE_PID_I,VariableMap.DRIVE_PID_D);
+				drive.setPIDDriveLeft(230);
+				drive.setPIDDriveRight(-230);
 			}
 		}
 	}
@@ -134,14 +157,20 @@ public class Robot extends IterativeRobot {
 
 	public void doCanBurglar() {
 		if(driverControl.getRightButton6()){
-			canBurglar.deploy();
+			canBurglar.deploy1();
 		}
 		else if(driverControl.getRightButton7()){
-			canBurglar.retract();
+			canBurglar.retract1();
 		}
-		else if(driverControl.getRightTrigger()){
-			canBurglar.stop();
+		else if(driverControl.getLeftButton6()){
+			canBurglar.deploy2();
 		}
+		else if(driverControl.getLeftButton7()){
+			canBurglar.retract2();
+		}
+		
+		
+		
 	}
 
 	public void doToteElevator() {
@@ -152,7 +181,7 @@ public class Robot extends IterativeRobot {
 		} else if (driverControl.getRightButton11()) {
 			toteElevator.setSetPoint(0);
 		} else{
-			toteElevator.stopElevator();
+			//toteElevator.stopElevator();
 		}
 	}
 }
