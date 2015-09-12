@@ -26,6 +26,8 @@ public class Robot extends IterativeRobot {
 	// Misc
 	boolean autoOn = true;
 
+	//Used to initialize all objects and systems when the robot is power up
+	//You must initialize objects here and then pass them to their coresponding systems
 	public void robotInit() {
 		// Drive
 		driveLeftTalonA = new Talon(VariableMap.PWM_DRIVE_LEFT_A);
@@ -59,6 +61,8 @@ public class Robot extends IterativeRobot {
 		timer = new Timer();
 	}
 
+	//This method is ran when the robot is first switched into autonomous
+	//Use this to clear all variables and start timers
 	public void autonomousInit() {
 		VariableMap.SLOW_MODE_DRIVE = false;
 		drive.resetLeftEncoder();
@@ -66,6 +70,8 @@ public class Robot extends IterativeRobot {
 		timer.start();
 	}
 
+	//A periodic method that is ran during autonomous mode
+	//This is basically a while loop until the robot is switched out of autonomous
 	public void autonomousPeriodic() {
 		if (autoOn == true) {
 			System.out.println("DRIVE LEFT: " + drive.getEncoderLeft());
@@ -107,6 +113,7 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
+	//Same thing as autonomous init but for tele operated mode
 	public void teleopInit() {
 		timer.stop();
 		drive.disableLeftPIDControl();
@@ -116,11 +123,13 @@ public class Robot extends IterativeRobot {
 		toteElevatorPID.setPID(VariableMap.TOTE_ELEVATOR_PID_P,VariableMap.TOTE_ELEVATOR_PID_I, VariableMap.TOTE_ELEVATOR_PID_D);
 	}
 
+	//Same thing as autonomous periodic but for tele operated mode
 	public void teleopPeriodic() {
 		doDrive();
 		doToteElevator();
 		doCanBurglar();
 
+		//This is used to debugging
 		if (VariableMap.VERBOSE_CONSOLE) {
 			System.out.println("Elevator Encoder: " + toteElevator.getEncoder());
 			System.out.println("Elevator Top: " + toteElevator.getTop());

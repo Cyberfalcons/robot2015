@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3710.robot;
 
+//Used to layout all ports and interfaces that the robot uses so that you do not put two systems on one PWM or something!
 public class VariableMap {
 
 	/*

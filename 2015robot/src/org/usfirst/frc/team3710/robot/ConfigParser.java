@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
+/*
+ * THIS IS A WORK IN PROGRESS!!!!
+ * DO NOT ATTEMPT TO USE YET!!!!!
+ */
 public class ConfigParser {
 	public double ElevatorPID_Normal_P;
 	public double ElevatorPID_Normal_I;
