@@ -9,7 +9,8 @@ public class ToteElevator {
 	DigitalInput bottom;
 	PIDController pid;
 	int position = 0;
-	int topLocation = 0;
+	int topLocation = Integer.MAX_VALUE;
+	int bottomLocation = Integer.MIN_VALUE;
 
 	public ToteElevator(Victor v, Encoder e, DigitalInput to, DigitalInput b, PIDController p) {
 		toteElevator = v;
@@ -26,39 +27,46 @@ public class ToteElevator {
 	}
 
 	public void setPIDPositionUp() {
+		//Elevator Dummy Mode
 		//toteElevator.set(0.5);
-	    pid.enable();
-		//if (getTop() == false) {
-		//if ((position + 40) < topLocation) {
-			position = position + 40;
+	    
+		//Elevator PID Control
+		if (getTop() == false) {
+			if ((position + 40) < topLocation) {
+				pid.enable();
+				position = position + 40;
+				pid.setSetpoint(position);
+			}
+		} else {
+			pid.enable();
+			topLocation = getEncoder();
+			position = position - 20;
 			pid.setSetpoint(position);
-		//} else if (getTop() == true) {
-		//}else{
-			//topLocation = getEncoder();
-			//position = position - 20;
-			//pid.setSetpoint(position);
 
 			if (VariableMap.VERBOSE_CONSOLE) {
 				System.out.println("ELEVATOR UP DISABLED BY LIMIT SWITCH!");
 			}
-		//}
+		}
 	}
 
 	public void setPIDPositionDown() {
+		//Elevator Dummy Mode
 		//toteElevator.set(-0.5);
-		pid.enable();
-		//if (getBottom() == false) {
-		//if((position - 40) < 0){
-			position = position - 40;
-			pid.setSetpoint(position);
-		//}
-		//} else if (getBottom() == true) {
-		//}else{
-			//resetEncoder();
+		
+		//Elevator PID Control
+		if (getBottom() == false) {
+			if((position - 40) > bottomLocation){
+				pid.enable();
+				position = position - 40;
+				pid.setSetpoint(position);
+			}
+		}else{
+			resetEncoder();
+			pid.disable();
 			if (VariableMap.VERBOSE_CONSOLE) {
 				System.out.println("ELEVATOR DOWN DISABLED BY LIMIT SWITCH");
 			}
-		//}
+		}
 	}
 	
 	public void setPIDPositionZero(){
