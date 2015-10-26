@@ -4,62 +4,32 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-/*
- * THIS IS A WORK IN PROGRESS!!!!
- * DO NOT ATTEMPT TO USE YET!!!!!
- */
 public class ConfigParser {
-	public double ElevatorPID_Normal_P;
-	public double ElevatorPID_Normal_I;
-	public double ElevatorPID_Normal_D;
 
-	public double DrivePID_P;
-	public double DrivePID_I;
-	public double DrivePID_D;
+    static Config cfg = new Config();
 
-	public boolean AutoOn;
+    public ConfigParser() {
+        
+    }
 
-	public ConfigParser() {
-
-	}
-
-	public void LoadFromFile() {
-		File f = new File("file.txt");
-		try {
-			FileReader fr = new FileReader(f);
-			BufferedReader br = new BufferedReader(fr);
-
-			br.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public double getElevatorPID_Normal_P() {
-		return ElevatorPID_Normal_P;
-	}
-
-	public double getElevatorPID_Normal_I() {
-		return ElevatorPID_Normal_I;
-	}
-
-	public double getElevatorPID_Normal_D() {
-		return ElevatorPID_Normal_D;
-	}
-
-	public double getDrivePID_P() {
-		return DrivePID_P;
-	}
-
-	public double getDrivePID_I() {
-		return DrivePID_I;
-	}
-
-	public double getDrivePID_D() {
-		return DrivePID_D;
-	}
-
-	public boolean getAutoOn() {
-		return AutoOn;
-	}
+    public static void LoadFromFile() {
+        try {
+            File f = new File("test.txt");
+            FileReader fr = new FileReader(f);
+            
+            try (BufferedReader br = new BufferedReader(fr)) {
+                cfg.autoOn = Boolean.parseBoolean(br.readLine().split(",")[1]);
+                
+                cfg.elevatorPID_P = Double.parseDouble(br.readLine().split(",")[1]);
+                cfg.elevatorPID_I = Double.parseDouble(br.readLine().split(",")[1]);
+                cfg.elevatorPID_D = Double.parseDouble(br.readLine().split(",")[1]);
+                
+                cfg.drivePID_P = Double.parseDouble(br.readLine().split(",")[1]);
+                cfg.drivePID_I = Double.parseDouble(br.readLine().split(",")[1]);
+                cfg.drivePID_D = Double.parseDouble(br.readLine().split(",")[1]);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
